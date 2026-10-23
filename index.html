@@ -597,8 +597,8 @@ function media(key, kind, cls){
     if(ig || gd) return '<div class="media' + (ig ? ' tall' : '') + c + '"><div class="sketch' + (ig ? ' reel' : '') + '"><div class="vid touch' + (ig ? ' ig' : '') + '" data-src="' +
       (ig ? 'https://www.instagram.com/p/' + ig[1] + '/embed' : 'https://drive.google.com/file/d/' + gd[1] + '/preview') + '"></div>' + ROUGH + '<i class="tp a"></i><i class="tp b"></i></div>' +
       ext(m.video, ig ? '▶ watch on instagram' : '▶ open in drive').replace('<a ', '<a class="vcap" ') + '</div>';
-    var inner = yt ? '<div class="vid" data-yt="' + yt[1] + '"><img alt="" src="https://i.ytimg.com/vi/' + yt[1] + '/hqdefault.jpg"></div>'
-      : '<div class="vid" data-file="' + m.video + '"><img alt="" src="' + (m.poster || '') + '"></div>';
+    var inner = yt ? '<div class="vid" data-yt="' + yt[1] + '"><img alt="" decoding="async" fetchpriority="high" src="https://i.ytimg.com/vi/' + yt[1] + '/hqdefault.jpg"></div>'
+      : '<div class="vid" data-file="' + m.video + '"><img alt="" decoding="async" fetchpriority="high" src="' + (m.poster || '') + '"></div>';
     var host = m.link ? (/youtu/.test(m.link) ? 'YouTube' : /instagram/.test(m.link) ? 'Instagram' : /drive\.google/.test(m.link) ? 'Google Drive' : 'the player') : '';
     return '<div class="media' + (m.portrait ? ' tall' : '') + c + '"><div class="sketch' + (m.portrait ? ' reel' : '') + '"' + (m.ratio ? ' style="aspect-ratio:' + m.ratio + '"' : '') + '>' + inner + ROUGH + '<i class="tp a"></i><i class="tp b"></i>' +
       (m.link && !yt ? '<a class="vlink" href="' + m.link + '" target="_blank" rel="noopener" aria-label="Watch the full video on ' + host + '"></a>' : '') + '</div>' +
@@ -607,10 +607,10 @@ function media(key, kind, cls){
   }
   var shots = m.imgs || (m.img ? [m.img] : null);
   if(m.scatter) return '<div class="media scatter' + c + '">' + shots.map(function(u, i){
-    return '<div class="polaroid ' + (i ? 'br' : 'tl') + '"' + (m.w ? ' style="width:' + m.w[i] + '"' : '') + '><span class="tape"></span><div class="frame"><img alt="' + ((m.caps || [])[i] || '') + '" loading="lazy" src="' + u + '"><span class="cap">' + ((m.caps || [])[i] || '') + '</span></div></div>';
+    return '<div class="polaroid ' + (i ? 'br' : 'tl') + '"' + (m.w ? ' style="width:' + m.w[i] + '"' : '') + '><span class="tape"></span><div class="frame"><img alt="' + ((m.caps || [])[i] || '') + '" decoding="async" src="' + u + '"><span class="cap">' + ((m.caps || [])[i] || '') + '</span></div></div>';
   }).join('') + '</div>';
   if(shots) return '<div class="media snaps' + (m.ratio ? ' natural' : '') + c + '">' + shots.map(function(u, i){
-    return '<div class="polaroid" style="--r:' + (i % 2 ? '3.5deg' : '-3deg') + (m.w ? ';width:' + m.w[i] : '') + '"><span class="tape"></span><div class="frame"><img alt="' + ((m.caps || [])[i] || m.alt || '') + '" loading="lazy" src="' + u + '"' + (m.ratio ? ' style="aspect-ratio:' + m.ratio[i] + '"' : (m.pos || [])[i] ? ' style="object-position:' + m.pos[i] + '"' : '') + '><span class="cap">' + ((m.caps || [])[i] || '') + '</span></div></div>';
+    return '<div class="polaroid" style="--r:' + (i % 2 ? '3.5deg' : '-3deg') + (m.w ? ';width:' + m.w[i] : '') + '"><span class="tape"></span><div class="frame"><img alt="' + ((m.caps || [])[i] || m.alt || '') + '" decoding="async" src="' + u + '"' + (m.ratio ? ' style="aspect-ratio:' + m.ratio[i] + '"' : (m.pos || [])[i] ? ' style="object-position:' + m.pos[i] + '"' : '') + '><span class="cap">' + ((m.caps || [])[i] || '') + '</span></div></div>';
   }).join('') + '</div>';
   return '<div class="media doodle' + c + '" aria-hidden="true"><svg viewBox="0 0 200 90" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">' + (DOODLES[key] || '') + '</svg></div>';
 }
@@ -879,21 +879,36 @@ function render(){
   cPrev.hidden = closed || backClosed || mode === 'single';
   tabsEl.style.visibility = backClosed ? 'hidden' : '';
   renderTabs(); updateBar(); mountVideos();
+  if(mode === 'spread'){ warmPage(2 * pos + 2); warmPage(2 * pos + 3); }
+  else warmPage(pos + 1);
   if(typeof paintAgent === 'function' && agent) paintAgent();
+}
+function warmPage(i){
+  if(i < 0 || i >= N) return;
+  (PAGES[i].html || '').replace(/src="(assets\/[^"]+)"/g, function(_, u){ var im = new Image(); im.src = u; });
+}
+function attachFileVideo(v){
+  if(v.querySelector('video')) return;
+  var el = document.createElement('video');
+  el.muted = true; el.loop = true; el.playsInline = true; el.preload = 'auto';
+  el.setAttribute('aria-label', 'Demo video'); el.src = v.dataset.file;
+  /* keep the still up until the first video frame has really been painted, so there is never a black flash in between */
+  var shown = false, show = function(){ if(!shown){ shown = true; v.classList.add('live'); } };
+  if(el.requestVideoFrameCallback) el.requestVideoFrameCallback(show);
+  else el.addEventListener('timeupdate', function tu(){ if(el.currentTime > .05){ el.removeEventListener('timeupdate', tu); show(); } });
+  el.addEventListener('playing', function(){ setTimeout(show, 900); });
+  v.appendChild(el);
+  if(RM){ el.controls = true; v.classList.add('live'); } else { var pr = el.play(); if(pr && pr.catch) pr.catch(function(){}); }
 }
 function mountVideos(){
   if(closed || backClosed) return;
   [L, R].forEach(function(slot){
-  slot.querySelectorAll('.vid[data-file]:not(.on)').forEach(function(v){
-    var el = document.createElement('video');
-    v.classList.add('on'); el.muted = true; el.loop = true; el.playsInline = true; el.preload = 'auto'; el.setAttribute('aria-label', 'Demo video'); el.src = v.dataset.file;
-    /* keep the still up until the first video frame has really been painted, so there is never a black flash in between */
-    var shown = false, show = function(){ if(!shown){ shown = true; v.classList.add('live'); } };
-    if(el.requestVideoFrameCallback) el.requestVideoFrameCallback(show);
-    else el.addEventListener('timeupdate', function tu(){ if(el.currentTime > .05){ el.removeEventListener('timeupdate', tu); show(); } });
-    el.addEventListener('playing', function(){ setTimeout(show, 900); });
-    v.appendChild(el);
-    if(RM){ el.controls = true; v.classList.add('live'); } else { var pr = el.play(); if(pr && pr.catch) pr.catch(function(){}); }
+  slot.querySelectorAll('.vid[data-file]:not(.on)').forEach(function(v, i){
+    v.classList.add('on');
+    var go = function(){ setTimeout(function(){ attachFileVideo(v); }, i * 280); };
+    var img = v.querySelector('img');
+    if(img && !img.complete) img.addEventListener('load', go, { once:true });
+    else go();
   });
   if(!RM) slot.querySelectorAll('.vid[data-yt]:not(.on)').forEach(function(v){
     var id = v.dataset.yt, f = document.createElement('iframe');
