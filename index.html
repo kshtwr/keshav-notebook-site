@@ -1,0 +1,2197 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Keshav Tiwari · notebook</title>
+<meta name="description" content="Keshav Tiwari, designer-engineer working on the interface layer between people and AI agents. MEng EECS at UC Berkeley.">
+<meta property="og:title" content="Keshav Tiwari · notebook">
+<meta property="og:description" content="A portfolio you can flip through, scribble in and leave notes in.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#EEEEEE" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='5' y='3' width='22' height='26' rx='3' fill='%230B0B0B'/%3E%3Crect x='10' y='10' width='12' height='7' rx='1' fill='white'/%3E%3C/svg%3E">
+<!-- Handwriting font: when your Calligraphr font is ready, put keshav-hand.ttf next to this file and uncomment:
+<style>@font-face{font-family:'Keshav Hand';src:url('keshav-hand.ttf') format('truetype');font-display:swap}:root{--hand:'Keshav Hand','Caveat',cursive!important}</style>
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Caveat:wght@500;600&display=swap">
+<style>
+/* Layout: one notebook centered on a desk. Desktop shows a two-page spread with index tabs on the right edge; phones show one page with tabs across the top. */
+:root{
+  --desk:#EEEEEE; --page:#FFFFFF; --ink:#171717; --muted:#6B6B6B; --faint:#9A9A9A; --line:#E6E6E6;
+  --grid:rgba(0,0,0,.055); --pen:#3D3D3D; --tab:#F5F5F5; --tab-ink:#6B6B6B; --tab-line:#DCDCDC;
+  --on:#171717; --on-ink:#FFFFFF; --cover:#0B0B0B; --cover-band:#1D1D1D; --label:#FFFFFF; --label-ink:#171717;
+  --shadow:0 2px 0 #E2E2E2, 0 4px 0 #FFFFFF, 0 6px 0 #E2E2E2, 0 30px 60px rgba(0,0,0,.22);
+  --spine:rgba(0,0,0,.08); --curl:#E3E3E3; --sticky:#FFF4C2; --sticky-ink:#171717; --tape:rgba(190,190,190,.5);
+  --polaroid:#FFFFFF; --photo:#F1F1F1; --bar:#FFFFFF; --bar-line:#E3E3E3; --focus:#171717;
+  --t1:#FFFFFF; --t2:#F2F2F2; --t3:#E6E6E6; --t4:#D9D9D9; --t5:#CCCCCC; --t4-ink:#525252;
+  --bar-ink:#171717; --bar-muted:#6B6B6B; --bar-hover:#F2F2F2; --pocket:#F2F2F2;
+  --sans:'Geist',ui-sans-serif,system-ui,-apple-system,sans-serif;
+  --mono:'Geist Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  --hand:'Caveat','Bradley Hand','Segoe Print',cursive;
+}
+@media (pointer:coarse){.tg{width:40px;height:40px}}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --desk:#000000; --page:#0B0B0B; --ink:#EDEDED; --muted:#8F8F8F; --faint:#5E5E5E; --line:#232323;
+  --grid:rgba(255,255,255,.05); --pen:#D4D4D4; --tab:#141414; --tab-ink:#8F8F8F; --tab-line:#2A2A2A;
+  --on:#D4D4D4; --on-ink:#0B0B0B; --cover:#151515; --cover-band:#262626; --label:#E9E9E9; --label-ink:#171717;
+  --shadow:0 2px 0 #1E1E1E, 0 4px 0 #0B0B0B, 0 6px 0 #1E1E1E, 0 0 0 1px rgba(255,255,255,.05), 0 24px 70px rgba(255,255,255,.09);
+  --spine:rgba(0,0,0,.6); --curl:#262626; --sticky:#232323; --sticky-ink:#EDEDED; --tape:rgba(255,255,255,.14);
+  --polaroid:#1A1A1A; --photo:#262626; --bar:#111111; --bar-line:#262626; --focus:#EDEDED;
+  --t1:#2E2E2E; --t2:#282828; --t3:#222222; --t4:#1C1C1C; --t5:#171717; --t4-ink:#8F8F8F;
+  --bar-ink:#EDEDED; --bar-muted:#8F8F8F; --bar-hover:#1A1A1A; --pocket:#161616; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --desk:#000000; --page:#0B0B0B; --ink:#EDEDED; --muted:#8F8F8F; --faint:#5E5E5E; --line:#232323;
+  --grid:rgba(255,255,255,.05); --pen:#D4D4D4; --tab:#141414; --tab-ink:#8F8F8F; --tab-line:#2A2A2A;
+  --on:#D4D4D4; --on-ink:#0B0B0B; --cover:#151515; --cover-band:#262626; --label:#E9E9E9; --label-ink:#171717;
+  --shadow:0 2px 0 #1E1E1E, 0 4px 0 #0B0B0B, 0 6px 0 #1E1E1E, 0 0 0 1px rgba(255,255,255,.05), 0 24px 70px rgba(255,255,255,.09);
+  --spine:rgba(0,0,0,.6); --curl:#262626; --sticky:#232323; --sticky-ink:#EDEDED; --tape:rgba(255,255,255,.14);
+  --polaroid:#1A1A1A; --photo:#262626; --bar:#111111; --bar-line:#262626; --focus:#EDEDED;
+  --t1:#2E2E2E; --t2:#282828; --t3:#222222; --t4:#1C1C1C; --t5:#171717; --t4-ink:#8F8F8F;
+  --bar-ink:#EDEDED; --bar-muted:#8F8F8F; --bar-hover:#1A1A1A; --pocket:#161616; color-scheme:dark}
+:root[data-tabs="red"]{--on:#C8323A; --on-ink:#FFFFFF}
+
+html,body{height:100%}
+body{margin:0;background:var(--desk);color:var(--ink);font-family:var(--sans);overflow:hidden;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));box-sizing:border-box;
+  -webkit-font-smoothing:antialiased;transition:background-color .4s}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--focus);outline-offset:3px;border-radius:4px}
+a{color:inherit}
+
+#stage{position:absolute;inset:0 0 auto 0;display:flex;align-items:safe center;justify-content:safe center}
+.flipwrap{position:fixed;z-index:15;pointer-events:none}
+.flipcard{position:absolute;inset:0;transform-style:preserve-3d}
+.fside{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:6px 14px 14px 6px;box-shadow:0 20px 50px rgba(0,0,0,.25)}
+.fface{position:absolute;left:0;top:0;transform-origin:0 0}
+.fedge{position:absolute;top:0;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.fedge.spine{background:linear-gradient(90deg,var(--cover),color-mix(in srgb,var(--cover) 78%,#fff) 50%,var(--cover));border-radius:8px}
+.fedge.pages{background:linear-gradient(90deg,var(--cover) 0 2px,transparent 2px calc(100% - 2px),var(--cover) calc(100% - 2px)),repeating-linear-gradient(90deg,var(--page) 0 1.6px,color-mix(in srgb,var(--ink) 22%,var(--page)) 1.6px 2.2px)}
+#stage.zoomed{overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+#stage.zoomed #box{margin:16px 16px 72px}
+#stage.zoomed::-webkit-scrollbar{width:5px;height:5px}#stage.zoomed::-webkit-scrollbar-track,#stage.zoomed::-webkit-scrollbar-corner{background:transparent}#stage.zoomed::-webkit-scrollbar-thumb{background:var(--line);border-radius:5px}
+#stage.zoomed:hover::-webkit-scrollbar-thumb{background:var(--faint)}
+#box{position:relative}
+#fit{position:absolute;left:0;top:0;transform-origin:0 0}
+.book{position:absolute;perspective:2600px;touch-action:none;user-select:none;-webkit-user-select:none}
+.openshade{position:absolute;top:0;bottom:0;border-radius:6px;box-shadow:var(--shadow);pointer-events:none;display:none}
+.bookbg{position:absolute;top:0;bottom:0;right:0;border-radius:6px;box-shadow:var(--shadow);background:var(--page)}
+.slot{position:absolute;top:0;bottom:0;z-index:1}
+.pg{position:absolute;inset:0;background-color:var(--page);
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:20px 20px;overflow:hidden;color:var(--ink);transition:background-color .4s}
+.pg.left{border-radius:6px 0 0 6px}.pg.right{border-radius:0 6px 6px 0}.pg.single{border-radius:6px 10px 10px 6px}
+.pg.left::after,.pg.right::after,.pg.single::after{content:"";position:absolute;top:0;bottom:0;width:46px;pointer-events:none}
+.pg.left::after{right:0;background:linear-gradient(90deg,transparent,var(--spine))}
+.pg.right::after{left:0;background:linear-gradient(270deg,transparent,var(--spine))}
+.pg.single::after{left:0;width:22px;background:linear-gradient(270deg,transparent,var(--spine))}
+.pc{position:absolute;inset:0;padding:42px 46px 46px;display:flex;flex-direction:column;gap:22px}
+.single .pc{padding:30px 26px 40px;gap:18px}
+.pfoot{position:absolute;bottom:18px;font-family:var(--mono);font-size:10.5px;color:var(--muted)}
+.left .pfoot{left:46px}.right .pfoot{right:46px}.single .pfoot{left:26px}
+
+.leaf,.cover{position:absolute;top:0;bottom:0;transform-style:preserve-3d;will-change:transform;z-index:5}
+.cover{z-index:6;cursor:pointer}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden}
+.face.back{transform:rotateY(180deg)}
+.shade{position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(0,0,0,.35),rgba(0,0,0,.08));opacity:0;z-index:4}
+
+.cv{position:absolute;inset:0;background:var(--cover);border-radius:6px 14px 14px 6px;overflow:hidden;transition:background-color .4s}
+.cv .spine{position:absolute;left:0;top:0;bottom:0;width:20px;background:linear-gradient(90deg,rgba(255,255,255,.07),rgba(0,0,0,.4) 70%,rgba(255,255,255,.03))}
+.cv .band{position:absolute;right:46px;top:0;bottom:0;width:10px;background:var(--cover-band);box-shadow:inset 1px 0 0 rgba(255,255,255,.07)}
+.cv .label{position:absolute;left:84px;top:220px;width:272px;height:140px;background:var(--label);border-radius:4px;padding:16px 18px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between;color:var(--label-ink)}
+.cv .label small{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;color:#6B6B6B}
+.sigline{height:62px;border-bottom:1px solid #A9A9A9;display:flex;align-items:flex-end;justify-content:center;padding-bottom:4px}
+.sig{font-family:var(--hand);font-weight:600;font-size:44px;line-height:1;color:#171717;clip-path:inset(0 100% 0 0);display:inline-block;padding:0 10px 0 6px}
+.signed .sig{clip-path:inset(0 0 0 0)}
+.cv .doodle{position:absolute;left:84px;bottom:56px;width:84px;height:84px;border:1px dashed #5C5C5C;border-radius:4px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;color:#8F8F8F}
+
+.tabs{position:absolute;z-index:8;display:flex;gap:6px}
+.spread .tabs{left:calc(100% - 18px);top:48px;flex-direction:column;align-items:flex-start;z-index:0;gap:6px}
+.single .tabs{left:12px;right:12px;top:-46px;height:46px;flex-direction:row;align-items:flex-end;gap:4px;z-index:4}
+.tab{background:var(--tab);color:var(--tab-ink);border:1px solid var(--tab-line);font-family:var(--mono);font-size:10px;letter-spacing:.1em;display:flex;align-items:center;justify-content:center;
+  transition:background-color .35s,color .35s,width .35s cubic-bezier(.3,.7,.2,1),height .35s cubic-bezier(.3,.7,.2,1),border-color .35s}
+.tab:nth-child(1){background:var(--t1)}.tab:nth-child(2){background:var(--t2)}.tab:nth-child(3){background:var(--t3)}.tab:nth-child(4){background:var(--t4)}.tab:nth-child(5){background:var(--t5);color:var(--t4-ink)}
+.spread .tab{width:62px;border-left:0;border-radius:0 8px 8px 0;justify-content:flex-end;padding-right:10px;box-sizing:border-box;box-shadow:0 2px 4px rgba(0,0,0,.08)}
+.spread .tab:nth-child(1){height:90px}.spread .tab:nth-child(2){height:74px}.spread .tab:nth-child(3){height:102px}.spread .tab:nth-child(4){height:118px}.spread .tab:nth-child(5){height:92px}
+.spread .tab span{writing-mode:vertical-rl;font-size:10.5px}
+.spread .tab.on{width:72px}
+.single .tab{flex:1;height:40px;border-bottom:0;border-radius:8px 8px 0 0;min-width:0}
+.single .tab.on{height:46px;flex:1.35}
+.tab.on,.tab.on:nth-child(n){background:var(--on);color:var(--on-ink);border-color:var(--on)}
+.tab:hover:not(.on){color:var(--ink)}
+.tabs.ride{pointer-events:none;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.single .tabs.ride{display:none}
+.tabs.mirror{transform:rotateY(180deg)}
+.spread .tabs.mirror{align-items:flex-end}
+.spread .tabs.mirror .tab{border-left:1px solid var(--tab-line);border-right:0;border-radius:8px 0 0 8px;justify-content:flex-start;padding-right:0;padding-left:10px}
+
+.corner{position:absolute;bottom:0;width:84px;height:84px;z-index:7;cursor:grab;touch-action:none}
+.corner::before{content:"";position:absolute;bottom:0;width:26px;height:26px;transition:width .25s,height .25s;box-shadow:-4px -4px 10px rgba(0,0,0,.08)}
+.corner.next{right:0}.corner.next::before{right:0;background:linear-gradient(135deg,transparent 50%,var(--curl) 50%)}
+.corner.prev{left:0}.corner.prev::before{left:0;background:linear-gradient(225deg,transparent 50%,var(--curl) 50%);box-shadow:4px -4px 10px rgba(0,0,0,.08)}
+.corner:hover::before,.corner:focus-visible::before{width:46px;height:46px}
+.corner:active{cursor:grabbing}
+.book.turning .corner::before{opacity:0;transition:none}
+
+.strip{position:absolute;top:0;height:100%;transform-style:preserve-3d}
+.sface{position:absolute;inset:0;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.sface.back{transform:rotateY(180deg)}
+.sface>.inner{position:absolute;top:0;height:100%}
+.sshade{position:absolute;inset:0;pointer-events:none;background:#000;opacity:0}
+.cast{position:absolute;top:0;bottom:0;z-index:2;pointer-events:none;opacity:0}
+body{cursor:var(--cur-arrow,auto)}
+.book .slot,.book canvas{cursor:var(--cur-pencil,crosshair)}
+.cover,.tab,a,button,#bar button{cursor:var(--cur-point,pointer)}
+.corner,.corner:active{cursor:var(--cur-turn,grab)}
+canvas#ink{position:absolute;left:0;top:0;z-index:3;pointer-events:none}
+
+#hint{position:absolute;left:0;right:0;display:flex;align-items:center;justify-content:center;gap:4px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--muted);font-variant-numeric:tabular-nums}
+#hint button{width:36px;height:36px;border-radius:50%;font-size:15px;color:var(--muted);display:flex;align-items:center;justify-content:center;transition:color .2s,background-color .2s}
+#hint button:hover,#hint button:focus-visible{color:var(--ink);background:color-mix(in srgb,var(--ink) 6%,transparent)}
+#pgnum{min-width:64px;text-align:center}
+#hint span{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--muted)}
+
+
+/* page content */
+.eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;color:var(--muted);text-transform:uppercase;display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.hand{font-family:var(--hand);font-weight:500;color:var(--pen);letter-spacing:0;text-transform:none}
+.h1{font-size:27px;font-weight:600;letter-spacing:-.015em;margin:0;text-wrap:balance}
+.h2{font-size:19px;font-weight:600;letter-spacing:-.01em;margin:0}
+.lede{font-size:14px;line-height:1.55;color:var(--muted);margin:0;max-width:44ch}
+.lede em{font-style:normal;color:var(--ink);background:linear-gradient(transparent 82%,color-mix(in srgb,var(--pen) 40%,transparent) 82%,color-mix(in srgb,var(--pen) 40%,transparent) 90%,transparent 90%)}
+.list{display:flex;flex-direction:column;gap:13px;margin:0;padding:0;list-style:none}
+.it{display:flex;flex-direction:column;gap:2px;font-size:13.5px;line-height:1.4}
+.it .top{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.it b{font-weight:500}
+.it span.m{color:var(--muted)}
+.yr{font-family:var(--mono);font-size:11px;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+.note{font-family:var(--hand);font-size:20px;line-height:1.05;color:var(--pen);display:inline-block;transform:rotate(-2deg);transform-origin:left}
+.circle{position:relative;display:inline-block;white-space:nowrap}
+.circle svg{position:absolute;left:-10px;top:-7px;width:calc(100% + 20px);height:calc(100% + 14px);color:var(--pen);overflow:visible}
+.polaroid{float:right;width:150px;margin:0 0 10px 14px;transform:rotate(4deg);display:flex;flex-direction:column;align-items:center}
+.polaroid .tape{width:62px;height:20px;background:var(--tape);margin-bottom:-10px;position:relative;z-index:1;transform:rotate(-6deg)}
+.polaroid .frame{width:100%;background:var(--polaroid);padding:9px 9px 32px;box-sizing:border-box;box-shadow:0 6px 16px rgba(0,0,0,.16)}
+.polaroid .ph{height:124px;background:var(--photo);display:flex;align-items:center;justify-content:center;text-align:center;font-family:var(--mono);font-size:9px;letter-spacing:.08em;color:var(--muted)}
+.polaroid .cap{margin-top:-28px;font-family:var(--hand);font-size:18px;color:var(--pen)}
+.sticky{translate:var(--dx,0px) var(--dy,0px);position:relative;z-index:2;cursor:var(--cur-turn,grab);touch-action:none;background:var(--sticky);color:var(--sticky-ink);font-family:var(--hand);font-size:20px;line-height:1.1;padding:12px 14px;width:150px;box-sizing:border-box;transform:rotate(-3deg);box-shadow:0 5px 12px rgba(0,0,0,.12)}
+.box{border:1px dashed var(--faint);border-radius:4px;display:flex;align-items:center;justify-content:center;text-align:center;font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--muted);padding:10px}
+.bul{margin:0;padding-left:16px;display:flex;flex-direction:column;gap:7px;font-size:13.5px;line-height:1.45}
+.bul li::marker{color:var(--faint)}
+.links{display:flex;flex-wrap:wrap;row-gap:6px;gap:14px;font-family:var(--mono);font-size:11.5px}
+.links a{text-underline-offset:3px}
+.big-hand{font-family:var(--hand);font-size:40px;line-height:1;color:var(--pen);margin:0}
+.mail{font-family:var(--mono);font-size:12.5px;user-select:text;-webkit-user-select:text}
+.tiny{font-size:12.5px;line-height:1.5;color:var(--muted);margin:0}
+
+/* overview links */
+.golist{gap:4px}
+.embed{width:100%;border:0;border-radius:12px;background:var(--tab)}
+.glance{display:flex;flex-direction:column;gap:6px}
+.glance .golist{gap:0}
+.glance .go{padding-top:3px;padding-bottom:3px}
+.go .gl{display:block;font-size:12.5px;line-height:1.4;color:var(--muted);margin-top:1px}
+.go.static{cursor:inherit}
+.single .go .gl{display:none}
+.go.static:hover{background:none}.go.static:hover b{text-decoration:none}
+.go .arr{opacity:.3}
+.tucked{animation:peek 1.4s ease-in-out .9s 1 both}
+@keyframes peek{0%,100%{translate:0 0}45%{translate:0 -12px}}
+.toc .go{padding-top:3px;padding-bottom:3px}
+.toc .yr{font-family:var(--mono);font-size:10.5px;color:var(--muted)}
+.seccover{height:150px}
+.single .seccover{height:120px}
+.sec{display:flex;flex-direction:column;gap:8px}
+.polaroid[data-photo]{margin-top:18px;width:140px}
+.go{display:block;width:calc(100% + 16px);box-sizing:border-box;text-align:left;padding:5px 8px;margin:0 -8px;border-radius:5px;font-size:13.5px;line-height:1.35;color:var(--ink)}
+.go .top{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.go b{font-weight:500}.go .m{color:var(--muted)}
+.go .arr{font-style:normal;margin-left:8px;opacity:.3;transition:opacity .2s,transform .2s;display:inline-block}
+.go:hover{background:color-mix(in srgb,var(--pen) 7%,transparent)}
+.go:hover b{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+.go:hover .arr,.go:focus-visible .arr{opacity:1;transform:translateX(3px)}
+.bul strong{font-weight:600}
+/* a sealed envelope holding a recommendation */
+.envrow{margin-top:auto;display:flex;align-items:flex-end;gap:18px;padding-left:6px}
+.env{position:relative;flex:none;width:140px;height:90px;background:var(--sticky);color:var(--sticky-ink);border:1.2px solid color-mix(in srgb,var(--sticky-ink) 55%,transparent);border-radius:2px;box-sizing:border-box;transform:rotate(-3deg);box-shadow:0 3px 8px rgba(0,0,0,.08);transition:transform .3s cubic-bezier(.3,.7,.2,1),box-shadow .3s}
+.env:hover,.env:focus-visible{transform:rotate(-1deg) translateY(-5px);box-shadow:0 10px 18px rgba(0,0,0,.14)}
+.env svg{position:absolute;inset:0;width:100%;height:100%}
+.envrow.right{justify-content:flex-end;padding:0 6px 0 0;margin-top:-14px}
+.envrow.right .note{text-align:right;transform:rotate(2deg)}
+.envrow .note{transform:rotate(-3deg);margin-bottom:22px;max-width:220px}
+
+.skills{font-size:12.5px;line-height:1.45;color:var(--muted);margin:0}
+.skills b{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;color:var(--ink);margin-right:4px}
+.media{width:100%;flex:1 1 0;min-height:130px;max-height:250px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px}
+/* a demo video taped into the notebook inside a pencil-drawn frame */
+.sketch{position:relative;flex:1 1 0;min-height:0;aspect-ratio:16/9;max-width:calc(100% - 20px);transform:rotate(var(--r,-.8deg))}
+.sketch .rough{position:absolute;inset:-7px;width:calc(100% + 14px);height:calc(100% + 14px);color:var(--pen);overflow:visible;pointer-events:none}
+.sketch .tp{position:absolute;width:54px;height:17px;background:var(--tape);z-index:2}
+.sketch .tp.a{left:-16px;top:-6px;transform:rotate(-32deg)}.sketch .tp.b{right:-16px;bottom:-6px;transform:rotate(-32deg)}
+.vid{position:absolute;inset:0;overflow:hidden;background:#000}
+.vid img,.vid video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;z-index:1;transition:opacity .8s}
+.vid iframe{position:absolute;left:50%;top:50%;width:100%;height:100%;border:0;transform:translate(-50%,-50%) scale(1.22);pointer-events:none}
+.vid.live img{opacity:0}
+.vid video{z-index:0}
+.vcap{background:none;border:0;padding:0;cursor:var(--cur-point,pointer)}
+.vid.touch iframe{left:0;top:0;transform:none;pointer-events:auto}
+.sketch.free{aspect-ratio:auto;flex:none;width:calc(100% - 20px);height:232px}
+.vid.spot{background:transparent}.vid.spot iframe{border-radius:12px}
+.media.tall{flex:none;max-height:none;margin-top:auto}
+.sketch.reel{aspect-ratio:auto;flex:none;width:197px;height:350px}
+.vid.ig iframe{left:-41.5px;top:-54px;width:280px;height:900px}
+.media.snaps.natural{flex:none;max-height:none;align-items:center;justify-content:center}
+.snaps.natural .polaroid{height:auto;max-width:none}.snaps.natural .polaroid .frame{height:auto}.snaps.natural .polaroid img{flex:none;height:auto}
+.vcap{font-family:var(--hand);font-size:17px;line-height:1;color:var(--pen);text-decoration:none}
+.vcap:hover{text-decoration:underline;text-underline-offset:3px}
+.vcaps{display:flex;gap:16px;align-items:center;justify-content:center;flex-wrap:wrap}
+.vlink{position:absolute;inset:0;z-index:3;cursor:var(--cur-point,pointer)}
+.vlink:focus-visible{outline-offset:6px}
+/* photos as polaroids */
+.media.snaps{flex-direction:row;align-items:flex-start;gap:14px;padding-top:6px}
+.snaps .polaroid{float:none;margin:0;width:44%;max-width:180px;height:100%;transform:rotate(var(--r,-3deg))}
+.snaps .polaroid .frame{height:calc(100% - 10px);display:flex;flex-direction:column;padding:8px 8px 0}
+.media.scatter{display:block;position:relative;flex:1 1 0;max-height:none;margin-top:6px}
+.scatter .polaroid{position:absolute;float:none;margin:0}
+.scatter .polaroid.tl{left:0;top:0;width:66%;transform:rotate(-3deg)}
+.scatter .polaroid.br{right:0;bottom:10px;width:47%;transform:rotate(3.5deg)}
+.scatter .polaroid .frame{display:block;padding:9px 9px 0}
+.scatter .polaroid img{display:block;width:100%;height:auto}
+.scatter .polaroid .cap{display:block;margin:0;padding:6px 0 8px;text-align:center;font-size:18px}
+.media.snaps.big{max-height:330px}
+.media.snaps.natural.big{margin:auto 0}
+.snaps .polaroid img{display:block;width:100%;flex:1 1 0;min-height:0;object-fit:cover}
+.snaps .polaroid .cap{margin:0;padding:4px 0 6px;text-align:center;font-size:17px;line-height:1.1}
+.media.doodle{flex:none;height:96px;min-height:0;margin-top:auto;align-items:center;justify-content:center;color:var(--pen)}
+.media.doodle.sm{height:60px}
+.media.doodle svg{height:100%;width:auto;max-width:100%;overflow:visible}
+.bul.sm{font-size:12.5px;gap:4px;color:var(--muted);margin-top:4px}
+.it + .it{margin-top:4px}
+
+/* back cover and its stickers */
+.cv.backside .spine{left:auto;right:0;background:linear-gradient(270deg,rgba(255,255,255,.07),rgba(0,0,0,.4) 70%,rgba(255,255,255,.03))}
+.cv.backside{border-radius:14px 6px 6px 14px}
+.cv.backside .band{right:auto;left:46px}
+.stks{position:absolute;left:0;top:0;width:520px;height:660px;transform-origin:0 0}
+.stk{position:absolute;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:2px;box-shadow:0 0 0 4px #FFFFFF,0 4px 10px rgba(0,0,0,.45);font-family:var(--sans);font-weight:700;letter-spacing:.04em;line-height:1.05}
+.stk small{font-family:var(--mono);font-weight:500;font-size:9.5px;letter-spacing:.12em}
+.stk svg{display:block}
+.stk.ghost{box-shadow:none;border:1.5px dashed #6B6B6B;color:#8F8F8F;font-family:var(--mono);font-weight:500;font-size:10px}
+
+
+/* the sticky-note agent: it rests on the desk, or sticks to a page and turns with it */
+.agent{position:fixed;left:0;top:0;z-index:12;width:136px;height:116px;transform-origin:0 0;touch-action:none}
+.ag-mini{position:absolute;left:0;top:0;width:136px;height:116px;background:var(--sticky);color:var(--sticky-ink);padding:12px 13px 10px;box-sizing:border-box;
+  display:flex;flex-direction:column;justify-content:space-between;text-align:left;transform:rotate(-4deg);transform-origin:50% 0;touch-action:none;
+  box-shadow:0 6px 14px rgba(0,0,0,.16);transition:transform .35s cubic-bezier(.3,.7,.2,1),box-shadow .35s;cursor:var(--cur-turn,grab)}
+.ag-mini::before{content:"";position:absolute;left:44px;top:-9px;width:50px;height:18px;background:var(--tape);transform:rotate(3deg)}
+.ag-mini:hover{transform:rotate(-2deg) translateY(-3px);box-shadow:0 10px 20px rgba(0,0,0,.2)}
+.agent.dragging .ag-mini{transform:rotate(3deg) scale(1.05);box-shadow:0 18px 30px rgba(0,0,0,.25);transition:none}
+.ag-hint{font-family:var(--hand);font-size:19px;line-height:1.05;clip-path:inset(0 0 0 0)}
+.ag-mini small,.ag-top small{font-family:var(--mono);font-size:9px;letter-spacing:.12em;opacity:.65}
+.agpage{position:absolute;z-index:3;width:136px;height:116px}
+.ag-card{position:fixed;left:0;top:0;z-index:26;width:320px;height:380px;background:var(--sticky);color:var(--sticky-ink);
+  padding:14px 16px 12px;box-sizing:border-box;display:flex;flex-direction:column;gap:10px;transform-origin:20% 100%;
+  box-shadow:0 18px 40px rgba(0,0,0,.22),0 2px 4px rgba(0,0,0,.08);transform:rotate(-1.5deg) scale(1);transition:transform .45s cubic-bezier(.3,.8,.2,1),opacity .3s}
+.ag-card.closed{transform:rotate(-4deg) scale(.42);opacity:0;pointer-events:none}
+.ag-card::before{content:"";position:absolute;left:120px;top:-10px;width:66px;height:20px;background:var(--tape);transform:rotate(-2deg)}
+.ag-top{display:flex;justify-content:space-between;align-items:center}
+.ag-top button{width:30px;height:30px;font-size:18px;line-height:1;border-radius:50%;color:inherit}
+.ag-top button:hover{background:rgba(0,0,0,.06)}
+.ag-ans{font-family:var(--hand);font-size:22px;line-height:1.12;white-space:pre-wrap;flex:1 1 0;min-height:0;overflow:hidden}
+.ag-ans .think{opacity:.55}
+.ag-sugg{display:flex;flex-wrap:wrap;gap:6px}
+.ag-sugg button{font-family:var(--hand);font-size:17px;line-height:1;padding:6px 9px;border:1px dashed currentColor;border-radius:14px;opacity:.8;color:inherit}
+.ag-sugg button:hover{opacity:1;background:rgba(0,0,0,.04)}
+.ag-form{display:flex;gap:8px;align-items:flex-end;border-bottom:1.5px solid currentColor;padding-bottom:2px}
+.ag-form input{flex:1;min-width:0;background:none;border:0;outline:none;color:inherit;font-family:var(--hand);font-size:22px;padding:4px 0}
+.ag-form input::placeholder{color:inherit;opacity:.45}
+.ag-form button{font-family:var(--mono);font-size:11px;letter-spacing:.08em;min-height:36px;padding:0 4px;color:inherit}
+.ag-foot{display:flex;justify-content:space-between;align-items:center;gap:8px;font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;opacity:.75;min-height:24px}
+.ag-foot button{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-decoration:underline;text-underline-offset:3px;color:inherit;min-height:28px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+/* answers stuck onto a page */
+.pin{position:absolute;z-index:2;cursor:var(--cur-turn,grab);touch-action:none;width:150px;background:var(--sticky);color:var(--sticky-ink);font-family:var(--hand);font-size:17px;line-height:1.1;padding:12px 12px 10px;box-sizing:border-box;box-shadow:0 5px 12px rgba(0,0,0,.14)}
+.pin::before{content:"";position:absolute;left:46px;top:-8px;width:48px;height:16px;background:var(--tape)}
+.pin .unpin{position:absolute;right:2px;top:2px;width:24px;height:24px;font-family:var(--sans);font-size:14px;opacity:.5;color:inherit}
+.pin .unpin:hover{opacity:1}
+
+/* a letter tucked into a pocket on the journal page */
+.pocketwrap{position:relative;margin-top:auto;height:236px}
+.tucked{position:absolute;left:9%;right:9%;top:0;height:210px;background:var(--page);border:1px solid var(--line);box-shadow:0 2px 8px rgba(0,0,0,.1);
+  transform:rotate(-2.5deg);padding:14px 16px;box-sizing:border-box;text-align:left;display:flex;flex-direction:column;gap:6px;color:var(--ink);
+  transition:transform .3s cubic-bezier(.3,.7,.2,1);cursor:var(--cur-point,pointer)}
+.tucked:hover,.tucked:focus-visible{transform:rotate(-2.5deg) translateY(-14px)}
+.tucked .tk-title{font-size:17px;font-weight:600;letter-spacing:-.01em}
+.tucked .tk-lines{display:flex;flex-direction:column;gap:7px;margin-top:4px}
+.tucked .tk-lines i{display:block;height:1.5px;background:var(--line)}
+.pocket{position:absolute;left:0;right:0;bottom:0;height:152px;background:var(--sticky);border:1px solid color-mix(in srgb,var(--sticky-ink) 22%,transparent);pointer-events:none;
+  clip-path:polygon(0 0,38% 0,50% 16px,62% 0,100% 0,100% 100%,0 100%);display:flex;align-items:flex-end;justify-content:center;padding-bottom:16px;box-sizing:border-box}
+.pocket span{font-family:var(--hand);font-size:20px;color:var(--sticky-ink)}
+#letterDim{position:fixed;inset:0;z-index:28;background:rgba(0,0,0,.5);opacity:0;transition:opacity .45s}
+#letter{position:fixed;left:0;top:0;z-index:29;transform-origin:0 0;perspective:2200px}
+.lt-panel{position:absolute;left:0;width:100%;transform-style:preserve-3d;transform-origin:50% 0}
+.lt-face{position:absolute;inset:0;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--page)}
+.lt-face.back{transform:rotateX(180deg);background:linear-gradient(180deg,var(--page),var(--pocket))}
+.lt-face .crease{position:absolute;left:0;right:0;height:10px;pointer-events:none}
+.lt-shade{position:absolute;inset:0;background:#000;opacity:0;pointer-events:none}
+.lt-sheet{position:absolute;inset:0;background:var(--page);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:var(--line) transparent;box-shadow:0 30px 70px rgba(0,0,0,.35)}
+.lt-body{padding:44px clamp(22px,7%,64px) 64px;display:flex;flex-direction:column;gap:16px;color:var(--ink);box-sizing:border-box;
+  background-image:linear-gradient(transparent calc(33.333% - 1px),rgba(0,0,0,.05) calc(33.333% - 1px),rgba(0,0,0,.05) 33.333%,transparent 33.333%,transparent calc(66.666% - 1px),rgba(0,0,0,.05) calc(66.666% - 1px),rgba(0,0,0,.05) 66.666%,transparent 66.666%)}
+.lt-body h1{font-size:30px;font-weight:600;letter-spacing:-.02em;margin:0;text-wrap:balance}
+.lt-body p{font-size:16px;line-height:1.68;margin:0;max-width:62ch}
+.lt-body .refs{margin:0;padding-left:20px;font-size:12.5px;line-height:1.55;color:var(--muted);display:flex;flex-direction:column;gap:6px}
+.lt-body .refs a{color:inherit}
+.lt-body .ph{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;color:var(--muted)}
+.lt-close{position:absolute;right:8px;top:8px;z-index:2;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:300;line-height:1;color:var(--muted);background:none;border:0;border-radius:50%;transition:color .2s,transform .2s}
+.lt-close:hover,.lt-close:focus-visible{color:var(--ink);transform:rotate(90deg)}
+
+.lt-sheet::-webkit-scrollbar{width:5px}.lt-sheet::-webkit-scrollbar-track{background:transparent}.lt-sheet::-webkit-scrollbar-thumb{background:var(--line);border-radius:5px}
+.lt-sheet:hover::-webkit-scrollbar-thumb{background:var(--faint)}
+
+.tttwrap{position:absolute;right:100px;bottom:26px;display:flex;flex-direction:column;align-items:center;gap:2px;opacity:.5;transition:opacity .3s;z-index:1}
+.tttwrap:hover,.tttwrap:focus-within,.tttwrap.live{opacity:1}
+.single .tttwrap{right:94px;bottom:26px}
+.ttt{position:relative;width:96px;height:96px;flex:none;color:var(--pen)}
+.ttt svg.grid,.ttt svg.win{position:absolute;inset:0;overflow:visible;pointer-events:none}
+.ttt .cell{position:absolute;width:33.333%;height:33.333%;cursor:var(--cur-pencil,crosshair);border-radius:4px}
+.ttt .cell:hover{background:color-mix(in srgb,var(--pen) 5%,transparent)}
+.ttt .cell svg{width:100%;height:100%;overflow:visible;display:block}
+.ttt-cap{font-family:var(--hand);font-size:13px;line-height:1.05;color:var(--pen);width:130px;min-height:14px;text-align:center;margin:0}
+.ttt-cap button{font-family:var(--hand);font-size:13px;color:var(--pen);text-decoration:underline;text-underline-offset:3px;min-height:32px}
+@keyframes tdraw{to{stroke-dashoffset:0}}
+.fresh path{stroke-dasharray:100;stroke-dashoffset:100;animation:tdraw .55s ease-out forwards}
+@media (prefers-reduced-motion:reduce){.fresh path{animation:none;stroke-dashoffset:0}}
+
+/* control bar */
+#bar[hidden]{display:none!important}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+#toggles{position:fixed;right:calc(14px + env(safe-area-inset-right,0px));bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:20;display:flex;gap:4px}
+.tg[hidden]{display:none}
+body.zoomed #toggles{background:color-mix(in srgb,var(--page) 88%,transparent);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border-radius:999px;box-shadow:0 0 0 1px var(--line)}
+.tg{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--muted);transition:color .2s,background-color .2s,transform .25s}
+.tg:hover,.tg:focus-visible{color:var(--ink);background:color-mix(in srgb,var(--ink) 6%,transparent)}
+.tg:active{transform:scale(.92)}
+.tg svg{display:block}
+#bar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:20;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:4px;
+  padding:4px 6px;background:var(--bar);border:1px solid var(--bar-line);border-radius:999px;font-family:var(--mono);font-size:11.5px;color:var(--bar-muted);max-width:calc(100vw - 32px);box-sizing:border-box}
+#bar button{height:36px;padding:0 11px;border-radius:999px;display:inline-flex;align-items:center;gap:6px;color:var(--bar-ink)}
+#bar button:hover{background:var(--bar-hover)}
+#bar button:disabled{opacity:.3;cursor:default;background:none}
+#bar .sep{width:1px;height:18px;background:var(--bar-line);margin:0 2px}
+#where{min-width:150px;text-align:center;font-variant-numeric:tabular-nums}
+#bar .grp{display:flex;align-items:center;gap:2px}
+@media (max-width:560px){#bar{width:calc(100vw - 32px);border-radius:18px;row-gap:0}#bar .sep{display:none}#bar .grp{width:100%;justify-content:space-between}#where{min-width:0;flex:1}#bar button{padding:0 9px}}
+@media (prefers-reduced-motion:reduce){.tab,.corner::before{transition:none}}
+</style>
+</head>
+<body>
+
+<div id="stage">
+  <div id="box">
+    <div id="fit">
+      <div class="book spread" id="book">
+        <div class="openshade" id="oshade"></div>
+        <div class="bookbg" id="bookbg"></div>
+        <div class="slot" id="L"></div>
+        <div class="slot" id="R"></div>
+        <canvas id="ink" aria-hidden="true"></canvas>
+        <div class="cast" id="cast"></div>
+        <div class="leaf" id="leaf" hidden></div>
+        <div class="cover" id="cover" role="button" tabindex="0" aria-label="Open the notebook">
+          <div class="face front">
+            <div class="cv">
+              <div class="spine"></div><div class="band"></div>
+              <div class="label" id="label">
+                <small>NO. 01 · HUMAN WORKSPACE</small>
+                <div class="sigline"><span class="sig">Keshav Tiwari</span></div>
+              </div>
+              <div class="doodle" hidden></div>
+            </div>
+            <div class="shade" id="coverShadeF"></div>
+          </div>
+          <div class="face back" id="coverB"></div>
+        </div>
+        <div class="cover" id="backBoard" role="button" tabindex="0" aria-label="Open the notebook from the back" hidden>
+          <div class="face front" id="bbF"></div>
+          <div class="face back" id="bbB"></div>
+          <div class="tabs ride" id="tabF" aria-hidden="true"></div>
+          <div class="tabs ride mirror" id="tabB" aria-hidden="true"></div>
+        </div>
+        <button class="corner next" id="cNext" aria-label="Turn to the next page" hidden></button>
+        <button class="corner prev" id="cPrev" aria-label="Turn to the previous page" hidden></button>
+        <nav class="tabs" id="tabs" aria-label="Chapters"></nav>
+      </div>
+      <div id="hint"><button id="hPrev" aria-label="Previous page">←</button><span id="pgnum">cover</span><button id="hNext" aria-label="Next page">→</button></div>
+    </div>
+  </div>
+</div>
+
+<div class="agent" id="agent" hidden>
+  <button class="ag-mini" id="agMini" aria-expanded="false" aria-controls="agCard"><span class="ag-hint" id="agHint">what is keshav up to right now?</span></button>
+</div>
+<div class="ag-card closed" id="agCard" role="dialog" aria-label="Ask the sticky note">
+  <div class="ag-top"><small>STICKY NOTE · ASK ABOUT KESHAV</small><button id="agClose" aria-label="Put the note back">×</button></div>
+  <div class="ag-ans" id="agAns" aria-live="polite"></div>
+  <div class="ag-sugg" id="agSugg"></div>
+  <form class="ag-form" id="agForm"><label for="agIn" class="sr">Your question</label><input id="agIn" autocomplete="off" maxlength="200" placeholder="write a question…"><button type="submit">ASK →</button></form>
+  <div class="ag-foot"><span id="agNote"></span><button id="agPin" hidden>stick this on the page</button></div>
+</div>
+<div id="letterDim" hidden></div>
+<div id="letter" role="dialog" aria-modal="true" aria-label="Essay" hidden></div>
+<span id="where" class="sr" aria-live="polite">Closed</span>
+<div id="toggles">
+  <button id="tFit" class="tg" aria-label="Back to normal size" hidden></button>
+  <button id="tTheme" class="tg" aria-label="Switch to dark mode"></button>
+  <button id="tSound" class="tg" aria-pressed="true" aria-label="Sound"></button>
+</div>
+<div id="bar" hidden>
+  <div class="grp"><button id="bPrev" aria-label="Previous page"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M9 2 4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  
+  <button id="bNext" aria-label="Next page"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="m5 2 5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+  <span class="sep"></span><div class="grp">
+  <button id="bSound" aria-pressed="true">Sound on</button>
+  <button id="bTheme">Theme: auto</button>
+  <button id="bTabs">Tabs: ink</button>
+  <button id="bClose">Close</button></div>
+</div>
+
+<script>
+(function(){
+'use strict';
+var root = document.documentElement;
+var RM = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+function $(id){ return document.getElementById(id); }
+function store(k, v){ try{ if(v===undefined) return localStorage.getItem(k); localStorage.setItem(k, v); }catch(e){ return null; } }
+
+/* ---------- content ---------- */
+var CIRCLE = '<svg viewBox="0 0 100 40" preserveAspectRatio="none" fill="none" aria-hidden="true"><path d="M8 22C4 9 40 3 70 5c22 2 30 14 20 24C78 40 30 39 12 30 6 27 6 22 12 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg>';
+function go(page, title, sub, yr){
+  return '<li><button class="go" data-go="{{'+page+'}}"><span class="top"><span><b>'+title+'</b> <span class="m">'+sub+'</span></span><span class="yr">'+(yr||'')+'<i class="arr" aria-hidden="true">→</i></span></span></button></li>';
+}
+function role(title, sub, yr, bullets, note){
+  return '<div class="it"><div class="top"><span><b>'+title+'</b> <span class="m">'+sub+'</span></span><span class="yr">'+yr+'</span></div>'+
+    '<ul class="bul sm">'+bullets.map(function(b){ return '<li>'+b+'</li>'; }).join('')+'</ul>'+(note ? '<span class="note">'+note+'</span>' : '')+'</div>';
+}
+function gl(page, title, sub, yr, line){
+  var inner = '<span class="top"><span><b>' + title + '</b> <span class="m">' + sub + '</span></span><span class="yr">' + (yr || '') + (page != null ? '<i class="arr" aria-hidden="true">→</i>' : '') + '</span></span>' + (line ? '<span class="gl">' + line + '</span>' : '');
+  return page != null ? '<li><button class="go" data-go="{{' + page + '}}">' + inner + '</button></li>' : '<li><div class="go static">' + inner + '</div></li>';
+}
+function toc(page, title, sub){ return go(page, title, sub, 'p. {{#' + page + '}}'); }
+function cover(n, name, title, lede, items, note){
+  return '<div class="eyebrow"><span>' + n + ' · ' + name + '</span></div>' +
+    '<div class="sec"><h2 class="h1">' + title + '</h2><p class="lede">' + lede + '</p></div>' +
+    '<ul class="list golist toc">' + items + '</ul>' +
+    (note ? '<span class="note" style="margin-top:auto">' + note + '</span>' : '');
+}
+function pocket(i, kind, title, len){
+  return '<div class="pocketwrap"><button class="tucked" data-letter="' + i + '" aria-label="Read: ' + title + '"><span class="eyebrow" style="justify-content:flex-start">' + kind + ' · ' + len + '</span><span class="tk-title">' + title + '</span><span class="tk-lines"><i></i><i style="width:86%"></i><i style="width:92%"></i></span></button>' +
+    '<div class="pocket"></div></div>';
+}
+function story(what){ return '<div class="box" style="height:150px;margin-top:auto">[' + what + ']</div>'; }
+/* ---------- everything you'll want to edit lives here ---------- */
+var ME = {
+  email:'keshav_tiwari@berkeley.edu',
+  linkedin:'https://www.linkedin.com/in/keshavtiwari26/',
+  github:'https://github.com/kshtwr',
+  x:'https://x.com/ksh_twr',
+  resume:'https://framerusercontent.com/assets/VdYbtiDjMFw0aQHPB4xnbf8rvc.pdf',
+  youtube:'https://www.youtube.com/@keshavtiwari262',
+  photo:'assets/images/me.jpg',               // Empty hides the polaroid
+  podcast:{ youtube:'https://www.youtube.com/@TheAbsurdWindow/', instagram:'https://www.instagram.com/theabsurdwindow/', name:'The Absurd Window', line:'Conversations about the dreams, passions and loves that keep us up in the middle of the night, as our window’s lonesome shine lights up the skyline.', spotify:'5ix4F4VM5MZj4kTPSSEjyV' },
+  nalanda:{ store:'https://chromewebstore.google.com/detail/nalanda-web-highlighter-d/hdlbgaocldooigilaoeaplmhjkgddfal', repo:'https://github.com/kshtwr/nalanda' },
+  liam:{ demo:'https://liam-eight-plum.vercel.app/', repo:'https://github.com/kshtwr/liam' },
+  experiments:[],                             // [{ title:'…', note:'…', url:'https://x.com/…' }]
+  posts:[                                     // each post is a few paragraphs; they're folded into one letter
+    { date:'apr 2026', title:'To my 13 year old self', url:'https://www.linkedin.com/feed/update/urn:li:activity:7454712224264146944/', paras:[
+      'To my 13 year old self,',
+      'you’ll start your master’s at UC Berkeley Electrical Engineering & Computer Sciences (EECS) this fall! Getting the Fung fellowship, and specializing in Visual Computing and Computer Graphics; it is everything you could’ve asked for!',
+      'You finally made it to the Bay! One BART ride away from the wallpapers of your chromebook. You’ll be shocked to hear that there is, in fact, something on the other side of the Golden Gate Bridge, the video game maps just didn’t let you cross it. It’s almost as if we’re bound only by our own imagination lol.',
+      'Berkeley was a tough call but luckily you have incredible parents, family, friends, and mentors who helped you make the best decision possible.',
+      'I’m so excited about our future: the places we’ll go, the people we’ll meet, and the things we’ll create!' ] },
+    { date:'sep 2026', title:'Liam, and a hackathon win', url:'https://www.linkedin.com/feed/update/urn:li:activity:7501442147410423808/', paras:[
+      'Even Rebecca Black couldn’t have predicted my hackathon win last Friday! 🏆',
+      'At an event co-hosted by IxDF San Francisco, Cepien AI, and Tin Computer, professionals from all around the Bay Area came together to tackle the task of building an AI-native Email App.',
+      'Liam (Mail, reversed; I was quite proud of that one), is an interactive prototype for how AI can make email a more tailored experience.',
+      'My approach? Let’s categorize emails as per their relationship to the user, not by content type. After all, what do we even mean by labels like Social, Forums, and Promotions? Instead, I applied the Eisenhower Matrix (Importance vs Urgency) to sort emails into four categories and handled each accordingly: important and urgent, prompt the user to act now and help compose the reply; important but not urgent, schedule the response around the user’s calendar; urgent but not important, auto-compose and lift the cognitive load off the user; neither, trash it.',
+      'What if an email is too marginal to categorize cleanly? Help the user triage it with a simple Tinder-like swipe. What’s more? Liam has a connections page that ranks contacts by importance, builds a general user model to surface evidence for future email drafts, and shows why a specific tone was used with a given contact.' ] }
+  ]
+};
+function ext(url, label){ return '<a href="' + url + '" target="_blank" rel="noopener">' + label + '</a>'; }
+var DOODLES = {
+  starkey:'<path d="M70 70c-14-8-20-26-14-42 6-16 24-22 38-16 14 6 18 22 10 34-6 9-14 12-14 24 0 8-6 12-12 10"/><path d="M80 34c6-6 16-2 16 6s-8 10-10 18"/><path d="M122 30c8 6 8 20 0 26M134 22c14 10 14 34 0 44M146 14c20 14 20 48 0 62"/>',
+  simular:'<path d="M60 14l0 44 12-10 9 20 8-4-9-20 16-1z"/><path d="M110 20l4 10 10 4-10 4-4 10-4-10-10-4 10-4zM140 52l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/><path d="M84 70c20 14 50 12 74-8" stroke-dasharray="4 5"/>',
+  fil:'<rect x="40" y="12" width="120" height="60" rx="6"/><path d="M90 72l-6 12h32l-6-12"/><path d="M70 42c10-14 50-14 60 0-10 14-50 14-60 0z"/><circle cx="100" cy="42" r="7"/><path d="M52 24h14M134 60h14" stroke-dasharray="3 4"/>',
+  xr:'<rect x="46" y="26" width="108" height="42" rx="14"/><path d="M46 44H30M154 44h16M70 26c10-14 50-14 60 0"/><path d="M86 47l14 8 14-8-14-8zM86 47v10l14 8V55M114 47v10l-14 8"/>',
+  caprae:'<path d="M50 14h100L112 52v26l-24-8V52z"/><circle cx="68" cy="6" r="3"/><circle cx="100" cy="4" r="3"/><circle cx="132" cy="6" r="3"/><path d="M96 80l5 5 12-14" />',
+  classifiers:'<path d="M30 12v68h150"/><rect x="46" y="46" width="18" height="34"/><rect x="76" y="30" width="18" height="50"/><rect x="106" y="20" width="18" height="60"/><rect x="136" y="36" width="18" height="44"/><path d="M46 40c30-26 60-28 108-6" stroke-dasharray="4 4"/>',
+  fde:'<path d="M60 14l0 44 12-10 9 20 8-4-9-20 16-1z"/><path d="M110 20l4 10 10 4-10 4-4 10-4-10-10-4 10-4zM140 52l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/><path d="M84 70c20 14 50 12 74-8" stroke-dasharray="4 5"/>',
+  mentor:'<rect x="30" y="12" width="140" height="62" rx="5"/><path d="M82 30l-16 14 16 14M118 30l16 14-16 14M107 26l-14 36"/><path d="M30 84h140"/>',
+  sal:'<path d="M34 62c0-10 6-14 14-16l14-16c4-4 8-6 14-6h40c8 0 12 4 16 10l12 12c8 2 14 6 14 16v6H34z"/><circle cx="68" cy="68" r="9"/><circle cx="146" cy="68" r="9"/><path d="M182 52l14-6M182 60l16 0M182 68l14 6" stroke-dasharray="3 3"/>',
+  ux:'<rect x="30" y="10" width="140" height="70" rx="6"/><path d="M30 26h140M44 18h.1M54 18h.1M64 18h.1"/><rect x="44" y="36" width="50" height="34" rx="3"/><path d="M106 40h50M106 52h36M106 64h44"/><path d="M128 56l0 22 7-6 6 12 6-3-6-12 9-1z" fill="var(--page)"/>',
+  mentorx:''
+};
+/* media for each page. Files live in assets/images and assets/videos.
+   projects:    { video:'assets/videos/x.mp4', poster:'assets/images/posters/x.jpg', link:'https://youtu.be/…' }  (link: where a click on the video goes; portrait:true for a phone video)
+   experiences: { imgs:['assets/images/a.jpg', …], caps:['…'] }
+   A page with no entry falls back to a doodle. YouTube, Instagram and Google Drive links also work in place of a video file. */
+var IMG = 'assets/images/', VID = 'assets/videos/', POST = IMG + 'posters/';
+ME.media = {
+  nalanda:{ video:VID + 'nalanda.mp4', poster:POST + 'nalanda.jpg', link:'https://youtu.be/0pvSvrw-lXs' },
+  liam:{ imgs:[IMG + 'liam-1.jpg', IMG + 'liam-2.jpg'], caps:['first place!','demoing liam'] },
+  jose:{ video:VID + 'jose.mp4', poster:POST + 'jose.jpg', link:'https://youtu.be/obMzFuxJmz4' },
+  tinkercv:{ video:VID + 'tinkercv.mp4', poster:POST + 'tinkercv.jpg', link:'https://youtu.be/qDwAL79giOs' },
+  simular:{ imgs:[IMG + 'simular-1.jpg', IMG + 'simular-2.jpg'], caps:['team simular','a simular labubu!'], scatter:true },
+  fil:{ imgs:[IMG + 'fil-1.jpg', IMG + 'fil-2.jpg'], caps:['the design lab, ucsd','on the members page'], ratio:['675/900','1000/343'], w:['32%','62%'] },
+  semivalley:{ imgs:[IMG + 'semivalley-2.jpg', IMG + 'semivalley-1.jpg'], caps:['team semivalley','interim night'], scatter:true, w:['64%','42%'] },
+  theremin:{ video:VID + 'theremin.mp4', poster:POST + 'theremin.jpg', portrait:true, link:'https://www.instagram.com/p/DcmJaFlhwJs/' },
+  pgui:{ video:VID + 'pgui.mp4', poster:POST + 'pgui.jpg', ratio:'4/3', link:'https://drive.google.com/file/d/1jO5bxs1EZLxDwTWzOXGIg9un_9Tlnt3K/view?usp=sharing' }
+};
+var ROUGH = '<svg class="rough" viewBox="0 0 100 100" preserveAspectRatio="none" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+  '<path vector-effect="non-scaling-stroke" stroke-width="1.5" d="M2 3.2 18 1.8 36 3 55 1.4 74 2.8 98.2 1.6 97.4 18 98.8 37 97.6 58 99 79 97.8 98.4 80 97.2 61 98.8 40 97.4 21 99 1.6 97.8 2.8 80 1.2 61 2.6 40 1 21Z"/>' +
+  '<path vector-effect="non-scaling-stroke" stroke-width=".9" opacity=".55" d="M4 1.2 30 2.6 52 .8 77 2.2 99.4 3.4 98.6 26 99.6 51 98.2 74 99.2 99.4 72 98.4 47 99.6 23 98.2 .6 99.2 1.8 73 .4 49 1.6 24Z"/></svg>';
+function media(key, kind, cls){
+  var m = ME.media[key] || {}, c = cls ? ' ' + cls : '';
+  if(m.video){
+    /* pages show a still in the frame; mountVideos swaps in a muted, looping, chrome-less player once the page is lying open */
+    var yt = /(?:youtu\.be\/|v=|embed\/)([\w-]{11})/.exec(m.video), ig = /instagram\.com\/(?:p|reel)\/([\w-]+)/.exec(m.video), gd = /drive\.google\.com\/file\/d\/([\w-]+)/.exec(m.video);
+    if(ig || gd) return '<div class="media' + (ig ? ' tall' : '') + c + '"><div class="sketch' + (ig ? ' reel' : '') + '"><div class="vid touch' + (ig ? ' ig' : '') + '" data-src="' +
+      (ig ? 'https://www.instagram.com/p/' + ig[1] + '/embed' : 'https://drive.google.com/file/d/' + gd[1] + '/preview') + '"></div>' + ROUGH + '<i class="tp a"></i><i class="tp b"></i></div>' +
+      ext(m.video, ig ? '▶ watch on instagram' : '▶ open in drive').replace('<a ', '<a class="vcap" ') + '</div>';
+    var inner = yt ? '<div class="vid" data-yt="' + yt[1] + '"><img alt="" src="https://i.ytimg.com/vi/' + yt[1] + '/hqdefault.jpg"></div>'
+      : '<div class="vid" data-file="' + m.video + '"><img alt="" src="' + (m.poster || '') + '"></div>';
+    var host = m.link ? (/youtu/.test(m.link) ? 'YouTube' : /instagram/.test(m.link) ? 'Instagram' : /drive\.google/.test(m.link) ? 'Google Drive' : 'the player') : '';
+    return '<div class="media' + (m.portrait ? ' tall' : '') + c + '"><div class="sketch' + (m.portrait ? ' reel' : '') + '"' + (m.ratio ? ' style="aspect-ratio:' + m.ratio + '"' : '') + '>' + inner + ROUGH + '<i class="tp a"></i><i class="tp b"></i>' +
+      (m.link && !yt ? '<a class="vlink" href="' + m.link + '" target="_blank" rel="noopener" aria-label="Watch the full video on ' + host + '"></a>' : '') + '</div>' +
+      '<div class="vcaps">' + (yt ? ext(m.video, '▶ watch with sound').replace('<a ', '<a class="vcap" ') : '<button class="vcap" type="button" data-sound>♪ tap for sound</button>') +
+      (m.link && !yt ? ext(m.link, '↗ open on ' + host.toLowerCase()).replace('<a ', '<a class="vcap" ') : '') + '</div></div>';
+  }
+  var shots = m.imgs || (m.img ? [m.img] : null);
+  if(m.scatter) return '<div class="media scatter' + c + '">' + shots.map(function(u, i){
+    return '<div class="polaroid ' + (i ? 'br' : 'tl') + '"' + (m.w ? ' style="width:' + m.w[i] + '"' : '') + '><span class="tape"></span><div class="frame"><img alt="' + ((m.caps || [])[i] || '') + '" loading="lazy" src="' + u + '"><span class="cap">' + ((m.caps || [])[i] || '') + '</span></div></div>';
+  }).join('') + '</div>';
+  if(shots) return '<div class="media snaps' + (m.ratio ? ' natural' : '') + c + '">' + shots.map(function(u, i){
+    return '<div class="polaroid" style="--r:' + (i % 2 ? '3.5deg' : '-3deg') + (m.w ? ';width:' + m.w[i] : '') + '"><span class="tape"></span><div class="frame"><img alt="' + ((m.caps || [])[i] || m.alt || '') + '" loading="lazy" src="' + u + '"' + (m.ratio ? ' style="aspect-ratio:' + m.ratio[i] + '"' : (m.pos || [])[i] ? ' style="object-position:' + m.pos[i] + '"' : '') + '><span class="cap">' + ((m.caps || [])[i] || '') + '</span></div></div>';
+  }).join('') + '</div>';
+  return '<div class="media doodle' + c + '" aria-hidden="true"><svg viewBox="0 0 200 90" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">' + (DOODLES[key] || '') + '</svg></div>';
+}
+/* recommendations, keyed by the page they sit on. Paragraphs are separated by a blank line. Empty text shows the doodle instead */
+ME.recs = {
+  simular:{ from:'Jiachen Yang', pos:'co-founder, simular', role:'co-founder, simular · mar 2026', title:'Co-founder at Simular. Managed Keshav directly.', text:"Keshav has earned my strong recommendation over two internships at Simular: he single-handedly closed a business customer subscription (secured in 4 weeks), improved latency (TTFT metric) by 5x, and owned an annotation pipeline project handling long-horizon agent trajectory data across our macOS frontend and server backend. He brings research experience in human-AI interaction across four UCSD labs and is a great team player, highly well-rounded, and learns quickly. I’m confident he’ll be a great plus to his future team." },
+  mentor:{ from:'Shannon E. Ellis', pos:'associate teaching professor, ucsd', role:'ucsd cognitive science · nov 2024', title:'Associate Teaching Professor, Cognitive Science Department, Halıcıoğlu Data Science Institute, UC San Diego', text:"To the Hiring Manager:\n\nI write to <strong>enthusiastically and without a single reservation recommend Keshav Tiwari for your internship.</strong>\n\nI’m an Associate Teaching Professor at UC San Diego, where my primary responsibility is to teach programming, data science, and genetics to undergraduate students. As such, Keshav was my student in COGS 108 Data Science in Practice. However, as a result of our interactions during and how impressed I was with him during his time in my course, Keshav and I have been working together on a course redesign for the last six months as well.\n\nBefore I delve into Keshav’s performance in my course, I want to highlight why, in particular, I think Keshav stands out among his peers. Of course, he’s technically strong and capable of succeeding in an engineering or machine learning-centered role, but so are many of my students. <strong>The reasons Keshav stands out are two-fold: 1) his unwavering passion for learning and improving and 2) his personality - you will want to work with Keshav and so will everyone on your team.</strong>\n\nSpecifically, for these last six months, Keshav has been helping out generating really excellent animations for an introduction to programming course for non computer science majors. These animations are critical because they illustrate some of the hardest concepts for students in this course - loops, functions, conditionals, and classes. Through this process, Keshav has designed, iterated, animated and worked incredibly hard to make these animations as useful, clear, and aesthetically appealing as he possibly can, all with limited background in such tasks. The final products are really excellent, and have been added to the course materials and textbook for use with more than one thousand students each academic year. Also, I’d be remiss not to mention that this was a volunteer role - Keshav was not being paid (at that time; he has since been added to payroll due to his contributions and strong performance) nor receiving course credit. He was just passionate and is driven. I mention all of this, of course, to <strong>highlight Keshav’s strengths, ability to follow through on a project, and his technical knowledge</strong>.\n\nBut, I also wanted to comment on our weekly meetings through this project. Every week Keshav, another student, and I would meet to discuss and share progress and plan going forward. At the beginning of these meetings, we’d chat about what we had been up to the past week. While it was Keshav’s summer, and he was working to spend time with family and our project, he was also <em>every single week</em>, making progress to deepen his machine learning knowledge, take online courses, and work on personal projects. While many students have aspirations and plans to learn over the summer, Keshav actually did it. This demonstrates <strong>Keshav’s unwavering desire to truly learn as much as he can in his field</strong>.\n\nAdditionally, as I mentioned above, you want Keshav on your team. He’s communicative, responsible, gets things done, wants to work hard and do well, but also importantly, he’s just a good person and human. He brings the ability to deliver to a team but also the desire for others to want to work with him and toward a shared goal. It’s this quality (among others) that I think makes Keshav a particularly good fit for any engineering team. <strong>He’s going to work to learn and of course work hard, and he’s going to help the rest of your team want to do the same, just by the nature of his personality.</strong>\n\nBeyond this project together, I do want to highlight Keshav’s performance in my course. COGS 108 Data Science in Practice is a <strong>large-enrollment (440+), hands-on, and technical course that teaches the critical skills needed to pursue a technical data-focused career.</strong> Specifically, this course is focused on working with real data, critical thinking, and improving one’s programming skills in Python. This course requires students to complete technical assignments and weekly conceptual quizzes individually as well as participate in a large quarter-long group project. For this project, students carry out the entire data science process: formulating a question, finding, cleaning and analyzing the data to answer their question of interest, and communicating their process and findings in a detailed, technical data science report.\n\nFor his final project, Keshav and his group set out to answer the question “What is the relationship between the racial backgrounds and urbanization levels of western and eastern states, and what is their effect on COVID-19 mortality rates in the USA?” Students are encouraged to choose a specific question on a topic that matters to them, their communities, or society at large. Given the huge impact of COVID-19 in general and outsized impact on students, this was a great project topic choice. Their final report was well-analyzed, effectively-visualized, clearly-communicated, and thoughtful overall. Keshav was involved with the group consistently throughout, playing a role in ideation, data wrangling, background research, writing, data visualization, and analysis. Further, <strong>Keshav’s teammates all had positive things to say about Keshav’s performance on the project</strong>. For his efforts on this project and consistently strong performance throughout the course, Keshav earned an A in this course. Together, this demonstrates his <strong>strong programming and analytic skills</strong>, as well as his <strong>ability to work both independently and collaboratively toward a shared goal</strong>.\n\nGiven all of the above, I want to of course summarize that Keshav is technically strong and will succeed in an engineering, machine learning, or data science-centric role. But, many of your applicants are technically qualified. <strong>Keshav stands out in the crowd due to his work ethic, passion for learning, personable nature, ability to work both independently and collaboratively, and his ability to make a team better by his being on it</strong>. You want Keshav on your team. Given all of this, I am so excited to recommend Keshav for your internship!\n\nSincerely," },
+  caprae:{ from:'Zackary Beckham', pos:'co-founder, caprae capital', role:'co-founder, caprae · 2025', title:'Co-Founder, Caprae Capital', text:"To Whom It May Concern,\n\nThis letter is to formally acknowledge the successful completion of Keshav Tiwari’s internship as a <strong>Machine Learning Engineering Intern</strong> at <strong>Caprae Capital</strong>. Keshav was an integral member of our technology development team from <strong>April to June 2025</strong>, contributing an estimated <strong>10–12 hours per week</strong>.\n\nOver the course of the internship, Keshav consistently demonstrated excellence in both technical execution and collaborative work. He played a pivotal role in the development of <em>SaasQuatch</em>, our internal SaaS-based lead generation platform, contributing to critical product features, debugging core functionality, and improving user experience across multiple iterations.\n\nKeshav worked cross-functionally with teammates around the globe and showed a remarkable ability to adapt quickly, take ownership of product components, and deliver quality improvements week over week. His work included refining the UI/UX, integrating key APIs, implementing ML models and data synchronization strategies, and ensuring smooth deployment and performance of the tool. His attention to detail, problem-solving skills, and user-centered thinking greatly elevated the final product.\n\nKeshav’s performance throughout the internship was rated <strong>excellent</strong>, and his contributions were crucial in bringing <em>SaasQuatch</em> to its current production-ready form. We are confident that the skills and mindset he demonstrated during his time with us will make him a valuable asset to any team he joins in the future.\n\nWe sincerely thank Keshav for his impactful work at Caprae Capital and wish him all the best in his future endeavors.\n\nSincerely," }
+};
+var REC_KEYS = Object.keys(ME.recs).filter(function(k){ return ME.recs[k].text.trim(); });
+function recOr(key, doodle, right){
+  var r = ME.recs[key], n = REC_KEYS.indexOf(key);
+  if(n < 0) return media(doodle, 'img');
+  var first = (r.from || 'someone').split(' ')[0].toLowerCase();
+  var note = '<span class="note">a note from ' + first + (right ? ' →' : ' ↖') + (r.pos ? '<br>(' + r.pos.replace(/-/g, '\u2011') + ')' : '') + '</span>';
+  return '<div class="envrow' + (right ? ' right' : '') + '">' + (right ? note : '') + '<button class="env" data-letter="' + (2 + n) + '" aria-label="Read a recommendation from ' + (r.from || 'a colleague') + '">' +
+    '<svg viewBox="0 0 150 96" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 1 75 52 149 1M1 95 60 42M149 95 90 42"/></svg>' +
+    '</button>' + (right ? '' : note) + '</div>';
+}
+function skills(list){ return '<p class="skills"><b>Skills:</b> ' + list + '</p>'; }
+function linksRow(extra){ return '<div class="links">' + ext(ME.linkedin, 'LinkedIn') + ext(ME.github, 'GitHub') + ext(ME.x, 'X') + ext(ME.resume, 'Résumé') + (extra || '') + '</div>'; }
+
+/* pages link to each other by id, so adding a page never breaks a link */
+var PAGES = [
+  /* ---------- 01 profile: the whole picture on one spread ---------- */
+  { id:'profile', ch:0, html:
+    '<div class="eyebrow"><span>01 · Profile</span><span class="hand" style="font-size:21px">berkeley, ca</span></div>'+
+    '<div>'+(ME.photo ? '<div class="polaroid" data-photo><span class="tape"></span><div class="frame"><div class="ph" style="background:url(' + ME.photo + ') center/cover"></div></div><span class="cap">hi, i’m keshav</span></div>' : '')+
+    '<h1 class="h1" style="margin-top:4px">Keshav Tiwari</h1>'+
+    '<p class="lede" style="margin-top:8px">I’m a designer-engineer working on the <em>interface layer between people and AI agents</em>. Currently pursuing MEng EECS (Visual Computing) at Berkeley!</p></div>'+
+    '<div class="glance" style="clear:both;margin-top:-12px"><div class="eyebrow">Work</div><ul class="list golist">'+
+    gl('starkey','Starkey','Software engineer, wearable AI','2026–','AI personalization for next-gen hearing aids, with Starkey’s CTO.')+
+    gl('simular','Simular','AI engineer and FDE','2025–26','Streaming that made agents answer 5x faster; a pilot closed in 4 weeks.')+
+    gl('fil','Foundation Interface Lab','AI engineer','2025','A screen observer that turns live workflows into to-dos.')+
+    gl('xr','XR Lab','Generative AI researcher','2025','A multimodal agent that structured 1,000+ research PDFs.')+
+    gl('caprae','Caprae Capital','ML engineer','2025','AI lead validation, 25% more accurate.')+
+    gl('sal','Safe Automobiles Lab','ML researcher','2023–25','Reading car-light intent with active learning.')+
+    gl('ux','League of Amazing Programmers','UX researcher','2024','A non-profit site redesign that lifted usability feedback 41%.')+
+    '</ul></div>' },
+  { id:'glance', ch:0, html:
+    '<div class="glance"><div class="eyebrow">Projects</div><ul class="list golist">'+
+    gl('nalanda','Nalanda','Web highlighter','2025–26','Highlight anything on the web, then ask questions of what you kept.')+
+    gl('liam','Liam','AI-native email','2026','Winner, IxDF SF Hackathon. Sorts mail by importance and urgency.')+
+    gl('jose','José','Football predictor and chatbot','2024','A random forest on 1,140 matches, with a Streamlit chatbot on top.')+
+    gl('tinkercv','TinkerCV','Gesture-based image tool','2024','Pinch to zoom, drag to move, built on OpenCV.')+
+    gl('classifiers','Classifier benchmarking','Research on test size','2024','5 classifiers, 4 datasets, 180 cross-validated trials.')+
+    gl('pgui','Perceptive generative UI','Ambient display','2026','A home display that adapts to who is in the room.')+
+    '</ul></div>'+
+    '<div class="glance"><div class="eyebrow">Education</div><ul class="list golist">'+
+    gl(null,'UC Berkeley','MEng EECS','2026–27','Visual Computing and Graphics. Fung Excellence Scholar.')+
+    gl(null,'UC San Diego','B.S. Cog Sci + Business Econ','2022–26','Minor in CS. GPA 3.95, eight Provost Honors.')+
+    '</ul></div>'+
+    '<div class="glance">' + linksRow() + '<span class="mail">' + ME.email + '</span>'+
+    '<span class="note" style="margin-top:4px">open to full-time roles from may 2027</span></div><!--TTT-->' },
+
+  /* ---------- 02 work: one page per role ---------- */
+  { id:'work', ch:1, html: cover('02', 'Work', 'Where I’ve worked', 'Agents, interfaces and a lot of applied ML, from a hearing aid company to a car lab.',
+    toc('starkey','Starkey','Software engineer, wearable AI')+toc('simular','Simular','AI engineer and FDE')+toc('fil','Foundation Interface Lab','AI engineer')+
+    toc('xr','XR Lab','Generative AI researcher')+toc('caprae','Caprae Capital Partners','ML engineer')+toc('mentor','UCSD Cognitive Science','Programming mentor')+toc('sal','Safe Automobiles Lab','ML researcher')+toc('ux','League of Amazing Programmers','UX researcher')+toc('toolkit','Toolkit','What I build with'),
+    'newest first ↓') },
+  { id:'starkey', ch:1, html:
+    '<div class="eyebrow"><span>Work · 01</span><span>Sept 2026 – Present</span></div><h2 class="h2">Starkey</h2>'+
+    '<p class="lede">Software Engineer (Wearable AI)</p>'+
+    '<ul class="bul"><li>Working on AI-driven personalization for next-generation <strong>hearing aids</strong> with Starkey’s Chief Technology Officer.</li><li>Leading the <strong>AI and human-computer interaction</strong> workstream, collaborating across teams to shape <strong>UX</strong> for <strong>AR</strong> and <strong>voice agents</strong>.</li></ul>'+
+    skills('AI personalization, human-computer interaction, UX design, AR, voice agents')+
+    media('starkey','img') },
+  { id:'simular', ch:1, html:
+    '<div class="eyebrow"><span>Work · 02</span><span>Oct 2025 – Mar 2026</span></div><h2 class="h2">Simular</h2>'+
+    '<div class="it"><div class="top"><b>Software Engineer (AI Agents) Intern</b><span class="yr">Jan – Mar 2026</span></div><ul class="bul sm"><li>Contributed to <strong>macOS</strong> AI agent platform with <strong>Swift</strong> front-end, <strong>Python (FastAPI)</strong> back-end on <strong>GCP (Firestore)</strong> data storage.</li><li>Boosted agent reliability and task success by <strong>22%</strong> with error classification &amp; <strong>RAG-based</strong> replanning for failure recovery.</li><li>Cut latency by <strong>5x (TTFT)</strong> by implementing streaming architecture &amp; token optimization, keeping the Swift UI responsive at scale.</li><li>Designed and shipped the front end of the company’s marketing site, from visual direction to production code.</li></ul>'+
+    '<p class="skills" style="margin-top:6px"><b>Skills:</b> Swift, Python, FastAPI, GCP, RAG, streaming, token optimization</p></div>'+
+    '<div class="it" style="margin-top:-2px"><div class="top"><b>Forward Deployed Engineer Intern</b><span class="yr">Oct – Dec 2025</span></div><ul class="bul sm"><li>Improved reliability by cutting behavioral drift <strong>30%</strong> with alignment checks in <strong>CI/CD</strong>, shrinking releases from weeks to days.</li><li>Secured <strong>3-month pilot deal</strong> in <strong>4 weeks</strong> by building custom AI agents and demonstrating <strong>50% efficiency gains</strong> for stakeholders.</li></ul>'+
+    '<p class="skills" style="margin-top:6px"><b>Skills:</b> custom AI agents, CI/CD, customer discovery, stakeholder demos</p></div>'+
+    recOr('simular', 'fde', true) },
+  { id:'fde', ch:1, html:
+    '<div class="eyebrow"><span>Work · 02, cont.</span><span class="hand" style="font-size:21px">from my time at simular</span></div>'+
+    media('simular','img') },
+  { id:'fil', ch:1, html:
+    '<div class="eyebrow"><span>Work · 03</span><span>Jul 2025 – Sept 2025</span></div><h2 class="h2">Foundation Interface Lab</h2>'+
+    '<p class="lede">Software Engineer Research Intern</p>'+
+    '<ul class="bul"><li>Implemented an AI-enabled screen observer which converts real-time user workflows into structured TODOs via <strong>GPT-4o</strong> &amp; <strong>OCR</strong>.</li><li>Improved speed <strong>91%</strong>, token usage <strong>82%</strong>, and costs <strong>84%</strong> via frame caching, sampling &amp; batching, with per-stage instrumentation.</li><li>Refined a multi-modal prompting pipeline by evaluating user footage &amp; <strong>7 data flows</strong>, improving usability &amp; response quality.</li></ul>'+
+    skills('GPT-4o, OCR, multi-modal prompting, data pipelines, instrumentation')+
+    media('fil','img') },
+  { id:'xr', ch:1, html:
+    '<div class="eyebrow"><span>Work · 04</span><span>Apr 2025 – Sept 2025</span></div><h2 class="h2">Extended Reality (XR) Lab</h2>'+
+    '<p class="lede">Software Engineer (Generative AI)</p>'+
+    '<ul class="bul"><li>Built a multi-modal AI agent to reduce research review time by <strong>50%</strong> by structuring <strong>1,000+ PDFs</strong> into metadata tables.</li><li>Engineered a visual classifier system to enhance feature extraction accuracy by tagging <strong>26,000+ images</strong>, for <strong>120+ attributes</strong>.</li><li>Led development of a <strong>React web application</strong> with lab researchers for accessible, structured dataset exploration.</li></ul>'+
+    skills('multi-modal AI agents, visual classification, React, data structuring')+
+    media('xr','img') },
+  { id:'caprae', ch:1, html:
+    '<div class="eyebrow"><span>Work · 05</span><span>Apr 2025 – Jun 2025</span></div><h2 class="h2">Caprae Capitals</h2>'+
+    '<p class="lede">Software Engineer (Data/ML) Intern</p>'+
+    '<ul class="bul"><li>Launched an AI lead validation system with a <strong>React</strong> UI, improving accuracy by <strong>25%</strong> through automated LinkedIn extraction.</li><li>Formulated a lead scoring algorithm that increased outreach speed by <strong>2x</strong>, with regex parsing and <strong>GPT</strong> cross-validation.</li><li>Developed Natural Language Processing (NLP) web scrapers in <strong>Python</strong> that automated <strong>90%</strong> of lead collection with <strong>Pandas</strong>.</li></ul>'+
+    skills('React, Python, NLP, GPT, Pandas, regex, web scraping')+
+    recOr('caprae', 'caprae') },
+  { id:'mentor', ch:1, html:
+    '<div class="eyebrow"><span>Work · 06</span><span>Mar 2024 – Jun 2025</span></div><h2 class="h2">Cognitive Science Department, UC San Diego</h2>'+
+    '<p class="lede">Programming Mentor &amp; Curriculum Developer, Introduction to Python &amp; Cognitive Consequences of Technology</p>'+
+    '<ul class="bul"><li>Authored coding problems for <strong>600+ students</strong>, covering object-oriented programming concepts, through hands-on assessments.</li><li>Spearheaded one-on-one feedback sessions on <strong>50+ Python projects</strong>, helping students debug, refactor and optimize code.</li><li>Reviewed <strong>150+ student journals</strong> and <strong>35+ feedback reports</strong>, integrating responses into curriculum development and TA training.</li></ul>'+
+    skills('Python, object-oriented programming, curriculum design, code review, mentoring')+
+    recOr('mentor', 'mentor') },
+  { id:'sal', ch:1, html:
+    '<div class="eyebrow"><span>Work · 07</span><span>Oct 2023 – Apr 2025</span></div><h2 class="h2">Laboratory for Intelligent and Safe Automobiles</h2>'+
+    '<p class="lede">Machine Learning Researcher</p>'+
+    '<ul class="bul"><li>Trained an Active Learning model up to <strong>85% accuracy</strong> by annotating <strong>2000+ images</strong> of car lights in traffic scenarios.</li><li>Authored a literature review of <strong>25+ papers</strong> on light-based intention prediction &amp; classification models for vehicle maneuvers.</li><li>Wrote a <strong>Python</strong> script to label car light state (on/off), color, and signal type (brake/indicator).</li></ul>'+
+    skills('active learning, Python, data annotation, literature review')+
+    media('sal','img') },
+  { id:'ux', ch:1, html:
+    '<div class="eyebrow"><span>Work · 08</span><span>Jul 2024 – Sept 2024</span></div><h2 class="h2">The League of Amazing Programmers</h2>'+
+    '<p class="lede">UX Researcher, San Diego, CA</p>'+
+    '<ul class="bul"><li>Redesigned a non-profit’s website, boosting usability feedback by <strong>41%</strong> through prototyping and iterative design cycles.</li><li>Conducted <strong>A/B</strong>, baseline &amp; post-redesign usability tests (<strong>16+ hours</strong>) to evaluate design effectiveness and user experience.</li><li>Built data visualizations &amp; case studies from <strong>50+ hours</strong> of stakeholder meetings, to deliver actionable product insights.</li></ul>'+
+    skills('prototyping, A/B testing, usability testing, data visualization, case studies')+
+    media('ux','img') },
+  { id:'toolkit', ch:1, html:
+    '<div class="eyebrow">Toolkit</div><h2 class="h2">What I build with</h2>'+
+    '<div class="it"><b>Languages</b><span class="m">TypeScript, JavaScript, Python, Swift and SwiftUI, Java, R, SQL, HTML5 and CSS</span></div>'+
+    '<div class="it"><b>Frameworks and tools</b><span class="m">React, Next.js, Node.js, GCP, FastAPI, PyTorch, TensorFlow, scikit-learn, Pandas, NumPy, OpenCV</span></div>'+
+    '<div class="it"><b>Techniques</b><span class="m">UI/UX design, design engineering, typography, animation design, AI agents, RAG, ML model training</span></div>'+
+    '<div class="it"><b>Also</b><span class="m">Figma, Framer, Git, Claude Code and Cursor, Streamlit, Docker, Matplotlib, BeautifulSoup, REST APIs, Unity</span></div>'+
+    '<div class="it"><b>Courses</b><span class="m">Supervised Machine Learning Algorithms, Data Structures and Algorithms, CS 260A UI Design, CS 260B HCI Research</span></div>'+
+    '<div class="it" style="margin-top:6px"><b>Beyond code</b><span class="m">Media chair of the Cognitive Science Student Association. Co-lead of the AI affinity group at UC Berkeley.</span></div>' },
+
+  /* ---------- 03 projects ---------- */
+  { id:'projects', ch:2, html: cover('03', 'Projects', 'Things I’ve built', 'What each one is, how it works, and where it landed.',
+    toc('nalanda','Nalanda','Web highlighter + RAG chat')+toc('liam','Liam','AI-native email, hackathon winner')+toc('jose','José','AI football predictor + CSV chatbot')+toc('tinkercv','TinkerCV','Gesture-based image tool')+toc('classifiers','Classifier benchmarking','Research on test size')+toc('pgui','Perceptive generative UI','Ambient display'),
+    'start with nalanda ↑') },
+  { id:'nalanda', ch:2, html:
+    '<div class="eyebrow"><span>Project · 01</span><span>2025–26</span></div><h2 class="h2">Nalanda</h2>'+
+    '<p class="lede">Web Highlighter &amp; Knowledge Dashboard</p>'+
+    '<ul class="bul"><li>Shipped a <strong>Chrome extension</strong> (<strong>React &amp; TypeScript</strong>) that lets users highlight and persistently save text anywhere on the web.</li><li>Engineered a <strong>full-stack</strong> dashboard in <strong>Next.js</strong> with <strong>Supabase</strong> &amp; <strong>Google OAuth</strong> for a clear UX to organize saved highlights.</li><li>Built a <strong>RAG-based</strong> chatbot enabling information retrieval and natural-language querying over saved highlights via <strong>pgvector</strong>.</li></ul>'+
+    skills('React, TypeScript, Chrome extensions, Next.js, Supabase, Google OAuth, RAG, pgvector')+
+    media('nalanda','video')+
+    '<div class="links" style="margin-top:10px">' + (ME.nalanda.store ? ext(ME.nalanda.store, 'Chrome Web Store') : '') + ext(ME.nalanda.repo, 'GitHub') + '</div>' },
+  { id:'liam', ch:2, html:
+    '<div class="eyebrow"><span>Project · 02</span><span>Hackathon</span></div><h2 class="h2">Liam</h2>'+
+    '<p class="lede">An AI-native Email App.<br><span class="circle" style="margin:0 12px 0 10px">Winner'+CIRCLE+'</span>Interaction Design Foundation (IxDF) SF Hackathon</p>'+
+    '<ul class="bul"><li>Delivered a <strong>full-stack</strong> email client (<strong>Next.js, TypeScript</strong>) that ranks threads by sender and urgency, so priority is clear at a glance.</li><li>Built a <strong>propagation system</strong> where one score update instantly re-sorts related threads, keeping users oriented.</li><li>Personalized replies via <strong>Anthropic API</strong>, auto-generating tone-matched drafts linked to source messages for user edits.</li></ul>'+
+    skills('Next.js, TypeScript, Anthropic API, full-stack, UX design')+
+    media('liam','video')+
+    '<div class="links" style="margin-top:10px">' + ext(ME.liam.demo, 'Live Demo') + ext(ME.liam.repo, 'GitHub') + '</div>' },
+  { id:'jose', ch:2, html:
+    '<div class="eyebrow"><span>Project · 03</span><span>Jun 2024 – Jul 2024</span></div><h2 class="h2">José</h2>'+
+    '<p class="lede">An AI Football Match Predictor &amp; CSV Chatbot</p>'+
+    '<ul class="bul"><li>Engineered a web scraper with <strong>BeautifulSoup</strong> &amp; rate limiting, transforming <strong>1,140</strong> match records into structured CSV datasets.</li><li>Developed a <strong>Random Forest</strong> classifier with <strong>scikit-learn</strong>, achieving ∼ <strong>66% accuracy</strong>, <strong>2x</strong> above the random-guess baseline.</li><li>Built &amp; deployed a <strong>Streamlit</strong> chatbot with the <strong>OpenAI API</strong> &amp; prompt engineering, delivering insights from structured CSVs.</li></ul>'+
+    skills('Python, BeautifulSoup, scikit-learn, Streamlit, OpenAI API, prompt engineering')+
+    media('jose','video')+
+    '<div class="links" style="margin-top:10px">' + ext('https://github.com/kshtwr/Jose-ML-Project1', 'GitHub') + '</div>' },
+  { id:'tinkercv', ch:2, html:
+    '<div class="eyebrow"><span>Project · 04</span><span>Jun 2024 – Jul 2024</span></div><h2 class="h2">TinkerCV</h2>'+
+    '<p class="lede">A Gesture-based Image Manipulation Tool</p>'+
+    '<ul class="bul"><li>Engineered real-time image manipulation, with <strong>OpenCV</strong>, enabling dynamic overlays and resizing with minimal latency.</li><li>Implemented gesture encodings (<strong>pinch-to-zoom/drag-to-move</strong>) with <strong>cv2</strong>, ensuring intuitive interaction.</li><li>Rendered shadow-like visual feedback to mimic hand movements on a white interface, enhancing usability and user experience.</li></ul>'+
+    skills('OpenCV, cv2, gesture recognition, real-time computer vision, UX')+
+    media('tinkercv','video')+
+    '<div class="links" style="margin-top:10px">' + ext('https://github.com/kshtwr/TinkerCV', 'GitHub') + '</div>' },
+  { id:'classifiers', ch:2, html:
+    '<div class="eyebrow"><span>Project · 05</span><span>Dec 2024</span></div><h2 class="h2">Classifier Benchmarking</h2>'+
+    '<p class="lede">Research: Classifier Benchmarking &amp; Test Size Analysis</p>'+
+    '<ul class="bul"><li>Benchmarked <strong>5 classifiers</strong> on <strong>4 datasets</strong>, running <strong>180</strong> cross-validated trials and achieving <strong>83.7%</strong> mean test accuracy.</li><li>Optimized performance via hyperparameter tuning, <strong>Platt/Standard Scaling</strong> &amp; feature engineering techniques.</li><li>Visualized classifier accuracy, precision, recall, and F1-scores, enabling data-driven comparison of classifier &amp; test size trade-offs.</li></ul>'+
+    skills('scikit-learn, hyperparameter tuning, Platt scaling, feature engineering, data visualization')+
+    media('classifiers','img')+
+    '<div class="links" style="margin-top:10px">' + ext('https://github.com/kshtwr/Evaluating-Classifiers', 'GitHub') + '</div>' },
+  { id:'pgui', ch:2, html:
+    '<div class="eyebrow"><span>Project · 06</span><span>Class project</span></div><h2 class="h2">Perceptive generative UI</h2>'+
+    '<p class="lede">A redesign of a smart home ambient display that composes its glanceable screen around who is in the room.</p>'+
+    '<ul class="bul"><li>The display works out who is there in tiers: a phone’s Bluetooth beacon first, then infrared presence, then voice as a fallback.</li><li>Each person sees what matters to them; a shared room gets a shared screen.</li><li>Delivered as a Figma prototype.</li></ul>'+
+    media('pgui','video') },
+
+  /* ---------- 04 side quests ---------- */
+  { id:'quests', ch:3, html: cover('04', 'Side quests', 'Side quests', 'Some of my forays into different worlds out of curiosity and fun!',
+    toc('theremin','Ultrasonic theremin','Arduino, a sensor, your hand')+toc('semivalley','SemiValley','Deep-tech customer discovery')+toc('podcast', ME.podcast.name, 'Podcast, YouTube and Instagram'),
+    '"normality is a paved road" - van gogh') },
+  { id:'theremin', ch:3, html:
+    '<div class="eyebrow"><span>Side quest · 01</span><span>Arduino</span></div><h2 class="h2">Ultrasonic theremin</h2>'+
+    '<p class="lede">An Arduino Uno, an ultrasonic sensor and a passive buzzer. Move your hand closer and the pitch rises.</p>'+
+    '<span class="note">my first electronics project.</span>'+
+    media('theremin','video') },
+  { id:'semivalley', ch:3, html:
+    '<div class="eyebrow"><span>Side quest · 02</span><span>2026</span></div><h2 class="h2">SemiValley</h2>'+
+    '<p class="lede">Customer discovery and deep-tech commercialization with SemiValley, a Berkeley startup cooling the next generation of AI chips.</p>'+
+    '<ul class="bul"><li>Part of DTIL (ENG 273 / MBA 290), working on how a deep-tech product finds its first customers.</li><li>Presented our interim findings at Berkeley Haas.</li></ul>'+
+    media('semivalley','img') },
+  { id:'podcast', ch:3, html:
+    '<div class="eyebrow"><span>Side quest · 03</span><span>Podcast · YouTube · Instagram</span></div><h2 class="h2">' + ME.podcast.name + '</h2>'+
+    '<p class="lede">' + (ME.podcast.line || 'I host a podcast. The latest episodes are right here.') + '</p>'+
+    '<div class="media" style="flex:none;max-height:none;margin-top:6px"><div class="sketch free" style="--r:.6deg"><div class="vid touch spot" data-src="https://open.spotify.com/embed/show/' + ME.podcast.spotify + '?utm_source=generator"></div>' + ROUGH + '<i class="tp a"></i><i class="tp b"></i></div></div>'+
+    '<p class="tiny">Posting across YouTube and Instagram: short videos about the things I build and the ideas I can’t stop thinking about.</p>'+
+    '<div class="links">' + ext('https://open.spotify.com/show/' + ME.podcast.spotify, 'Spotify') + ext(ME.podcast.youtube, 'YouTube') + ext(ME.podcast.instagram, 'Instagram') + '</div>' },
+
+  /* ---------- 05 journal ---------- */
+  { id:'journal', ch:4, html: cover('05', 'Journal', 'Letters and posts', 'Longer writing, folded up and tucked in.',
+    toc('essay','The blank page is doing the work','Essay · 5 min')+toc('posts', ME.posts.length ? 'From my posts' : 'Elsewhere', ME.posts.length ? 'Two letters from my LinkedIn' : 'Where else I write'),
+    'more letters as i write them.') },
+  { id:'essay', ch:4, html:
+    '<div class="eyebrow"><span>Journal · essay</span><span class="hand" style="font-size:21px">fall 2026</span></div><h2 class="h2">The blank page is doing the work</h2>'+
+    '<p class="lede">When should AI tools add friction on purpose? A friend asked if AI was making me dumber, and I tried to answer without it.</p>'+
+    pocket(0, 'Essay', 'The blank page is doing the work', 'about 5 min') },
+  { id:'posts', ch:4, html: ME.posts.length ?
+    '<div class="eyebrow"><span>Journal · posts</span><span class="hand" style="font-size:21px">ongoing</span></div><h2 class="h2">From my posts</h2>'+
+    '<p class="lede">Things I first wrote on LinkedIn, kept here so they don’t scroll away.</p>'+
+    pocket(1, 'Posts', 'From my posts', 'about 3 min') :
+    '<div class="eyebrow">Journal · elsewhere</div><h2 class="h2">Where else I write</h2>'+
+    '<p class="lede">Shorter thoughts on design engineering, agents and interfaces go on X and LinkedIn first.</p>'+
+    '<div class="links">' + ext(ME.x, 'X') + ext(ME.linkedin, 'LinkedIn') + '</div>' },
+  { id:'end', ch:4, html:
+    '<div class="eyebrow">Inside back cover</div>'+
+    '<p class="big-hand" style="font-size:34px;margin-top:30px">thanks for reading.</p>'+
+    '<p class="lede">If something here made you want to talk, write to me. I read everything.</p>'+
+    '<span class="mail">' + ME.email + '</span>' + linksRow() }
+];
+var CHAPTERS = [ {name:'Profile', label:'PROFILE', first:'profile'}, {name:'Work', label:'WORK', first:'work'}, {name:'Projects', label:'PROJECTS', first:'projects'}, {name:'Side quests', label:'SIDE QUESTS', short:'QUESTS', first:'quests'}, {name:'Journal', label:'JOURNAL', first:'journal'} ];
+var IDX = {}; PAGES.forEach(function(p, i){ IDX[p.id] = i; });
+PAGES.forEach(function(p){ p.html = p.html.replace(/\{\{(#?)(\w+)\}\}/g, function(m, n, id){ return n ? IDX[id] + 1 : IDX[id]; }); });
+CHAPTERS.forEach(function(c){ c.page = IDX[c.first]; });
+var N = PAGES.length;
+
+/* ---------- layout ---------- */
+var book = $('book'), L = $('L'), R = $('R'), leaf = $('leaf'), cast = $('cast');
+var cover = $('cover'), coverB = $('coverB'), bookbg = $('bookbg'), tabsEl = $('tabs');
+var backBoard = $('backBoard'), bbF = $('bbF'), bbB = $('bbB'), tabF = $('tabF'), tabB = $('tabB');
+function syncRideTabs(){ tabF.innerHTML = tabB.innerHTML = tabsEl.innerHTML; tabF.querySelectorAll('button').forEach(function(b){ b.tabIndex = -1; }); tabB.querySelectorAll('button').forEach(function(b){ b.tabIndex = -1; }); }
+var cNext = $('cNext'), cPrev = $('cPrev'), canvas = $('ink'), ctx = canvas.getContext('2d');
+var mode = 'spread', PW = 520, PH = 660, BW = 1040, scale = 1;
+var zoom = Math.max(.6, Math.min(1.6, parseFloat(store('nb-zoom')) || 1));
+var pos = 0, closed = true, busy = false, signed = false, backClosed = false;
+
+function pageHTML(i, side){
+  if(i < 0 || i >= N) return '<div class="pg '+side+'"></div>';
+  var p = PAGES[i];
+  return '<div class="pg '+side+'"><div class="pc">'+(typeof stickyIds === 'function' ? stickyIds(p.html, i) : p.html).replace('<!--TTT-->', typeof tttHTML === 'function' ? tttHTML() : '')+'</div>'+(typeof pinsHTML === 'function' ? pinsHTML(i) + agPageHTML(i) : '')+(p.num===false?'':'<div class="pfoot">p. '+(i+1)+'</div>')+'</div>';
+}
+function lastPos(){ return mode === 'spread' ? Math.ceil(N/2) - 1 : N - 1; }
+function currentChapter(){ var i = mode === 'spread' ? 2*pos + 1 : pos; i = Math.min(i, N-1); return PAGES[i].ch; }
+
+function render(){
+  if(mode === 'spread'){ L.innerHTML = pageHTML(2*pos, 'left'); R.innerHTML = pageHTML(2*pos+1, 'right'); }
+  else { R.innerHTML = pageHTML(pos, 'single'); L.innerHTML = ''; }
+  leaf.hidden = true; leaf.innerHTML = ''; leaf.style.transform = ''; leaf.style.opacity = '';
+  book.classList.remove('turning');
+  cNext.hidden = closed || backClosed;
+  cPrev.hidden = closed || backClosed || mode === 'single';
+  tabsEl.style.visibility = backClosed ? 'hidden' : '';
+  renderTabs(); updateBar(); mountVideos();
+  if(typeof paintAgent === 'function' && agent) paintAgent();
+}
+function mountVideos(){
+  if(closed || backClosed) return;
+  [L, R].forEach(function(slot){
+  slot.querySelectorAll('.vid[data-file]:not(.on)').forEach(function(v){
+    var el = document.createElement('video');
+    v.classList.add('on'); el.muted = true; el.loop = true; el.playsInline = true; el.preload = 'auto'; el.setAttribute('aria-label', 'Demo video'); el.src = v.dataset.file;
+    el.addEventListener('playing', function(){ v.classList.add('live'); });
+    v.appendChild(el);
+    if(RM){ el.controls = true; v.classList.add('live'); } else { var pr = el.play(); if(pr && pr.catch) pr.catch(function(){}); }
+  });
+  if(!RM) slot.querySelectorAll('.vid[data-yt]:not(.on)').forEach(function(v){
+    var id = v.dataset.yt, f = document.createElement('iframe');
+    v.classList.add('on'); f.title = 'Demo video'; f.tabIndex = -1; f.setAttribute('aria-hidden', 'true'); f.allow = 'autoplay; encrypted-media';
+    f.src = 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&mute=1&loop=1&playlist=' + id + '&controls=0&rel=0&playsinline=1&iv_load_policy=3&disablekb=1&fs=0&modestbranding=1&cc_load_policy=0';
+    /* keep the still over the player until YouTube's title card has faded */
+    f.onload = function(){ v.classList.add('live'); };
+    v.appendChild(f);
+  });
+  slot.querySelectorAll('.vid[data-src]:not(.on)').forEach(function(v){
+    var f = document.createElement('iframe');
+    v.classList.add('on', 'live'); f.title = 'Embedded media'; f.src = v.dataset.src; f.setAttribute('scrolling', 'no');
+    f.allow = 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture'; f.loading = 'lazy';
+    v.appendChild(f);
+  }); });
+}
+function renderTabs(){
+  var ch = closed ? -1 : currentChapter();
+  tabsEl.innerHTML = CHAPTERS.map(function(c, k){
+    var on = k === ch;
+    return '<button class="tab'+(on?' on':'')+'" data-k="'+k+'" aria-label="'+c.name+'"'+(on?' aria-current="page"':'')+'><span>'+(mode==='single' ? (c.short || c.label) : c.label)+'</span></button>';
+  }).join('');
+}
+function updateBar(){
+  var w = $('where');
+  if(closed){ w.textContent = 'Closed'; }
+  else if(backClosed){ w.textContent = 'Back cover'; }
+  else if(mode === 'spread'){ w.textContent = CHAPTERS[currentChapter()].name + ' · ' + (pos+1) + ' of ' + (lastPos()+1); }
+  else { w.textContent = CHAPTERS[currentChapter()].name + ' · ' + (pos+1) + ' of ' + N; }
+  $('bPrev').disabled = busy;
+  $('bNext').disabled = busy;
+  $('bClose').disabled = busy || closed || backClosed;
+  $('pgnum').textContent = closed ? 'cover' : backClosed ? 'back' : mode === 'spread' ? (2 * pos + 1) + '–' + Math.min(N, 2 * pos + 2) + ' / ' + N : (pos + 1) + ' / ' + N;
+}
+
+function layout(){
+  var vw = window.innerWidth, vh = window.innerHeight;
+  var barH = (vw <= 560 ? 82 : vw < 1100 ? 86 : 46) + 28;   // the book keeps the size it had with the old control row
+  var availW = document.body.clientWidth, availH = vh - barH - 16;
+  var newMode = availW >= 760 ? 'spread' : 'single';
+  if(newMode !== mode){
+    if(newMode === 'single') pos = closed ? 0 : Math.min(N-1, Math.max(0, 2*pos + (pos === 0 ? 1 : 0)));
+    else pos = Math.floor(pos/2);
+    mode = newMode;
+  }
+  book.className = 'book ' + mode;
+  var tabsTop = mode === 'single' ? 50 : 0;
+  var hintH = 80;
+  if(mode === 'spread'){ PW = 520; PH = 660; BW = 1040; }
+  else { PW = 400; PH = Math.max(560, Math.min(700, Math.round(400 * (availH - 100) / Math.max(availW, 1)))); BW = 400; }
+  var designW = mode === 'spread' ? BW + 110 : BW + 4;
+  var designH = PH + tabsTop + hintH;
+  scale = Math.min(availW / designW, availH / designH, mode === 'spread' ? 1.25 : 1.4) * zoom;
+  $('stage').classList.toggle('zoomed', zoom > 1.001);
+  document.body.classList.toggle('zoomed', zoom > 1.001);
+  var box = $('box'), fit = $('fit');
+  box.style.width = (designW * scale) + 'px'; box.style.height = ((tabsTop + PH) * scale) + 'px';
+  $('stage').style.height = vh + 'px';   // zoomed in, the page scrolls under the toggles
+  fit.style.width = designW + 'px'; fit.style.height = designH + 'px';
+  fit.style.transform = 'scale(' + scale + ')';
+  var left = mode === 'spread' ? 55 : 2;
+  book.style.left = left + 'px'; book.style.top = tabsTop + 'px';
+  book.style.width = BW + 'px'; book.style.height = PH + 'px';
+  $('hint').style.top = (tabsTop + PH + 22) + 'px';
+  if(mode === 'spread'){ L.style.left = '0px'; L.style.width = PW + 'px'; R.style.left = PW + 'px'; R.style.width = PW + 'px'; }
+  else { L.style.width = '0px'; R.style.left = '0px'; R.style.width = PW + 'px'; }
+  cover.style.left = (mode === 'spread' ? PW : 0) + 'px'; cover.style.width = PW + 'px';
+  cover.style.transformOrigin = 'left center';
+  coverB.innerHTML = mode === 'spread' ? pageHTML(0, 'left') : '<div class="pg single"></div>';
+  // signature label position scales with page width
+  var lab = $('label'); lab.style.left = (mode === 'spread' ? 84 : 52) + 'px'; lab.style.top = Math.round(PH * .33) + 'px';
+  lab.style.width = (mode === 'spread' ? 272 : 250) + 'px';
+  cover.querySelector('.doodle').style.left = (mode === 'spread' ? 84 : 52) + 'px';
+  cover.querySelector('.band').style.right = (mode === 'spread' ? 46 : 34) + 'px';
+  backBoard.style.width = PW + 'px'; backBoard.style.transformOrigin = mode === 'spread' ? 'left center' : 'right center';
+  backBoard.style.left = (mode === 'spread' ? PW : 0) + 'px';
+  var ext = exteriorHTML();
+  if(mode === 'spread'){ bbF.innerHTML = pageHTML(N - 1, 'right'); bbB.innerHTML = ext; }
+  else { bbF.innerHTML = ext; bbB.innerHTML = '<div class="pg single"></div>'; }
+  var k = Math.min(PW / 520, PH / 660), stk = backBoard.querySelector('.stks');
+  if(stk){ stk.style.transform = 'scale(' + k + ')'; stk.style.left = ((PW - 520 * k) / 2) + 'px'; stk.style.top = ((PH - 660 * k) / 2) + 'px'; }
+  sizeCanvas();
+  render();
+  applyCover(closed ? 0 : 1);
+  if(backClosed) applyBack(1); else backBoard.hidden = true;
+}
+
+/* ---------- back cover: stickers of things I like (type and simple drawings, no logos) ---------- */
+function stickersHTML(){
+  function st(x, y, rot, css, inner){ return '<div class="stk" style="left:'+x+'px;top:'+y+'px;transform:rotate('+rot+'deg);'+css+'">'+inner+'</div>'; }
+  var palm = '<svg width="42" height="40" viewBox="0 0 42 40" fill="none" stroke="#3A1F1A" stroke-width="2.2" stroke-linecap="round"><path d="M22 39c0-12 1-20 4-27"/><path d="M26 12c-5-5-13-5-18-1M26 12c1-6 7-10 13-9M26 12c4-3 11-2 14 3M26 12c-6-1-12 3-14 8"/></svg>';
+  var bridge = '<svg width="74" height="36" viewBox="0 0 74 36" fill="none" stroke="#C0362C" stroke-width="2.4" stroke-linecap="round"><path d="M16 34V4M58 34V4M2 26h70M2 10c8 14 22 16 35 16S64 24 72 10M16 6c10 12 32 12 42 0"/></svg>';
+  var cup = '<svg width="38" height="34" viewBox="0 0 38 34" fill="none" stroke="#F3E6D3" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h22v8a10 10 0 0 1-10 10h-2A10 10 0 0 1 5 20z"/><path d="M27 15h3a4 4 0 0 1 0 8h-3M11 3c-1.5 2 1.5 3 0 5M17 3c-1.5 2 1.5 3 0 5"/></svg>';
+  var mic = '<svg width="22" height="30" viewBox="0 0 22 30" fill="none" stroke="#171717" stroke-width="2" stroke-linecap="round"><rect x="6" y="2" width="10" height="16" rx="5"/><path d="M2 14a9 9 0 0 0 18 0M11 23v5M6 28h10"/></svg>';
+  var pad = '<svg width="52" height="30" viewBox="0 0 52 30" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h24c7 0 12 7 12 15 0 6-3 9-6 9-4 0-6-6-10-6H18c-4 0-6 6-10 6-3 0-6-3-6-9C2 11 7 4 14 4z"/><path d="M14 11v8M10 15h8"/><circle cx="36" cy="13" r="1.4" fill="#FFFFFF"/><circle cx="40" cy="17" r="1.4" fill="#FFFFFF"/></svg>';
+  var ball = '<svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="#FFFFFF" stroke-width="1.6"><circle cx="11" cy="11" r="9"/><path d="M11 6l4 3-1.5 5h-5L7 9z"/></svg>';
+  return '<div class="stks">'+
+    st(46, 64, -8, 'width:178px;height:70px;border-radius:12px;background:#182B49;color:#FFCD00;font-size:16px', 'UC SAN DIEGO<small style="color:#C9D3E6">2022–26</small>')+
+    st(300, 40, 10, 'width:124px;height:124px;border-radius:50%;background:#003262;color:#FDB515;font-size:16px', 'BERKELEY<small style="color:#C9D3E6">MENG ’27</small>')+
+    st(64, 172, 6, 'width:168px;height:86px;border-radius:50%;background:#F3EBDD;color:#1F4D3A;font-size:12.5px', 'THE DOON SCHOOL<small style="color:#4F6B5D">DEHRADUN</small>')+
+    st(276, 196, -5, 'width:150px;height:70px;border-radius:10px;background:#F4A300;color:#2A1A05;font-size:27px;font-weight:600', 'कानपुर<small>KANPUR</small>')+
+    st(40, 300, -12, 'width:122px;height:122px;border-radius:50%;background:linear-gradient(180deg,#FFC46B,#FF8A5B);color:#3A1F1A;font-size:11.5px', palm+'SAN DIEGO')+
+    st(192, 292, 7, 'width:134px;height:96px;border-radius:14px;background:#DDE1E6;color:#2E3440;font-size:13px', bridge+'SAN FRANCISCO')+
+    st(358, 300, -6, 'width:104px;height:104px;border-radius:50%;background:#6F4E37;color:#F3E6D3;font-family:var(--hand);font-size:21px;font-weight:600;letter-spacing:0', cup+'coffee first')+
+    st(52, 456, 4, 'width:156px;height:62px;border-radius:8px;background:#FFFFFF;color:#171717;flex-direction:row;gap:10px;font-size:12px', mic+'<span>' + (ME.podcast.name ? ME.podcast.name.toUpperCase() : 'MY<br>PODCAST') + '</span>')+
+    st(226, 440, -9, 'width:132px;height:86px;border-radius:18px;background:#5B3FD9;color:#FFFFFF;font-size:11px', pad+'<small style="color:#E4DCFF">PLAYER 1</small>')+
+    st(380, 424, 12, 'width:112px;height:112px;border-radius:50%;background:#034694;color:#FFFFFF;font-size:15px', ball+'CHELSEA<small style="color:#C9D8F0">THE BLUES</small>')+
+    st(140, 566, -3, 'width:184px;height:52px;border-radius:6px;background:linear-gradient(90deg,#111 0 6px,#fff 6px 12px,#111 12px 18px,#fff 18px 24px,#E10600 24px);color:#FFFFFF;font-size:15px;font-style:italic;padding-left:18px;box-sizing:border-box', 'LIGHTS OUT')+
+  '</div>';
+}
+function exteriorHTML(){ return '<div class="cv backside"><div class="spine"></div><div class="band"></div>'+stickersHTML()+'</div>'; }
+
+/* ---------- cover ---------- */
+var oshade = $('oshade');
+/* the open book sits a little heavier on the desk than the closed one. That extra shadow fades in
+   with the cover, so it reaches full strength exactly as the cover lands */
+function shadeSide(o){
+  o = Math.max(0, Math.min(1, o));
+  oshade.style.display = o > .001 ? 'block' : 'none';
+  oshade.style.opacity = String(o);
+  oshade.style.left = bookbg.style.left || '0px'; oshade.style.right = bookbg.style.right || '0px';
+}
+function applyCover(p){
+  cover.hidden = p >= 1;
+  cover.style.transform = 'rotateY(' + (-180 * p) + 'deg)';
+  cover.firstElementChild.style.visibility = p < .5 ? 'visible' : 'hidden';
+  coverB.style.visibility = p < .5 ? 'hidden' : 'visible';
+  $('coverShadeF').style.opacity = String(Math.min(1, p * 2) * .45);
+  if(mode === 'spread'){
+    book.style.transform = 'translateX(' + (-PW / 2 * (1 - p)) + 'px)';
+    L.style.visibility = p >= 1 ? 'visible' : 'hidden';
+    // one block of paper, one shadow: its left edge follows the cover out across the desk, so the shadow grows evenly
+    bookbg.style.left = (p >= 1 ? 0 : PW - PW * Math.max(0, -Math.cos(Math.PI * p))) + 'px';
+    shadeSide(p);
+    cover.style.opacity = '';
+  } else {
+    book.style.transform = '';
+    bookbg.style.left = '0px'; shadeSide(p);
+    cover.style.opacity = String(p < .55 ? 1 : Math.max(0, 1 - (p - .55) / .45));
+  }
+}
+function tween(fn, from, to, dur){
+  return new Promise(function(res){
+    if(RM || dur <= 1){ fn(to); res(); return; }
+    var t0 = performance.now();
+    function f(now){
+      var k = Math.min(1, (now - t0) / dur);
+      var e = k < .5 ? 4*k*k*k : 1 - Math.pow(-2*k + 2, 3) / 2;
+      fn(from + (to - from) * e);
+      if(k < 1) requestAnimationFrame(f); else res();
+    }
+    requestAnimationFrame(f);
+  });
+}
+function wait(ms){ return new Promise(function(r){ setTimeout(r, RM ? 0 : ms); }); }
+
+function signLabel(){
+  if(signed || RM){ signed = true; $('label').classList.add('signed'); return Promise.resolve(); }
+  var sig = cover.querySelector('.sig');
+  sound.signature(1.05);
+  return tween(function(p){ sig.style.clipPath = 'inset(0 ' + (100 - p * 100) + '% 0 0)'; }, 0, 1, 1050).then(function(){
+    signed = true; $('label').classList.add('signed'); sig.style.clipPath = '';
+  });
+}
+function openBook(fast){
+  if(!closed || busy) return Promise.resolve();
+  busy = true; updateBar(); sound.wake();
+  var go = fast ? Promise.resolve() : signLabel().then(function(){ return wait(260); });
+  return go.then(function(){
+    if(!signed){ signed = true; $('label').classList.add('signed'); }
+    sound.cover(fast ? .55 : 1.25);
+    var f0 = lifted; lifted = 0; return tween(applyCover, f0, 1, fast ? 550 : 1250);
+  }).then(function(){ closed = false; busy = false; render(); });
+}
+function closeBook(){
+  if(closed || busy) return;
+  busy = true; fadeInk(); sound.cover(1.0, true);
+  pos = 0; closed = true; render(); busy = true; updateBar();
+  cover.hidden = false;
+  tween(applyCover, 1, 0, 1000).then(function(){ busy = false; render(); applyCover(0); });
+}
+
+/* ---------- page turns ---------- */
+/* A page is cut into vertical strips that each rotate a little more than the last,
+   so the sheet bends as it turns. The cover is board, so it stays stiff. */
+var CURL = { strips: 24, bend: 62, lift: 0.6 };
+function buildCurl(frontHTML, backHTML, side, n){
+  var sw = PW / n, strips = [], fronts = [], backs = [], fsh = [], bsh = [];
+  var parent = leaf;
+  for(var i = 0; i < n; i++){
+    var st = document.createElement('div'); st.className = 'strip';
+    st.style.width = (sw + 1) + 'px';
+    if(side === 'r'){ st.style.left = (i === 0 ? 0 : sw) + 'px'; st.style.transformOrigin = 'left center'; }
+    else { st.style.left = (i === 0 ? PW - sw : -sw) + 'px'; st.style.transformOrigin = (i === 0 ? sw : sw) + 'px 50%'; }
+    var fOff = side === 'r' ? -i * sw : -(PW - (i + 1) * sw);
+    var bOff = side === 'r' ? -(PW - (i + 1) * sw) : -i * sw;
+    var f = document.createElement('div'); f.className = 'sface front';
+    f.innerHTML = '<div class="inner" style="left:' + fOff + 'px;width:' + PW + 'px">' + frontHTML + '</div><div class="sshade"></div>';
+    var bk = document.createElement('div'); bk.className = 'sface back';
+    bk.innerHTML = '<div class="inner" style="left:' + bOff + 'px;width:' + PW + 'px">' + backHTML + '</div><div class="sshade"></div>';
+    st.appendChild(f); st.appendChild(bk); parent.appendChild(st); parent = st;
+    strips.push(st); fronts.push(f); backs.push(bk); fsh.push(f.lastChild); bsh.push(bk.lastChild);
+  }
+  // weights grow toward the free edge, so the corner leads and the spine follows
+  var w = [], tot = 0; for(var k = 1; k < n; k++){ var v = Math.pow(k / n, 1.6); w.push(v); tot += v; }
+  w = w.map(function(v){ return v / tot; });
+  return function(p){
+    var sgn = side === 'r' ? -1 : 1;
+    var base = 180 * p * sgn;
+    var bend = Math.sin(Math.PI * p) * CURL.bend * sgn;
+    var cum = base, prev = base;
+    for(var i = 0; i < n; i++){
+      if(i === 0){ strips[0].style.transform = 'rotateY(' + base + 'deg) translateZ(' + (CURL.lift * Math.sin(Math.PI * p)) + 'px)'; }
+      else {
+        var target = cum + bend * w[i - 1];
+        target = sgn < 0 ? Math.max(-180, target) : Math.min(180, target);
+        var d = target - cum; cum = target;
+        strips[i].style.transform = 'rotateY(' + d + 'deg)';
+      }
+      var a = Math.abs(cum) * Math.PI / 180;
+      var frontUp = Math.abs(cum) < 90;
+      fronts[i].style.visibility = frontUp ? 'visible' : 'hidden';
+      backs[i].style.visibility = frontUp ? 'hidden' : 'visible';
+      var shade = Math.sin(a);
+      fsh[i].style.opacity = String(shade * .28);
+      bsh[i].style.opacity = String(shade * .22);
+    }
+  };
+}
+function setupTurn(dir, target){
+  if(closed) return null;
+  var last = lastPos();
+  if(target === undefined) target = pos + dir;
+  if(target > last || target < 0 || target === pos) return null;
+  dir = target > pos ? 1 : -1;
+  leaf.innerHTML = ''; leaf.hidden = false; leaf.style.opacity = '';
+  book.classList.add('turning');
+  if(typeof closeAgent === 'function' && agOpen) closeAgent();
+  leaf.style.width = PW + 'px'; leaf.style.transform = '';
+  var n = mode === 'spread' ? CURL.strips : Math.round(CURL.strips * .75);
+  var bend, apply, castSide;
+  if(mode === 'spread'){
+    if(dir > 0){
+      leaf.style.left = PW + 'px';
+      bend = buildCurl(pageHTML(2*pos+1, 'right'), pageHTML(2*target, 'left'), 'r', n);
+      R.innerHTML = pageHTML(2*target+1, 'right'); castSide = 'r';
+    } else {
+      leaf.style.left = '0px';
+      bend = buildCurl(pageHTML(2*pos, 'left'), pageHTML(2*target+1, 'right'), 'l', n);
+      L.innerHTML = pageHTML(2*target, 'left'); castSide = 'l';
+    }
+    apply = function(p){ bend(p); castShadow(castSide, p); };
+  } else {
+    leaf.style.left = '0px';
+    if(dir > 0){
+      bend = buildCurl(pageHTML(pos, 'single'), '<div class="pg single"></div>', 'r', n);
+      R.innerHTML = pageHTML(target, 'single');
+      apply = function(p){ bend(p); leaf.style.opacity = p < .55 ? 1 : Math.max(0, 1 - (p - .55)/.45); castShadow('r', p); };
+    } else {
+      bend = buildCurl(pageHTML(target, 'single'), '<div class="pg single"></div>', 'r', n);
+      apply = function(p){ var q = 1 - p; bend(q); leaf.style.opacity = q < .55 ? 1 : Math.max(0, 1 - (q - .55)/.45); castShadow('r', q); };
+    }
+  }
+  apply(0);
+  return {
+    apply: apply,
+    done: function(){ pos = target; cast.style.opacity = 0; render(); },
+    cancel: function(){ cast.style.opacity = 0; render(); }
+  };
+}
+function castShadow(side, p){
+  cast.style.width = PW + 'px';
+  cast.style.left = (side === 'r' && mode === 'spread' ? PW : 0) + 'px';
+  cast.style.background = side === 'r'
+    ? 'linear-gradient(90deg, rgba(0,0,0,.22), rgba(0,0,0,0) ' + (20 + 70 * (1 - p)) + '%)'
+    : 'linear-gradient(270deg, rgba(0,0,0,.22), rgba(0,0,0,0) ' + (20 + 70 * (1 - p)) + '%)';
+  cast.style.opacity = String(Math.sin(Math.PI * p));
+}
+function turn(dir, dur, soft, target){
+  if(busy || closed) return Promise.resolve(false);
+  var t = setupTurn(dir, target);
+  if(!t) return Promise.resolve(false);
+  busy = true; updateBar(); fadeInk();
+  dur = dur || 820;
+  sound.page(dur / 1000, soft ? .8 : 1);
+  return tween(t.apply, 0, 1, dur).then(function(){ busy = false; t.done(); return true; });
+}
+function jumpToChapter(k){
+  var target = mode === 'spread' ? Math.floor(CHAPTERS[k].page / 2) : CHAPTERS[k].page;
+  var run = closed ? openBook(true) : Promise.resolve();
+  run.then(function(){
+    if(backClosed) return;
+    if(pos === target) return;
+    turn(target > pos ? 1 : -1, 900, Math.abs(target - pos) > 1, target);
+  });
+}
+
+/* closing from the back: the back board swings over and the stickers face up */
+function applyBack(p){
+  backBoard.hidden = p <= 0;
+  if(mode === 'spread'){
+    backBoard.style.transform = 'rotateY(' + (-180 * p) + 'deg)';
+    bbF.style.visibility = p < .5 ? 'visible' : 'hidden'; bbB.style.visibility = p < .5 ? 'hidden' : 'visible';
+    book.style.transform = 'translateX(' + (PW / 2 * p) + 'px)';
+    R.style.visibility = p > 0 ? 'hidden' : 'visible';
+    bookbg.style.right = (p <= 0 ? 0 : PW - PW * Math.max(0, Math.cos(Math.PI * p))) + 'px';
+    shadeSide(1 - p);
+    L.style.visibility = p >= 1 ? 'hidden' : 'visible';
+    // the tabs ride along on the swinging board: readable from the front, mirrored round from the back
+    // the tabs stay where they are and quietly fade as the back cover closes (and return as it opens)
+    tabF.style.visibility = 'hidden'; tabB.style.visibility = 'hidden';
+    tabsEl.style.opacity = String(1 - smooth(clamp01(p / .5))); tabsEl.style.visibility = p >= 1 ? 'hidden' : '';
+  } else {
+    var q = 1 - p; // on a phone the back cover swings in from the right, past the last page
+    backBoard.style.transform = 'rotateY(' + (180 * q) + 'deg)';
+    bbF.style.visibility = q < .5 ? 'visible' : 'hidden'; bbB.style.visibility = q < .5 ? 'hidden' : 'visible';
+    backBoard.style.opacity = String(p < .45 ? p / .45 : 1);
+    tabsEl.style.opacity = String(1 - smooth(clamp01(p / .4))); tabsEl.style.visibility = p >= 1 ? 'hidden' : '';   // the tabs along the top fade as the back cover swings in
+    shadeSide(1 - p);
+  }
+}
+function closeBack(){
+  if(closed || backClosed || busy) return;
+  var target = lastPos();
+  var go = pos === target ? Promise.resolve() : turn(1, 760, true, target);
+  go.then(function(){
+    if(busy) return;
+    busy = true; fadeInk(); updateBar();
+    syncRideTabs();
+    sound.cover(1.1, true);
+    backBoard.hidden = false; book.classList.add('turning');
+    tween(applyBack, 0, 1, 1100).then(function(){ backClosed = true; busy = false; render(); });
+  });
+}
+function openBack(){
+  if(!backClosed || busy) return;
+  busy = true; updateBar(); sound.cover(1.0);
+  backClosed = false; book.classList.add('turning');
+  tween(applyBack, 1, 0, 1000).then(function(){ busy = false; bookbg.style.right = '0px'; R.style.visibility = ''; L.style.visibility = ''; render(); });
+}
+function jumpToPage(page){
+  if(isNaN(page)) return;
+  var target = mode === 'spread' ? Math.floor(page / 2) : page;
+  if(target === pos || busy) return;
+  sound.wake();
+  turn(target > pos ? 1 : -1, 900, Math.abs(target - pos) > 1, target);
+}
+book.addEventListener('click', function(e){
+  var g = e.target.closest('.go'); if(!g || closed || backClosed) return;
+  e.preventDefault(); sound.tab(); jumpToPage(+g.dataset.go);
+});
+backBoard.addEventListener('click', function(){ if(eatClick) return; sound.wake(); openBack(); });
+backBoard.addEventListener('keydown', function(e){ if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); openBack(); } });
+
+/* drag a corner */
+var drag = null;
+function cornerDown(e, dir){
+  e.preventDefault(); e.stopPropagation();
+  if(busy || closed || backClosed) return;
+  sound.wake();
+  if(dir > 0 && pos >= lastPos()){ closeBack(); return; }
+  if(dir < 0 && pos <= 0){ closeBook(); return; }
+  var t = setupTurn(dir); if(!t) return;
+  busy = true; fadeInk();
+  drag = { t:t, dir:dir, x0:e.clientX, p:0, moved:false, id:e.pointerId, el:e.currentTarget, t0:performance.now(), lastX:e.clientX, lastT:performance.now(), v:0 };
+  try{ e.currentTarget.setPointerCapture(e.pointerId); }catch(err){}
+  sound.lift(); t.apply(.03);
+  // hold still for a moment and the pages start to run, like thumbing a flipbook
+  drag.hold = setTimeout(function(){ if(drag && !drag.moved){ var d = drag; drag = null; d.t.cancel(); busy = false; riffle(d.dir); } }, 420);
+}
+function cornerMove(e){
+  if(!drag || e.pointerId !== drag.id) return;
+  var dx = (e.clientX - drag.x0) * (drag.dir > 0 ? -1 : 1);
+  if(Math.abs(dx) > 4){ drag.moved = true; clearTimeout(drag.hold); }
+  var span = PW * scale * (mode === 'spread' ? 1.5 : 1);
+  drag.p = Math.max(0, Math.min(1, dx / span));
+  var now = performance.now();
+  drag.v = ((e.clientX - drag.lastX) * (drag.dir > 0 ? -1 : 1)) / Math.max(1, now - drag.lastT);
+  drag.lastX = e.clientX; drag.lastT = now;
+  drag.t.apply(drag.p);
+  sound.rustle(Math.min(1, Math.abs(drag.v)));
+}
+function cornerUp(e){
+  if(riff && !drag){ riff.stop = true; return; }
+  if(!drag || e.pointerId !== drag.id) return;
+  var d = drag; drag = null; clearTimeout(d.hold); sound.rustle(0);
+  var complete = !d.moved || d.p > .32 || d.v > .6;
+  if(complete){
+    var rest = (1 - d.p);
+    var dur = d.moved ? 180 + 520 * rest : 820;
+    sound.page(dur / 1000, d.moved ? .7 : 1);
+    tween(d.t.apply, d.p, 1, dur).then(function(){ busy = false; d.t.done(); });
+  } else {
+    tween(d.t.apply, d.p, 0, 160 + 300 * d.p).then(function(){ busy = false; d.t.cancel(); });
+  }
+}
+[cNext, cPrev].forEach(function(el){
+  var dir = el === cNext ? 1 : -1;
+  el.addEventListener('pointerdown', function(e){ cornerDown(e, dir); });
+  el.addEventListener('pointermove', cornerMove);
+  el.addEventListener('pointerup', cornerUp);
+  el.addEventListener('pointercancel', cornerUp);
+  el.addEventListener('keydown', function(e){ if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); step(dir); } });
+});
+
+var riff = null;
+function riffle(dir){
+  if(riff || busy || closed || backClosed) return;
+  riff = { dir:dir, n:0, stop:false };
+  (function next(){
+    if(!riff) return;
+    if(riff.stop){ riff = null; busy = false; updateBar(); return; }
+    var saved = CURL.strips; CURL.strips = 8;   // fewer strips: riffled pages move too fast to see the bend
+    var t = setupTurn(dir); CURL.strips = saved;
+    if(!t){ riff = null; busy = false; updateBar(); return; }
+    busy = true; fadeInk();
+    var dur = Math.max(120, 330 - riff.n * 38); riff.n++;
+    sound.page(dur / 1000, .45);
+    tween(t.apply, 0, 1, dur).then(function(){ t.done(); next(); });
+  })();
+}
+['pointerup', 'pointercancel'].forEach(function(ev){ document.addEventListener(ev, function(){ if(riff) riff.stop = true; }); });
+document.addEventListener('keyup', function(e){ if(riff && (e.key === 'ArrowRight' || e.key === 'ArrowLeft')) riff.stop = true; });
+
+/* ---------- turning the whole notebook over: back cover to front, front to back ---------- */
+/* While it turns over, the notebook is stood in for by a simple 3D block: two faces with real
+   thickness between them, a spine on one side and page edges on the other. The real book is
+   swapped to its other side out of sight, so nothing from the open pages can show through. */
+var flip = null;
+function faceEl(side){
+  var f = document.createElement('div'); f.className = 'fface';
+  f.style.width = PW + 'px'; f.style.height = PH + 'px';
+  if(side === 'front'){
+    var c = cover.firstElementChild.cloneNode(true); c.style.visibility = 'visible';
+    c.querySelectorAll('[id]').forEach(function(n){ n.removeAttribute('id'); }); c.removeAttribute('id');
+    f.appendChild(c);
+  } else {
+    f.innerHTML = exteriorHTML();
+    var k = Math.min(PW / 520, PH / 660), s = f.querySelector('.stks');
+    if(s){ s.style.transform = 'scale(' + k + ')'; s.style.left = ((PW - 520 * k) / 2) + 'px'; s.style.top = ((PH - 660 * k) / 2) + 'px'; }
+  }
+  return f;
+}
+function flipBuild(){
+  if(flip) return flip;
+  var now = backClosed ? 'back' : 'front', other = now === 'front' ? 'back' : 'front';
+  var r = (backClosed ? backBoard : cover).getBoundingClientRect();
+  var W = r.width, H = r.height, k = W / PW, T = Math.max(10, Math.round(22 * k));
+  var wrap = document.createElement('div'); wrap.className = 'flipwrap';
+  wrap.style.cssText = 'left:' + r.left + 'px;top:' + r.top + 'px;width:' + W + 'px;height:' + H + 'px;perspective:' + Math.round(2600 * k) + 'px';
+  var card = document.createElement('div'); card.className = 'flipcard'; wrap.appendChild(card);
+  function side(which, back){
+    var s = document.createElement('div'); s.className = 'fside';
+    s.style.transform = (back ? 'rotateY(180deg) ' : '') + 'translateZ(' + (T / 2) + 'px)';
+    var f = faceEl(which); f.style.transform = 'scale(' + k + ')'; s.appendChild(f); card.appendChild(s);
+  }
+  side(now, false); side(other, true);
+  function edge(x, rot, kind){ var e = document.createElement('div'); e.className = 'fedge ' + kind; e.style.cssText = 'left:' + (x - T / 2) + 'px;width:' + T + 'px;height:' + H + 'px;transform:rotateY(' + rot + 'deg)'; card.appendChild(e); }
+  var spineLeft = now === 'front';
+  edge(0, -90, spineLeft ? 'spine' : 'pages');
+  edge(W, 90, spineLeft ? 'pages' : 'spine');
+  document.body.appendChild(wrap);
+  $('box').style.opacity = '0';   // opacity, not visibility: parts of the book set their own visibility
+  flip = { wrap:wrap, card:card };
+  return flip;
+}
+function flipAngle(a){ flipBuild().card.style.transform = 'rotateY(' + a + 'deg)'; }
+function flipEnd(){ if(!flip) return; flip.wrap.remove(); flip = null; $('box').style.opacity = ''; }
+function swapSides(to){
+  if(to === 'front'){
+    backClosed = false; applyBack(0); bookbg.style.right = '0px'; R.style.visibility = ''; L.style.visibility = '';
+    pos = 0; closed = true; cover.hidden = false; render(); applyCover(0);
+  } else {
+    closed = false; pos = lastPos(); applyCover(1); render();
+    syncRideTabs(); backBoard.hidden = false; backClosed = true; applyBack(1); render();
+  }
+}
+function flipOver(to, from, sign){
+  if(busy) return;
+  busy = true; updateBar(); sound.wake(); fadeInk();
+  if(typeof closeAgent === 'function' && agOpen) closeAgent();
+  sign = sign || (to === 'front' ? -1 : 1); from = from || 0;   // from: degrees already turned
+  if(!from) liftCover(0);
+  flipBuild(); sound.cover(.8, true);
+  var left = 180 - Math.abs(from);
+  tween(function(a){ flipAngle(sign * a); }, Math.abs(from), 180, 260 + 560 * left / 180).then(function(){
+    swapSides(to); flipEnd(); busy = false; updateBar();
+  });
+}
+/* grab a closed cover and drag sideways to turn the notebook over; a plain tap still opens it */
+var cdrag = null, eatClick = false;
+function coverGrab(e, to){ if(busy || (e.button !== undefined && e.button !== 0)) return; cdrag = { x0:e.clientX, id:e.pointerId, to:to, p:0, moved:false, sign:1 }; }
+cover.addEventListener('pointerdown', function(e){ if(closed) coverGrab(e, 'back'); });
+backBoard.addEventListener('pointerdown', function(e){ if(backClosed) coverGrab(e, 'front'); });
+document.addEventListener('pointermove', function(e){
+  if(!cdrag || e.pointerId !== cdrag.id) return;
+  var dx = e.clientX - cdrag.x0;
+  if(!cdrag.moved && Math.abs(dx) > 10){ cdrag.moved = true; if(cdrag.to === 'back') liftCover(0); sound.lift(); }
+  if(!cdrag.moved) return;
+  cdrag.sign = dx < 0 ? -1 : 1;
+  cdrag.p = Math.min(1, Math.abs(dx) / Math.max(120, $('box').offsetWidth * .45));
+  flipAngle(cdrag.sign * 90 * cdrag.p);
+});
+document.addEventListener('pointerup', function(e){
+  if(!cdrag || e.pointerId !== cdrag.id) return;
+  var d = cdrag; cdrag = null; if(!d.moved) return;
+  eatClick = true; setTimeout(function(){ eatClick = false; }, 60);
+  if(d.p > .3) flipOver(d.to, d.sign * 90 * d.p, d.sign);
+  else tween(function(p){ flipAngle(d.sign * 90 * p); }, d.p, 0, 220).then(flipEnd);
+});
+
+/* ---------- pencil doodles that fade ---------- */
+var strokes = [], cur = null, inkLoop = false, HOLD = 4200, FADE = 3200, dpr = 1;
+function sizeCanvas(){
+  dpr = Math.min(2, window.devicePixelRatio || 1);
+  canvas.style.width = BW + 'px'; canvas.style.height = PH + 'px';
+  canvas.width = Math.round(BW * scale * dpr); canvas.height = Math.round(PH * scale * dpr);
+  strokes = []; cur = null;
+}
+function penColor(){ return getComputedStyle(root).getPropertyValue('--pen').trim() || '#3D3D3D'; }
+function toDesign(e){ var r = book.getBoundingClientRect(); return { x:(e.clientX - r.left) / scale, y:(e.clientY - r.top) / scale }; }
+function fadeInk(){ var now = performance.now(); strokes.forEach(function(s){ s.fast = true; s.fadeStart = Math.min(s.fadeStart || Infinity, now); }); kick(); }
+function kick(){ if(!inkLoop){ inkLoop = true; requestAnimationFrame(drawInk); } }
+function drawInk(now){
+  var k = canvas.width / BW;
+  ctx.setTransform(1,0,0,1,0,0); ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.setTransform(k, 0, 0, k, 0, 0);
+  ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  var col = penColor();
+  strokes = strokes.filter(function(s){
+    var a;
+    if(s.fast){ a = 1 - (now - s.fadeStart) / 450; }
+    else { var age = now - s.last; a = (s === cur || s.hold) ? 1 : (age < HOLD ? 1 : 1 - (age - HOLD) / FADE); }
+    if(a <= 0) return false;
+    var pts = s.pts; if(pts.length < 2){ ctx.globalAlpha = a * .8; ctx.fillStyle = col; ctx.beginPath(); ctx.arc(pts[0].x, pts[0].y, .9, 0, 6.3); ctx.fill(); return true; }
+    ctx.strokeStyle = col;
+    // main graphite line: one smooth path through the midpoints
+    ctx.globalAlpha = a * .82; ctx.lineWidth = s.w;
+    trace(pts, 0); ctx.stroke();
+    // a fainter second pass, offset a hair, gives the grain of a pencil
+    ctx.globalAlpha = a * .22; ctx.lineWidth = s.w * .45;
+    trace(pts, .55); ctx.stroke();
+    return true;
+  });
+  ctx.globalAlpha = 1;
+  if(strokes.length || cur) requestAnimationFrame(drawInk); else inkLoop = false;
+}
+function trace(pts, off){
+  ctx.beginPath(); ctx.moveTo(pts[0].x + off, pts[0].y - off);
+  for(var i = 1; i < pts.length - 1; i++){
+    var mx = (pts[i].x + pts[i+1].x) / 2, my = (pts[i].y + pts[i+1].y) / 2;
+    ctx.quadraticCurveTo(pts[i].x + off, pts[i].y - off, mx + off, my - off);
+  }
+  var l = pts[pts.length - 1]; ctx.lineTo(l.x + off, l.y - off);
+}
+book.addEventListener('pointerdown', function(e){
+  if(closed || busy || pinch) return;
+  if(backClosed || e.target.closest('a,button,input,.corner,.cover,.mail,.go,.agent,.agpage,.pin,.tucked')) return;
+  if(e.button !== undefined && e.button !== 0) return;
+  sound.wake();
+  var p = toDesign(e), now = performance.now();
+  cur = { pts:[{x:p.x, y:p.y}], sx:p.x, sy:p.y, w:1.7, last:now, t0:now, cx:e.clientX, cy:e.clientY, touch:e.pointerType !== 'mouse' };
+  cur.lt = now; strokes.push(cur);
+  if(tttPending) clearTimeout(tttPending.t);
+  try{ book.setPointerCapture(e.pointerId); }catch(err){}
+  kick();
+});
+book.addEventListener('pointermove', function(e){
+  if(!cur) return;
+  var evs = e.getCoalescedEvents ? e.getCoalescedEvents() : [e]; if(!evs.length) evs = [e];
+  var now = performance.now(), moved = 0;
+  evs.forEach(function(ev){
+    var p = toDesign(ev);
+    // light smoothing so the line glides instead of stepping
+    cur.sx += (p.x - cur.sx) * .55; cur.sy += (p.y - cur.sy) * .55;
+    var last = cur.pts[cur.pts.length-1], d = Math.hypot(cur.sx - last.x, cur.sy - last.y);
+    if(d < .8) return;
+    cur.pts.push({ x:cur.sx, y:cur.sy }); moved += d;
+  });
+  if(!moved) return;
+  var dt = Math.max(1, now - cur.lt), v = moved / dt;
+  cur.w += ((Math.max(1.1, Math.min(2.1, 2.1 - v * .5))) - cur.w) * .08;
+  cur.last = now; cur.lt = now;
+  sound.pencil(v);
+});
+function endStroke(e){
+  if(cur && cur.touch && mode === 'single' && e && e.type === 'pointerup'){
+    var dx = e.clientX - cur.cx, dy = e.clientY - cur.cy, dt = performance.now() - cur.t0;
+    if(dt < 380 && Math.abs(dx) > 50 && Math.abs(dx) > 2 * Math.abs(dy)){
+      var f = cur; cur = null; sound.pencil(0); strokes = strokes.filter(function(x){ return x !== f; });
+      step(dx < 0 ? 1 : -1); return;
+    }
+  }
+  if(cur){ var s = cur; cur.last = performance.now(); cur = null; sound.pencil(0); if(typeof tttStroke === 'function' && tttStroke(s)) strokes = strokes.filter(function(x){ return x !== s; }); } }
+book.addEventListener('pointerup', endStroke);
+book.addEventListener('pointercancel', endStroke);
+
+/* ---------- sound: everything synthesized, nothing loaded ---------- */
+/* Sound levels to tune by ear. 1 is the current level, 0 mutes that sound.
+   Also editable live from the browser console as notebookSound.page = 0.6, etc. */
+var SOUND = { master:.9, page:1, cover:1, pencil:1, rustle:1, tab:1, signature:1 };
+window.notebookSound = SOUND;
+var sound = (function(){
+  var ac = null, master, noise, grain, pen = null, rus = null, on = store('nb-sound') !== 'off';
+  function buf(sec, grainy){
+    var b = ac.createBuffer(1, Math.floor(ac.sampleRate * sec), ac.sampleRate), d = b.getChannelData(0), env = 1, hold = 0;
+    for(var i = 0; i < d.length; i++){
+      if(grainy){ if(--hold <= 0){ hold = 20 + Math.random() * 70; env = .15 + Math.random() * .85; if(Math.random() < .04) env = 1.6; } d[i] = (Math.random()*2 - 1) * env * .7; }
+      else d[i] = Math.random()*2 - 1;
+    }
+    return b;
+  }
+  function loopVoice(b, type, f, q){
+    var s = ac.createBufferSource(); s.buffer = b; s.loop = true;
+    var hp = ac.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 700;
+    var fl = ac.createBiquadFilter(); fl.type = type; fl.frequency.value = f; fl.Q.value = q;
+    var g = ac.createGain(); g.gain.value = 0;
+    s.connect(hp); hp.connect(fl); fl.connect(g); g.connect(master); s.start();
+    return { g:g, f:fl };
+  }
+  function wake(){
+    if(!ac){
+      try{ ac = new (window.AudioContext || window.webkitAudioContext)(); }catch(e){ return; }
+      var comp = ac.createDynamicsCompressor(); comp.threshold.value = -18; comp.ratio.value = 3;
+      master = ac.createGain(); master.gain.value = on ? SOUND.master : 0;
+      master.connect(comp); comp.connect(ac.destination);
+      noise = buf(2, false); grain = buf(2, true);
+      pen = loopVoice(grain, 'bandpass', 2800, .9);
+      rus = loopVoice(noise, 'bandpass', 1400, .6);
+    }
+    if(ac.state === 'suspended') ac.resume();
+  }
+  function burst(t, dur, f0, f1, peak, type){
+    var s = ac.createBufferSource(); s.buffer = noise;
+    var fl = ac.createBiquadFilter(); fl.type = type || 'bandpass'; fl.Q.value = .7;
+    fl.frequency.setValueAtTime(f0, t); fl.frequency.exponentialRampToValueAtTime(f1, t + dur);
+    var g = ac.createGain(); g.gain.setValueAtTime(.0001, t); g.gain.linearRampToValueAtTime(peak, t + Math.min(.05, dur * .3)); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+    s.connect(fl); fl.connect(g); g.connect(master); s.start(t, Math.random()); s.stop(t + dur + .05);
+  }
+  return {
+    wake: wake,
+    get on(){ return on; },
+    toggle: function(){ on = !on; store('nb-sound', on ? 'on' : 'off'); if(ac) master.gain.setTargetAtTime(on ? SOUND.master : 0, ac.currentTime, .05); return on; },
+    page: function(sec, level){
+      if(!ac) return; level = (level || 1) * SOUND.page; if(!level) return; var t = ac.currentTime;
+      var s = ac.createBufferSource(); s.buffer = noise;
+      var fl = ac.createBiquadFilter(); fl.type = 'bandpass'; fl.Q.value = .65;
+      fl.frequency.setValueAtTime(500, t); fl.frequency.exponentialRampToValueAtTime(2600, t + sec * .5); fl.frequency.exponentialRampToValueAtTime(900, t + sec);
+      var g = ac.createGain(); g.gain.setValueAtTime(.0001, t); g.gain.linearRampToValueAtTime(.32 * level, t + .06);
+      for(var k = 1; k < 7; k++) g.gain.linearRampToValueAtTime(level * (.12 + Math.random() * .22), t + .06 + k * sec * .11);
+      g.gain.exponentialRampToValueAtTime(.0001, t + sec);
+      s.connect(fl); fl.connect(g); g.connect(master); s.start(t, Math.random()); s.stop(t + sec + .1);
+      burst(t + sec * .86, .14, 700, 260, .5 * level, 'lowpass');
+    },
+    lift: function(){ if(!ac) return; burst(ac.currentTime, .08, 3000, 1800, .12); },
+    rustle: function(v){ if(!ac) return; rus.g.gain.setTargetAtTime(v * .16 * SOUND.rustle, ac.currentTime, .05); rus.f.frequency.setTargetAtTime(1100 + v * 1800, ac.currentTime, .05); },
+    pencil: function(v){
+      if(!ac) return; var t = ac.currentTime;
+      pen.g.gain.setTargetAtTime(v > 0 ? Math.min(.42, .06 + v * .4) * SOUND.pencil : 0, t, v > 0 ? .02 : .06);
+      pen.f.frequency.setTargetAtTime(2300 + Math.min(v, 2) * 1300, t, .03);
+      clearTimeout(this._pt); if(v > 0){ var self = this; this._pt = setTimeout(function(){ self.pencil(0); }, 90); }
+    },
+    signature: function(sec){
+      if(!ac) return; var t = ac.currentTime, x = 0;
+      while(x < sec){ var seg = .08 + Math.random() * .16; pen.g.gain.setTargetAtTime((.18 + Math.random() * .2) * SOUND.signature, t + x, .015); pen.f.frequency.setTargetAtTime(2400 + Math.random() * 1600, t + x, .02); x += seg; if(Math.random() < .3){ pen.g.gain.setTargetAtTime(0, t + x, .01); x += .05; } }
+      pen.g.gain.setTargetAtTime(0, t + sec, .04);
+    },
+    cover: function(sec, closing){
+      if(!ac) return; var t = ac.currentTime;
+      var o = ac.createOscillator(); o.type = 'sawtooth'; o.frequency.setValueAtTime(52, t);
+      var lfo = ac.createOscillator(); lfo.frequency.value = 7; var lg = ac.createGain(); lg.gain.value = 9; lfo.connect(lg); lg.connect(o.frequency);
+      var bp = ac.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = 620; bp.Q.value = 7;
+      var cg = ac.createGain(); cg.gain.setValueAtTime(.0001, t); cg.gain.linearRampToValueAtTime(.05 * SOUND.cover + .0001, t + .08); cg.gain.exponentialRampToValueAtTime(.0001, t + .5);
+      o.connect(bp); bp.connect(cg); cg.connect(master); o.start(t); lfo.start(t); o.stop(t + .55); lfo.stop(t + .55);
+      this.page(sec, .65);
+      var at = t + sec * .92;
+      var th = ac.createOscillator(); th.type = 'sine'; th.frequency.setValueAtTime(closing ? 95 : 80, at); th.frequency.exponentialRampToValueAtTime(40, at + .3);
+      var tg = ac.createGain(); tg.gain.setValueAtTime(.0001, at); tg.gain.linearRampToValueAtTime(.55 * SOUND.cover + .0001, at + .01); tg.gain.exponentialRampToValueAtTime(.0001, at + .4);
+      th.connect(tg); tg.connect(master); th.start(at); th.stop(at + .45);
+      burst(at, .18, 900, 200, .35 * SOUND.cover + .0001, 'lowpass');
+    },
+    tab: function(){
+      if(!ac) return; var t = ac.currentTime;
+      burst(t, .03, 4200, 2600, .22 * SOUND.tab + .0001, 'highpass');
+      var o = ac.createOscillator(); o.frequency.value = 1500; var g = ac.createGain();
+      g.gain.setValueAtTime(.06 * SOUND.tab + .0001, t); g.gain.exponentialRampToValueAtTime(.0001, t + .04);
+      o.connect(g); g.connect(master); o.start(t); o.stop(t + .05);
+    }
+  };
+})();
+
+/* ---------- hand-drawn cursors ---------- */
+function paintCursors(){
+  var ink = getComputedStyle(root).getPropertyValue('--ink').trim() || '#171717';
+  var paper = getComputedStyle(root).getPropertyValue('--page').trim() || '#FFFFFF';
+  function cur(svg, x, y, fb){ return 'url("data:image/svg+xml,' + encodeURIComponent(svg) + '") ' + x + ' ' + y + ', ' + fb; }
+  var open = "<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32' fill='none' stroke='" + ink + "' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'>";
+  var pencil = open + "<path d='M3.2 28.8l1.6-6.1L21.6 5.6c1.3-1.2 3.1-1.1 4.3.2 1.2 1.3 1.1 3.1-.2 4.3L8.9 27.1z' fill='" + paper + "'/><path d='M19.4 7.9l4.6 4.5M4.9 22.8c1.7.4 3.2 1.8 3.9 4.2'/><path d='M3.4 28.6l2.3-.7' stroke-width='2.2'/></svg>";
+  var arrow = open + "<path d='M4.2 3.4c4.9 8.1 7.4 15 8.2 22.1.6-3.1 1.9-5.4 3.9-6.9 2.4.5 5 .5 8.4-.3C18 13.4 11.1 7.6 4.2 3.4z' fill='" + paper + "'/></svg>";
+  var point = open + "<path d='M4.2 3.4c4.9 8.1 7.4 15 8.2 22.1.6-3.1 1.9-5.4 3.9-6.9 2.4.5 5 .5 8.4-.3C18 13.4 11.1 7.6 4.2 3.4z' fill='" + paper + "'/><path d='M21 25.5c2.3.6 4.7.4 7-.5M25 29c1.1-.1 2.1-.4 3-.9'/></svg>";
+  var turn = open + "<path d='M6.5 21.5c2.2-7.6 9.3-12 17.9-10.7' /><path d='M20.4 6.6l4.4 4.3-4.9 3.2'/><path d='M5.4 26.6c3.2.4 6.7.2 10.2-.7' stroke-dasharray='1.5 3'/></svg>";
+  root.style.setProperty('--cur-pencil', cur(pencil, 3, 29, 'crosshair'));
+  root.style.setProperty('--cur-arrow', cur(arrow, 4, 3, 'auto'));
+  root.style.setProperty('--cur-point', cur(point, 4, 3, 'pointer'));
+  root.style.setProperty('--cur-turn', cur(turn, 16, 16, 'grab'));
+}
+if(window.matchMedia) try{ matchMedia('(prefers-color-scheme: dark)').addEventListener('change', paintCursors); }catch(e){}
+
+/* ---------- the sticky-note agent ---------- */
+var agent = $('agent'), agMini = $('agMini'), agCard = $('agCard'), agHint = $('agHint'), agAns = $('agAns'), agSugg = $('agSugg'), agIn = $('agIn'), agPin = $('agPin'), agNote = $('agNote');
+var agOpen = false, agBusy = false, agLastQ = '', agLastA = '', agCtl = null, sampler = null, samplerTried = false;
+// what the note offers on each page: a prompt for the folded note, and three starter questions
+var ASKS = {
+  profile: ['what is keshav up to right now?', ['what does he work on?', 'is he looking for a job?', 'how do i reach him?']],
+  glance: ['which project should i read first?', ['which project is he proudest of?', 'what did he study?', 'how do i reach him?']],
+  work: ['which job taught him the most?', ['which job taught him the most?', 'what does he do at starkey?', 'is he looking for a job?']],
+  starkey: ['what does he do at starkey?', ['what does he do at starkey?', 'why hearing aids?', 'who does he work with?']],
+  simular: ['what did he build at simular?', ['what did he build at simular?', 'how did he raise task success?', 'what was the pilot?']],
+  fde: ['who wrote him that note?', ['what did his manager say?', 'what was the pilot?', 'what did he build at simular?']],
+  fil: ['what was the screen observer?', ['what was the screen observer?', 'how did it get 84% cheaper?', 'what did he research?']],
+  xr: ['what did he build at xr lab?', ['what did the pdf agent do?', 'how did he tag 26,000 images?', 'what else has he built?']],
+  caprae: ['what did he do at caprae?', ['what did he do at caprae?', 'how did lead validation improve?', 'what else has he built?']],
+  mentor: ['what did he teach at ucsd?', ['what did he teach at ucsd?', 'how many students?', 'what else has he done there?']],
+  ux: ['what did he redesign?', ['what did he redesign?', 'how did usability improve?', 'what else has he researched?']],
+  sal: ['what was the car-light model?', ['what was the car-light model?', 'what is active learning?', 'what did he research?']],
+  toolkit: ['what does he build with?', ['what does he build with?', 'does he design too?', 'what is the ai affinity group?']],
+  projects: ['which project is he proudest of?', ['which project is he proudest of?', 'what does he like building?', 'can i try any of these?']],
+  nalanda: ['how does nalanda find your highlights?', ['how does the search work?', 'what stack is it built on?', 'can i try it?']],
+  liam: ['how does liam rank your email?', ['how does the ranking work?', 'what did it win?', 'what model drafts replies?']],
+  pgui: ['what does "perceptive" mean here?', ['what is perceptive generative ui?', 'who is it for?', 'what was hard about it?']],
+  jose: ['how accurate is the predictor?', ['how accurate is the predictor?', 'how does the chatbot work?', 'where did the data come from?']],
+  classifiers: ['what did the benchmark find?', ['what did the benchmark find?', 'how many trials did he run?', 'what is test size analysis?']],
+  tinkercv: ['what is tinkercv?', ['what is tinkercv?', 'which gestures does it use?', 'what else has he built?']],
+  quests: ['why side quests?', ['why side quests?', 'what was his first electronics project?', 'does he have a podcast?']],
+  theremin: ['how does the theremin work?', ['how does the theremin work?', 'what was his first electronics project?', 'what else has he built?']],
+  semivalley: ['what is semivalley?', ['what is semivalley?', 'what is dtil?', 'what did he learn from customers?']],
+  podcast: ['what is the absurd window?', ['what is the podcast about?', 'where can i watch his videos?', 'what else does he make?']],
+  journal: ['what should i read first?', ['what should i read first?', 'why a notebook?', 'what does "human tech" mean to him?']],
+  essay: ['should ai tools add friction?', ['what is the essay about?', 'what is cognitive surrender?', 'what does he propose?']],
+  posts: ['what does he post about?', ['how did liam win?', 'why berkeley?', 'where can i follow him?']],
+  end: ['anything before you go?', ['how do i reach him?', 'is he looking for a job?', 'what should i read first?']]
+};
+function asksFor(i){ return ASKS[(PAGES[i] || PAGES[0]).id] || ASKS.profile; }
+function stripHTML(h){ var d = document.createElement('div'); d.innerHTML = h; return (d.textContent || '').replace(/\s+/g, ' ').trim(); }
+var FACTS = PAGES.map(function(p, i){ return 'Page ' + i + ': ' + stripHTML(p.html); }).join('\n') +
+  '\nAlso: email keshav_tiwari@berkeley.edu, linkedin.com/in/keshavtiwari26, github.com/kshtwr. Based in Berkeley, CA. Open to full-time roles from May 2027.';
+/* where the note is: resting on the desk (stays put while pages turn), or stuck to a page (turns with it) */
+var noteAt = null; try{ noteAt = JSON.parse(store('nb-note3') || 'null'); }catch(e){ noteAt = null; }
+function saveNote(){ store('nb-note3', JSON.stringify(noteAt)); }
+function barTop(){ return $('toggles').getBoundingClientRect().top; }
+function noteDefault(){
+  var r = book.getBoundingClientRect(), w = 136 * scale, h = 116 * scale;
+  if(r.left - w - 22 >= 8) return { where:'desk', x:r.left - w - 22, y:r.bottom - h - 24 };
+  if(mode === 'spread') return { where:'page', page:2 * pos + 1, x:46, y:PH - 128 };
+  return { where:'page', page:1, x:22, y:PH - 128 };   // bottom-left of the glance page, beside the tic-tac-toe
+}
+function agPage(){ return noteAt && noteAt.where === 'page' ? noteAt.page : (mode === 'spread' ? 2 * pos : pos); }
+function agPageHTML(i){
+  if(!noteAt || noteAt.where !== 'page' || noteAt.page !== i) return '';
+  var hint = asksFor(i)[0];
+  return '<div class="agpage" style="left:' + noteAt.x + 'px;top:' + noteAt.y + 'px"><div class="ag-mini" role="button" tabindex="0" data-note="1" aria-label="Ask the sticky note"><span class="ag-hint">' + hint + '</span></div></div>';
+}
+function placeDeskNote(){
+  var w = 136 * scale, h = 116 * scale;
+  noteAt.x = Math.max(4, Math.min(innerWidth - w - 4, noteAt.x));
+  noteAt.y = Math.max(4, Math.min(barTop() - h - 6, noteAt.y));
+  agent.style.transform = 'translate(' + Math.round(noteAt.x) + 'px,' + Math.round(noteAt.y) + 'px) scale(' + scale + ')';
+}
+function paintAgent(){
+  if(closed || backClosed){ agent.hidden = true; return; }
+  if(!noteAt){ noteAt = noteDefault(); saveNote(); if(noteAt.where === 'page'){ render(); return; } }
+  agent.hidden = noteAt.where !== 'desk';
+  if(!agent.hidden){
+    placeDeskNote();
+    var c = asksFor(agPage());
+    if(agHint.textContent !== c[0]){
+      agHint.textContent = c[0];
+      if(!RM){ agHint.style.transition = 'none'; agHint.style.clipPath = 'inset(0 100% 0 0)'; void agHint.offsetWidth; agHint.style.transition = 'clip-path .7s steps(14)'; agHint.style.clipPath = 'inset(0 0 0 0)'; }
+    }
+  }
+  if(!agLastQ) agSugg.innerHTML = asksFor(agPage())[1].map(function(q){ return '<button type="button">' + q + '</button>'; }).join('');
+}
+function noteEl(){ return noteAt && noteAt.where === 'page' ? book.querySelector('.slot .agpage') : agent; }
+function openAgent(){
+  if(agOpen) return; agOpen = true; sound.wake(); sound.lift();
+  var src = noteEl(), r = src ? src.getBoundingClientRect() : { left:innerWidth/2, bottom:innerHeight/2 };
+  var cw = Math.min(320, innerWidth - 32), ch = Math.min(380, barTop() - 24);
+  agCard.style.width = cw + 'px'; agCard.style.height = ch + 'px';
+  agCard.style.left = Math.max(16, Math.min(innerWidth - cw - 16, r.left - 14)) + 'px';
+  agCard.style.top = Math.max(16, Math.min(barTop() - ch - 10, r.bottom - ch + 8)) + 'px';
+  agCard.classList.remove('closed'); agMini.setAttribute('aria-expanded', 'true');
+  if(src) src.style.visibility = 'hidden';
+  if(!agAns.textContent) agAns.innerHTML = '<span class="think">hi. i’m a note keshav left in his notebook. what do you want to know?</span>';
+  paintAgent();
+  setTimeout(function(){ try{ agIn.focus({ preventScroll:true }); }catch(e){} }, 250);
+}
+function closeAgent(){
+  if(!agOpen) return; agOpen = false; if(agCtl) agCtl.abort();
+  agCard.classList.add('closed'); agMini.setAttribute('aria-expanded', 'false');
+  agent.style.visibility = ''; var pe = book.querySelector('.slot .agpage'); if(pe) pe.style.visibility = '';
+  sound.lift();
+}
+/* drag the note: drop it on a page to stick it there, anywhere else to leave it on the desk */
+var nd = null;
+function noteDown(e, fromPage){
+  if(busy || e.button > 0) return;
+  e.preventDefault(); e.stopPropagation();
+  var el = fromPage ? e.target.closest('.agpage') : agent, r = el.getBoundingClientRect();
+  nd = { x0:e.clientX, y0:e.clientY, offX:e.clientX - r.left, offY:e.clientY - r.top, moved:false, fromPage:fromPage, id:e.pointerId, left:r.left, top:r.top };
+}
+document.addEventListener('pointermove', function(e){
+  if(!nd || e.pointerId !== nd.id) return;
+  if(!nd.moved){
+    if(Math.hypot(e.clientX - nd.x0, e.clientY - nd.y0) < 6) return;
+    nd.moved = true; sound.wake(); sound.lift(); closeAgent();
+    if(nd.fromPage){ noteAt = { where:'desk', x:nd.left, y:nd.top }; render(); }
+    agent.classList.add('dragging');
+  }
+  noteAt.x = e.clientX - nd.offX; noteAt.y = e.clientY - nd.offY; placeDeskNote();
+});
+document.addEventListener('pointerup', function(e){
+  if(!nd || e.pointerId !== nd.id) return;
+  var d = nd; nd = null;
+  if(!d.moved){ openAgent(); return; }
+  agent.classList.remove('dragging');
+  var ar = agent.getBoundingClientRect(), cx = e.clientX, cy = e.clientY, hit = null;
+  [[L, mode === 'spread' ? 2 * pos : -1], [R, mode === 'spread' ? 2 * pos + 1 : pos]].forEach(function(s){
+    if(s[1] < 0 || s[1] >= N) return; var r = s[0].getBoundingClientRect();
+    if(r.width && cx >= r.left && cx <= r.right && cy >= r.top && cy <= r.bottom) hit = { page:s[1], r:r };
+  });
+  if(hit){
+    noteAt = { where:'page', page:hit.page,
+      x:Math.round(Math.max(10, Math.min(PW - 146, (ar.left - hit.r.left) / scale))),
+      y:Math.round(Math.max(10, Math.min(PH - 126, (ar.top - hit.r.top) / scale))) };
+  }
+  saveNote(); sound.lift(); render();
+});
+agMini.addEventListener('pointerdown', function(e){ noteDown(e, false); });
+agMini.addEventListener('click', function(e){ if(e.detail === 0) openAgent(); });
+book.addEventListener('pointerdown', function(e){ if(e.target.closest('.agpage .ag-mini') && !closed) noteDown(e, true); }, true);
+book.addEventListener('keydown', function(e){ if((e.key === 'Enter' || e.key === ' ') && e.target.closest('[data-note]')){ e.preventDefault(); openAgent(); } });
+/* the answer writes itself out at pen speed, and the handwriting shrinks a little to fit the note */
+var writer = { target:'', shown:0, raf:0, last:0 };
+function fitAns(full){
+  var keep = agAns.textContent, fs = 22;
+  agAns.style.fontSize = fs + 'px'; agAns.textContent = full;
+  while(agAns.scrollHeight > agAns.clientHeight + 1 && fs > 14){ fs--; agAns.style.fontSize = fs + 'px'; }
+  agAns.textContent = keep;
+}
+function writeTo(text){ if(text !== writer.target){ writer.target = text; fitAns(text); } if(!writer.raf){ writer.last = performance.now(); writer.raf = requestAnimationFrame(writeStep); } }
+function writeStep(now){
+  var dt = now - writer.last; writer.last = now;
+  if(writer.shown < writer.target.length){
+    writer.shown = RM ? writer.target.length : Math.min(writer.target.length, writer.shown + dt * .034);
+    agAns.textContent = writer.target.slice(0, Math.floor(writer.shown));
+    sound.pencil(.35 + Math.random() * .4);
+    writer.raf = requestAnimationFrame(writeStep);
+  } else { writer.raf = 0; sound.pencil(0); }
+}
+function resetWriter(){ writer.target = ''; writer.shown = 0; agAns.textContent = ''; agAns.style.fontSize = ''; }
+function offlineAnswer(q){
+  q = q.toLowerCase();
+  var rules = [
+    [/email|reach|contact|hire|talk|connect/, 'email him at keshav_tiwari@berkeley.edu, or say hi on linkedin (keshavtiwari26). he reads everything.'],
+    [/job|full.?time|looking|available|open to/, 'yes. he’s open to full-time roles starting may 2027, around ai agents, interfaces and wearable ai.'],
+    [/starkey|hearing|capstone/, 'at starkey he works on ai-driven personalization for next-gen hearing aids with their cto, leading the ai and hci work. ar and voice agents are on the table.'],
+    [/simular|forward|agent platform/, 'at simular he worked forward-deployed on a macos agent platform. he added the streaming that cut time to first token 5x, and closed a client pilot in four weeks.'],
+    [/nalanda|highlight/, 'nalanda is a chrome extension for keeping highlights from anywhere on the web, with a dashboard and a chat that answers from your highlights. it’s on the chrome web store.'],
+    [/liam|email app|rank|hackathon|win/, 'liam sorts your mail on an eisenhower matrix (importance vs urgency) and handles each corner differently. it won the ixdf sf hackathon. the prototype is linked on its page.'],
+    [/berkeley|meng|fung|study|studying/, 'he’s doing an meng in eecs at berkeley, in visual computing and computer graphics, as a fung excellence scholar.'],
+    [/ucsd|san diego|cog|econ|undergrad/, 'he studied cognitive science (ml & neural computation) and business economics at uc san diego, graduating cum laude.'],
+    [/theremin|arduino|electronic/, 'an arduino uno, an ultrasonic sensor and a buzzer. the pitch follows your hand. it was his first electronics project.'],
+    [/notebook|why|human/, 'he wants tech to feel more human, so his site is a notebook you can flip, scribble in and leave notes in.'],
+    [/podcast|spotify|listen|absurd window/, 'the absurd window: conversations about the dreams, passions and loves that keep us up at night. it’s on spotify, with a player in side quests.'],
+    [/essay|friction|blank page|dumber|surrender|propose/, 'his essay argues the blank page does real thinking work, so ai tools should add some friction on purpose: let you try first, say when friction is on, and let you dial it up or down.'],
+    [/why berkeley|13 year|bay/, 'he wrote a letter to his 13 year old self about it: an meng in eecs at berkeley, the fung fellowship, and finally making it to the bay. it’s in the journal.'],
+    [/build with|stack|tools|languages|skills/, 'python, typescript, swift; pytorch and rag for the ai side; react, next.js and supabase for products; figma and framer for design.'],
+    [/proud|read first|start|which project/, 'start with nalanda. it began as a 48-hour hackathon idea and he took it all the way to the chrome web store, then added a chat over your highlights.'],
+    [/taught|learn the most|which job/, 'probably simular. working forward-deployed with a real client meant shipping fast: he closed a three-month pilot in four weeks.'],
+    [/work on|up to|right now|doing now/, 'right now: hearing aid personalization with starkey for his berkeley capstone, and his meng in eecs. he works on the layer between people and ai agents.'],
+    [/screen observer|foundation|to.?do/, 'at foundation interface lab he built a screen observer with gpt-4o and ocr that watches a workflow and writes the to-dos. 91% faster and 84% cheaper after his changes.'],
+    [/pdf|xr lab|26,?000|image/, 'at the xr lab he built a multimodal agent that structured 1,000+ research pdfs, and a classifier that tagged 26,000+ images.'],
+    [/car|light|active learning|automobile/, 'at the safe automobiles lab he annotated 2,000+ car-light images and trained an active-learning model that reads what a car’s lights signal, at 85% accuracy.'],
+    [/mentor|teach|python|students|cogs|curriculum/, 'as a programming mentor at ucsd cognitive science he wrote coding problems for 600+ students, gave one-on-one feedback on 50+ python projects, and reviewed 150+ student journals.'],
+    [/ux|usability|league of amazing|redesign/, 'at the league of amazing programmers he redesigned a non-profit’s website and lifted usability feedback 41%, backed by a/b and baseline tests.'],
+    [/semivalley|semi valley|dtil|deep.?tech|customer discovery/, 'he’s doing customer discovery and deep-tech commercialization with semivalley, a berkeley startup cooling the next generation of ai chips, through dtil (eng 273 / mba 290).'],
+    [/youtube|instagram|content|absurd window|podcast/, 'he runs the absurd window: a podcast on spotify, plus youtube (@TheAbsurdWindow) and instagram (@theabsurdwindow).'],
+    [/caprae|lead/, 'at caprae capitals he built ai lead validation that was 25% more accurate, plus scoring and scrapers that made outreach 2x faster.'],
+    [/pilot|task success|drift/, 'at simular: task success up 22%, behavioral drift down 30%, and a three-month client pilot closed in four weeks.'],
+    [/perceptive|ambient|display|room/, 'it’s a home display that works out who is in the room (bluetooth, then infrared, then voice) and composes the screen for them. a class project, prototyped in figma.'],
+    [/tinker|football|covid|classifier|before agents|earlier/, 'before agents: jose, a football match predictor with a chatbot; tinkercv, gesture-based image editing with opencv; a classifier benchmark; and a covid data study. all on his github.'],
+    [/experiment|side quest|post|follow|x\b|twitter/, 'he posts small interface experiments on x (@ksh_twr) and linkedin as he makes them.'],
+    [/design|figma|framer/, 'yes. he designs in figma and framer, ran usability tests for a nonprofit, and built this notebook himself.'],
+    [/next|building next|ideas/, 'next is the starkey capstone: what a hearing aid could do with ar and a voice you can talk to. ask him about it.'],
+    [/affinity|ai group|co-?lead/, 'he co-leads the ai affinity group at uc berkeley.']
+  ];
+  for(var i = 0; i < rules.length; i++) if(rules[i][0].test(q)) return rules[i][1];
+  return 'i only know the basics offline: he builds interfaces between people and ai agents. try the overview, or email keshav_tiwari@berkeley.edu.';
+}
+function getSampler(){
+  if(samplerTried) return Promise.resolve(sampler);
+  samplerTried = true;
+  if(!window.claude || !window.claude.use){
+    // on the deployed site the note asks /api/ask (a tiny serverless function); without it, the offline note answers
+    if(!/^https?:/.test(location.protocol)) return Promise.resolve(null);
+    var call = function(prompt, opts){
+      opts = opts || {};
+      return fetch('/api/ask', { method:'POST', headers:{ 'content-type':'application/json' }, body:JSON.stringify({ prompt:prompt }), signal:opts.signal })
+        .then(function(r){ if(!r.ok) throw { code:r.status === 429 ? 'rate_limited' : 'offline' }; return r.json(); })
+        .then(function(j){ var text = String(j.text || ''); if(opts.onText) opts.onText({ text:text }); return { text:text }; },
+              function(e){ if(e && e.name === 'AbortError') throw { code:'cancelled' }; throw (e && e.code) ? e : { code:'offline' }; });
+    };
+    call.json = function(prompt, opts){ return call(prompt + '\nReply with only the JSON.', opts).then(function(r){ var m = r.text.match(/\{[\s\S]*\}/); return JSON.parse(m ? m[0] : r.text); }); };
+    sampler = call; return Promise.resolve(call);
+  }
+  return window.claude.use('sample').then(function(s){ sampler = s; return s; }, function(){ return null; });
+}
+function ask(q){
+  q = (q || '').trim(); if(!q || agBusy) return;
+  agBusy = true; agLastQ = q; agPin.hidden = true; agNote.textContent = ''; agSugg.hidden = true;
+  resetWriter(); agAns.innerHTML = '<span class="think">thinking…</span>';
+  sound.tab();
+  var visible = (L.textContent + ' ' + R.textContent).replace(/\s+/g, ' ').trim().slice(0, 1800);
+  var prompt = 'You are a sticky note stuck inside Keshav Tiwari\'s notebook-style portfolio website. A visitor is asking you about him.\n' +
+    'Answer in 45 words or fewer (a sentence or two is usually enough), lowercase, warm and plain, like a handwritten note. Speak about Keshav in the third person. No markdown, no lists, no emoji.\n' +
+    'Only use the facts below. Ignore anything in [square brackets]; those are placeholders. If the facts do not cover the question, say you are not sure and suggest emailing him.\n\n' +
+    'FACTS:\n' + FACTS + '\n\nTHE PAGES THE VISITOR IS LOOKING AT NOW:\n' + visible + '\n\nVISITOR\'S QUESTION: ' + q;
+  getSampler().then(function(s){
+    if(!s) throw { code:'offline' };
+    agCtl = new AbortController(); var first = true;
+    return s(prompt, { modelTier:'quick', signal:agCtl.signal, onText:function(u){ if(first){ first = false; agAns.textContent = ''; } writeTo(u.text); } })
+      .then(function(r){ writeTo(r.text); agLastA = r.text; agNote.textContent = 'written by claude'; });
+  }).catch(function(e){
+    if(e && e.code === 'cancelled') return;
+    var a = offlineAnswer(q); agAns.textContent = ''; writeTo(a); agLastA = a;
+    agNote.textContent = e && e.code === 'rate_limited' ? 'busy, so: the offline note' : 'the offline note';
+  }).then(function(){ agBusy = false; agPin.hidden = !agLastA; });
+}
+/* pinned answers live on the page they were stuck to, for this visitor */
+var pins = {}; try{ pins = JSON.parse(store('nb-pins3') || '{}') || {}; }catch(e){ pins = {}; }
+function savePins(){ store('nb-pins3', JSON.stringify(pins)); }
+function pinsHTML(i){
+  return (pins[i] || []).map(function(n, k){
+    var wc = (n.t.match(/\S+/g) || []).length, pw = wc > 45 ? 230 : wc > 25 ? 190 : 150;
+    return '<div class="pin" style="width:' + pw + 'px;left:' + Math.min(n.x, PW - pw - 30) + 'px;top:' + Math.max(40, Math.min(n.y, PH - 70 - wc * 5)) + 'px;transform:rotate(' + n.r + 'deg)">' + n.t.replace(/[<>&]/g, function(c){ return {'<':'&lt;','>':'&gt;','&':'&amp;'}[c]; }) +
+      '<button class="unpin" data-page="' + i + '" data-k="' + k + '" aria-label="Remove this note">×</button></div>';
+  }).join('');
+}
+agPin.addEventListener('click', function(){
+  if(!agLastA) return;
+  var page = mode === 'spread' ? 2 * pos + 1 : pos;
+  var text = agLastA;
+  (pins[page] = pins[page] || []).push({ t:text, x:Math.round(PW * (.12 + Math.random() * .42)), y:Math.round(PH * (.52 + Math.random() * .18)), r:Math.round(Math.random() * 8 - 4) });
+  savePins(); sound.lift(); closeAgent(); render();
+});
+book.addEventListener('click', function(e){
+  var u = e.target.closest('.unpin'); if(!u) return;
+  var list = pins[u.dataset.page] || []; list.splice(+u.dataset.k, 1); savePins(); render();
+});
+$('agClose').addEventListener('click', closeAgent);
+$('agForm').addEventListener('submit', function(e){ e.preventDefault(); var q = agIn.value; agIn.value = ''; ask(q); });
+agSugg.addEventListener('click', function(e){ var b = e.target.closest('button'); if(b) ask(b.textContent); });
+document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && agOpen) closeAgent(); });
+
+/* ---------- a letter tucked into the journal: it slides out, unfolds in thirds, and lifts up to read ---------- */
+var ESSAY_IS_DRAFT = false;  // the essay is Keshav's own
+var LETTERS = [{
+  title:'The blank page is doing the work', date:'fall 2026', kind:'essay',
+  body:[
+    'A friend recently asked me if using AI has made me dumber. Almost insulted, I rushed to say no. Defiantly, I challenged myself to write without AI assistance. As a blank page stared back at me, his question got louder and my answer stopped feeling true. My friend isn’t alone in asking this question though. Type “does using AI make me” into Google and “dumber” is among its first suggestions. In wonder, does science share our concern? Are the productivity gains of AI enough to justify our “cognitive surrender”? And should we be doing something about it?',
+    'The ideas in this essay didn’t stem from a prompt. They came to me on a walk as I wrestled with what to write about. I thought to myself, “I do love talking about how technology helps us think. How do I make this more personal though? Oh no, I forgot I had an assignment due for my design class. Maybe I’ll just ask ChatGPT for a draft ... ahh but I really enjoy coming up with writing ideas though … oh wait!” One thought led to the next until the connections formed on their own. My favorite chatbot could have handed me a perfectly serviceable list of angles, but it could never have given me that walk. AI tools often sell themselves as the cure for the blank page. My argument is that the blank page was doing the work, and the best tools should protect some of that struggle.',
+    'The science behind this is relatively young, and much of it is self-reported. In a CHI 2025 survey of 319 knowledge workers, people who trusted generative AI more reported thinking less critically about its output, while people who trusted their own skills reported thinking more [1]. The more we believe the machine, the less we check it. Researchers call this automation bias: accepting a machine’s output without checking it. A recently published review traces it across healthcare, finance, public administration, and national security [2]. That exact moment when the checking stops and blind acceptance begins is the “cognitive surrender.” It is also less simple than blind obedience. In survey experiments on algorithmic advice in a personnel decision, people did not automatically defer to algorithms over humans. They followed advice selectively, leaning on it when it matched what they already believed [3]. The AI hands us what we suspected, and we stop there. Being challenged takes effort, and a tool that removes the effort removes the challenge too.',
+    'The usual fix is to make the AI explain itself, however, the same review finds that explanations alone often fail to cure overreliance and can even inflate confidence in wrong answers [2]. Human-computer interaction research offers a stranger idea: create friction on purpose. In one experiment, interface designs that forced people to engage before accepting an AI recommendation, called cognitive forcing functions, cut overreliance more than standard explanations did [4]. The catch is that participants rated those ‘friction’ designs the least favorable of all [4]. Much like the vitamins you know you should be taking, what helps us is often what we avoid. Thus, designers must redesign incentives to embrace the friction to empower a less dependent user.',
+    'Friction does not necessarily mean having a locked door. Another study tested this with an AI system that shows only part of its reasoning so the user has to fill in the rest. Across two experiments with 264 and 210 participants, partial explanations led people to accept fewer wrong suggestions than a bare recommendation did, though a full explanation still did better overall [5]. Notably, the people who engaged most with the task gained the most [5]. Friction rewards those who want to engage, otherwise a thoughtful implementation may just be evaluated as poor design.',
+    'So here is my proposal for any AI tool people use to think, whether for writing, coding, or deciding. First, hold back the answer until the user has made a reasonable attempt. Second, say when friction is on and why so the user always feels in control. Third, let the user dial it up or down, the way a video game lets you pick a difficulty. Nobody feels tricked by a difficulty setting they self-elected into.',
+    'A fair objection here would be: I use AI to move fast, and nobody wants a tool that quizzes them before drafting an email. I can’t help but say touché. For some, a blank page is a real barrier, whether from writing in a second language or from writer’s block. Friction, though, should scale with the stakes. Rewording a message is a low stakes activity that needs none. A medical note, a code review, or a financial decision has earned a pause, and those are the very settings the automation bias research covers [2]. Friction can also follow trust. Because confidence in the AI predicts less checking [1], a tool could add a pause exactly when a user is most dependent. Lastly, since friction helps some people more than others [4], [5], adjustability must be a core part of the design.',
+    'So what can you do? If you design or build AI products, ship a "try first" option and test it on people who dislike effortful thinking as well as those who enjoy it. Ask which decisions in a workflow deserve a pause. If you use these tools, switch friction on for the work you want to get better at or maybe just go take a walk before you default to a chat window. It’s like going to the gym for the mind. The industrial revolution relaxed physical effort from our daily lives and we built gyms to bring that back. Mental effort might just be next.',
+    'So, does using AI make us dumber? It absolutely can if we use it to dodge the blank page. Perhaps, I was wrong to reject my friend’s question. I would answer differently now, not because this page isn’t blank anymore, but because I made the effort to think first.'
+  ],
+  refs:[
+    'H.-P. Lee et al., “The impact of generative AI on critical thinking: Self-reported reductions in cognitive effort and confidence effects from a survey of knowledge workers,” CHI ’25, Yokohama, Apr. 2025. <a href="https://doi.org/10.1145/3706598.3713778" target="_blank" rel="noopener">doi</a>',
+    'G. Romeo and D. Conti, “Exploring automation bias in human–AI collaboration: A review and implications for explainable AI,” AI &amp; Society, vol. 41, no. 1, Jan. 2026. <a href="https://doi.org/10.1007/s00146-025-02422-7" target="_blank" rel="noopener">doi</a>',
+    'S. Alon-Barkat and M. Busuioc, “Human–AI interactions in public sector decision making: ‘Automation bias’ and ‘selective adherence’ to algorithmic advice,” J. Public Admin. Res. Theory, vol. 33, no. 1, Jan. 2023. <a href="https://doi.org/10.1093/jopart/muac007" target="_blank" rel="noopener">doi</a>',
+    'Z. Buçinca, M. B. Malaya, and K. Z. Gajos, “To trust or to think: Cognitive forcing functions can reduce overreliance on AI in AI-assisted decision-making,” Proc. ACM HCI, CSCW1, Apr. 2021. <a href="https://doi.org/10.1145/3449287" target="_blank" rel="noopener">doi</a>',
+    'S. de Jong, V. Paananen, B. Tag, and N. van Berkel, “Cognitive forcing for better decision-making: Reducing overreliance on AI systems through partial explanations,” Proc. ACM HCI, vol. 9, no. 2, May 2025. <a href="https://doi.org/10.1145/3710946" target="_blank" rel="noopener">doi</a>'
+  ]
+}, {
+  title:'From my posts', date:'linkedin', kind:'posts',
+  body:[].concat.apply([], ME.posts.map(function(x){
+    return ['<span class="hand" style="font-size:22px;color:var(--pen)">' + x.date + ' · ' + x.title + '</span>'].concat(x.paras)
+      .concat(x.url ? ['<a href="' + x.url + '" target="_blank" rel="noopener">read it on linkedin →</a>'] : []);
+  }))
+}].concat(REC_KEYS.map(function(k){
+  var r = ME.recs[k];
+  return { title:'A note from ' + r.from + (r.pos ? ' <span style="font-weight:400;color:var(--muted)">(' + r.pos.replace(/(^|, )(\w)/g, function(m, a, b){ return a + b.toUpperCase(); }) + ')</span>' : ''), date:r.role, kind:'recommendation', eyebrow:'Recommendation', sign:r.from, signTitle:r.title,
+    body:r.text.trim().split(/\n\s*\n/).map(function(t){ return t.trim(); }) };
+}));
+var letterEl = $('letter'), letterDim = $('letterDim'), letterOpen = false, letterBusy = false, letterSrc = null, LT = null;
+function letterHTML(Lt){
+  return '<div class="lt-body"><div class="eyebrow"><span>' + (Lt.eyebrow || 'Journal · ' + (Lt.kind || 'essay')) + '</span><span class="hand" style="font-size:22px">' + Lt.date + '</span></div>' +
+    (Lt.kind === 'essay' && ESSAY_IS_DRAFT ? '<p class="ph">[PLACEHOLDER DRAFT FROM CLAUDE. REWRITE IN YOUR OWN WORDS.]</p>' : '') + '<h1>' + Lt.title + '</h1>' +
+    Lt.body.map(function(t){ return '<p>' + t + '</p>'; }).join('') +
+    (Lt.refs ? '<div class="eyebrow" style="margin-top:10px">References</div><ol class="refs">' + Lt.refs.map(function(r){ return '<li>' + r + '</li>'; }).join('') + '</ol>' : '') +
+    '<p class="hand" style="font-size:30px;color:var(--pen);margin-top:6px">' + (Lt.sign || 'keshav') + '</p>' +
+    (Lt.signTitle ? '<p class="tiny" style="margin-top:-12px">' + Lt.signTitle + '</p>' : '') + '</div>';
+}
+function openLetter(i, src){
+  if(letterOpen || letterBusy || busy) return;
+  closeAgent();
+  letterBusy = true; letterSrc = src; sound.wake();
+  var vw = innerWidth, vh = innerHeight, W = Math.min(640, vw - 32), H = Math.min(vh - 64, 820), ph = H / 3, html = letterHTML(LETTERS[i]);
+  function face(k){ return '<div class="lt-face front"><div style="position:absolute;left:0;top:' + (-k * ph) + 'px;width:' + W + 'px">' + html + '</div><div class="lt-shade"></div></div><div class="lt-face back"><div class="lt-shade"></div></div>'; }
+  letterEl.innerHTML =
+    '<div class="lt-panel" id="ltp1" style="top:0;height:' + ph + 'px">' + face(0) +
+      '<div class="lt-panel" id="ltp2" style="top:' + ph + 'px;height:' + ph + 'px">' + face(1) +
+        '<div class="lt-panel" id="ltp3" style="top:' + ph + 'px;height:' + ph + 'px">' + face(2) + '</div></div></div>' +
+    '<div class="lt-sheet" hidden><button class="lt-close" id="ltClose" aria-label="Fold the letter back">×</button>' + html + '</div>';
+  letterEl.style.width = W + 'px'; letterEl.style.height = H + 'px'; letterEl.hidden = false;
+  letterDim.hidden = false;
+  var sr = src.getBoundingClientRect();
+  LT = { W:W, H:H, ph:ph, vw:vw, vh:vh, sx:sr.left, sy:sr.top, s0:sr.width / W,
+    p2:$('ltp2'), p3:$('ltp3'), sh2:$('ltp2').querySelectorAll('.lt-shade'), sh3:$('ltp3').querySelectorAll('.lt-shade'), sheet:letterEl.querySelector('.lt-sheet') };
+  src.style.visibility = 'hidden';
+  applyLetter(0);
+  sound.page(.45, .55);
+  setTimeout(function(){ sound.lift(); }, 480);
+  setTimeout(function(){ sound.lift(); }, 900);
+  tween(applyLetter, 0, 1, 1500).then(function(){
+    letterBusy = false; letterOpen = true;
+    LT.sheet.hidden = false;
+    $('ltClose').addEventListener('click', closeLetter);
+    try{ $('ltClose').focus({ preventScroll:true }); }catch(e){}
+  });
+}
+function clamp01(v){ return v < 0 ? 0 : v > 1 ? 1 : v; }
+function smooth(v){ return v * v * (3 - 2 * v); }
+function applyLetter(t){
+  var a = smooth(clamp01(t / .3)), b = smooth(clamp01((t - .26) / .38)), c = smooth(clamp01((t - .64) / .36));
+  var cx = (LT.vw - LT.W) / 2, visible = LT.ph * (1 + b + c), cy = (LT.vh - visible) / 2;
+  var x = LT.sx + (cx - LT.sx) * a, y = LT.sy + (cy - LT.sy) * a, s = LT.s0 + (1 - LT.s0) * a;
+  letterEl.style.transform = 'translate(' + x + 'px,' + y + 'px) scale(' + s + ')';
+  LT.p2.style.transform = 'rotateX(' + (180 * (1 - b)) + 'deg)';
+  LT.p3.style.transform = 'rotateX(' + (-180 * (1 - c)) + 'deg)';
+  LT.p3.style.visibility = c > 0 ? 'visible' : 'hidden';
+  LT.sh2.forEach(function(el){ el.style.opacity = String(Math.sin(Math.PI * b) * .22); });
+  LT.sh3.forEach(function(el){ el.style.opacity = String(Math.sin(Math.PI * c) * .22); });
+  letterDim.style.opacity = String(Math.min(1, t / .3));
+}
+function closeLetter(){
+  if(!letterOpen || letterBusy) return;
+  letterOpen = false; letterBusy = true;
+  LT.sheet.scrollTop = 0; LT.sheet.hidden = true;
+  var sr = letterSrc.getBoundingClientRect(); LT.sx = sr.left; LT.sy = sr.top; LT.s0 = sr.width / LT.W;
+  sound.lift(); setTimeout(function(){ sound.lift(); }, 380); setTimeout(function(){ sound.page(.4, .5); }, 760);
+  tween(applyLetter, 1, 0, 1300).then(function(){
+    letterEl.hidden = true; letterEl.innerHTML = ''; letterDim.hidden = true; letterBusy = false;
+    if(letterSrc) letterSrc.style.visibility = '';
+  });
+}
+book.addEventListener('click', function(e){
+  var sb = e.target.closest('.vcap[data-sound]');
+  if(sb && !closed && !backClosed){
+    var md = sb.closest('.media'), vv = md && md.querySelector('video'), bt = md && md.querySelector('[data-sound]');
+    if(vv){ vv.muted = !vv.muted; if(vv.paused) vv.play(); if(bt) bt.textContent = vv.muted ? '♪ tap for sound' : '♪ sound on · tap to mute'; return; }
+  }
+  var t = e.target.closest('.tucked, .env'); if(!t || closed || backClosed) return;
+  e.preventDefault(); openLetter(+t.dataset.letter, t);
+});
+letterDim.addEventListener('click', closeLetter);
+document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && letterOpen) closeLetter(); });
+
+/* ---------- every sticky can be picked up and moved ---------- */
+var stkOff = {}; try{ stkOff = JSON.parse(store('nb-stk') || '{}') || {}; }catch(e){ stkOff = {}; }
+function stickyIds(html, i){
+  var k = 0;
+  return html.replace(/class="sticky"( style=")?/g, function(m, st){
+    var id = i + '-' + (k++), o = stkOff[id] || { dx:0, dy:0 }, vars = '--dx:' + o.dx + 'px;--dy:' + o.dy + 'px;';
+    return 'class="sticky" data-sid="' + id + '" style="' + vars + (st ? '' : '"');
+  });
+}
+var sd = null;
+book.addEventListener('pointerdown', function(e){
+  var el = e.target.closest('.slot .pin, .slot .sticky[data-sid]');
+  if(!el || closed || busy || e.target.closest('.unpin') || (e.button > 0)) return;
+  e.preventDefault(); e.stopPropagation();
+  var slot = el.closest('.slot');
+  sd = { el:el, slot:slot, x0:e.clientX, y0:e.clientY, moved:false, id:e.pointerId, ghost:null };
+}, true);
+document.addEventListener('pointermove', function(e){
+  if(!sd || e.pointerId !== sd.id) return;
+  if(!sd.moved){
+    if(Math.hypot(e.clientX - sd.x0, e.clientY - sd.y0) < 5) return;
+    sd.moved = true; sound.wake(); sound.lift(); fadeInk();
+    var r = sd.el.getBoundingClientRect(), w = sd.el.offsetWidth, h = sd.el.offsetHeight;
+    sd.cx = r.left + r.width / 2; sd.cy = r.top + r.height / 2; sd.w = w; sd.h = h;
+    var g = sd.el.cloneNode(true); g.removeAttribute('data-sid');
+    g.style.position = 'fixed'; g.style.margin = '0'; g.style.left = (sd.cx - w / 2) + 'px'; g.style.top = (sd.cy - h / 2) + 'px';
+    g.style.width = w + 'px'; g.style.translate = '0 0'; g.style.zIndex = '30'; g.style.pointerEvents = 'none';
+    g.style.transformOrigin = '50% 50%'; g.style.transform = 'scale(' + scale + ') rotate(2deg)'; g.style.boxShadow = '0 18px 30px rgba(0,0,0,.25)';
+    document.body.appendChild(g); sd.ghost = g; sd.el.style.visibility = 'hidden';
+  }
+  sd.ghost.style.left = (sd.cx + e.clientX - sd.x0 - sd.w / 2) + 'px';
+  sd.ghost.style.top = (sd.cy + e.clientY - sd.y0 - sd.h / 2) + 'px';
+});
+document.addEventListener('pointerup', function(e){
+  if(!sd || e.pointerId !== sd.id) return;
+  var d = sd; sd = null;
+  if(!d.moved) return;
+  var gx = d.cx + e.clientX - d.x0, gy = d.cy + e.clientY - d.y0;
+  if(d.el.classList.contains('pin')){
+    var from = +d.el.querySelector('.unpin').dataset.page, k = +d.el.querySelector('.unpin').dataset.k, note = (pins[from] || [])[k];
+    var target = null;
+    [[L, mode === 'spread' ? 2 * pos : -1], [R, mode === 'spread' ? 2 * pos + 1 : pos]].forEach(function(s){
+      if(s[1] < 0 || s[1] >= N) return; var r = s[0].getBoundingClientRect();
+      if(r.width && gx >= r.left && gx <= r.right && gy >= r.top && gy <= r.bottom) target = { page:s[1], r:r };
+    });
+    if(note){
+      if(!target) target = { page:from, r:d.slot.getBoundingClientRect() };
+      pins[from].splice(k, 1);
+      note.x = Math.round(Math.max(10, Math.min(PW - d.w - 10, (gx - target.r.left) / scale - d.w / 2)));
+      note.y = Math.round(Math.max(30, Math.min(PH - d.h - 20, (gy - target.r.top) / scale - d.h / 2)));
+      (pins[target.page] = pins[target.page] || []).push(note); savePins();
+    }
+  } else {
+    var id = d.el.dataset.sid, o = stkOff[id] || { dx:0, dy:0 }, sr = d.slot.getBoundingClientRect();
+    var ncx = Math.max(sr.left + d.w * scale / 2, Math.min(sr.right - d.w * scale / 2, gx));
+    var ncy = Math.max(sr.top + d.h * scale / 2, Math.min(sr.bottom - d.h * scale / 2, gy));
+    stkOff[id] = { dx:Math.round(o.dx + (ncx - d.cx) / scale), dy:Math.round(o.dy + (ncy - d.cy) / scale) };
+    store('nb-stk', JSON.stringify(stkOff));
+  }
+  if(d.ghost) d.ghost.remove();
+  sound.lift(); render();
+});
+
+/* ---------- tic-tac-toe in the margin: draw an x in a square, the note-taker answers with an o ---------- */
+var TTT = { board:[null,null,null,null,null,null,null,null,null], marks:[], turn:'x', over:null, line:null, cap:'', fresh:-1 };
+var X_PATH = 'M24 26C38 40 56 60 76 78M74 24C60 40 44 58 26 78';
+function oPath(){ var r = Math.random() * 30 - 15; return { d:'M52 19C72 17 86 33 84 52C82 74 63 86 46 84C27 82 15 66 17 47C19 30 33 18 55 21', rot:r }; }
+var LINES = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+function tttWinner(b){ for(var i = 0; i < LINES.length; i++){ var l = LINES[i]; if(b[l[0]] && b[l[0]] === b[l[1]] && b[l[1]] === b[l[2]]) return { who:b[l[0]], line:l }; } return b.every(Boolean) ? { who:'draw' } : null; }
+function tttHTML(){
+  var g = '<svg class="grid" viewBox="0 0 156 156" fill="none" aria-hidden="true"><path d="M53 6C51 52 54 104 52 150M104 4C106 54 102 104 105 151M5 53C54 51 104 55 151 52M6 104C56 106 104 102 152 105" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>';
+  var cells = '';
+  for(var i = 0; i < 9; i++){
+    var m = TTT.marks[i], svg = '';
+    if(m){ svg = '<svg viewBox="0 0 100 100" fill="none" class="' + (TTT.fresh === i ? 'fresh' : '') + '"' + (m.rot ? ' style="transform:rotate(' + m.rot + 'deg)"' : '') + '><path pathLength="100" d="' + m.d + '" stroke="currentColor" stroke-width="' + (m.w || 2) + '" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/></svg>'; }
+    cells += '<div class="cell" data-cell="' + i + '" role="button" tabindex="0" aria-label="Square ' + (i + 1) + (TTT.board[i] ? ', ' + TTT.board[i] : ', empty') + '" style="left:' + (i % 3) * 33.333 + '%;top:' + Math.floor(i / 3) * 33.333 + '%">' + svg + '</div>';
+  }
+  var win = '';
+  if(TTT.line){
+    var a = TTT.line[0], c = TTT.line[2], ax = (a % 3) * 52 + 26, ay = Math.floor(a / 3) * 52 + 26, cx = (c % 3) * 52 + 26, cy = Math.floor(c / 3) * 52 + 26;
+    var dx = (cx - ax) * .22, dy = (cy - ay) * .22;
+    win = '<svg class="win fresh" viewBox="0 0 156 156" fill="none" aria-hidden="true"><path pathLength="100" d="M' + (ax - dx) + ' ' + (ay - dy + 3) + 'L' + (cx + dx) + ' ' + (cy + dy - 3) + '" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>';
+  }
+  var cap = TTT.cap + (TTT.over ? ' <button class="ttt-again" type="button">again?</button>' : '');
+  return '<div class="tttwrap' + (TTT.marks.some(Boolean) && !TTT.over ? ' live' : '') + '"><p class="ttt-cap" aria-live="polite">' + cap + '</p><div class="ttt" data-ttt>' + g + cells + win + '</div></div>';
+}
+function tttPlace(i, who, mark){
+  TTT.board[i] = who; TTT.marks[i] = mark; TTT.fresh = i;
+  var w = tttWinner(TTT.board);
+  if(w){ TTT.over = w.who; TTT.line = w.line || null;
+    TTT.cap = w.who === 'x' ? 'you won. i’m framing this.' : w.who === 'o' ? 'got you. rematch?' : 'a draw. classic.';
+    sound.cover(.5, true);
+  }
+  render();
+  setTimeout(function(){ TTT.fresh = -1; }, 700);
+}
+function tttCellAt(px, py){
+  var grids = book.querySelectorAll('.slot .ttt'), br = book.getBoundingClientRect();
+  for(var g = 0; g < grids.length; g++){
+    var r = grids[g].getBoundingClientRect(), gx = (r.left - br.left) / scale, gy = (r.top - br.top) / scale, gw = r.width / scale;
+    if(px >= gx && px <= gx + gw && py >= gy && py <= gy + gw){
+      var col = Math.min(2, Math.floor((px - gx) / (gw / 3))), row = Math.min(2, Math.floor((py - gy) / (gw / 3)));
+      return { i:row * 3 + col, x:gx + col * gw / 3, y:gy + row * gw / 3, s:gw / 3 };
+    }
+  }
+  return null;
+}
+/* called when a pencil stroke ends: strokes that land in an empty square on your turn become your move.
+   it waits a beat after the last stroke, so an x drawn in two lines counts as one mark */
+var tttPending = null;
+function tttStroke(s){
+  if(TTT.over || TTT.turn !== 'x' || !s.pts.length) return false;
+  var minx = Infinity, miny = Infinity, maxx = -Infinity, maxy = -Infinity;
+  s.pts.forEach(function(p){ minx = Math.min(minx, p.x); miny = Math.min(miny, p.y); maxx = Math.max(maxx, p.x); maxy = Math.max(maxy, p.y); });
+  var c = tttCellAt((minx + maxx) / 2, (miny + maxy) / 2);
+  if(!c || TTT.board[c.i]){ if(tttPending){ clearTimeout(tttPending.t); tttCommit(); } return false; }
+  if(tttPending && tttPending.c.i !== c.i){ clearTimeout(tttPending.t); tttCommit(); return false; }
+  var tap = s.pts.length < 4 || (maxx - minx < 6 && maxy - miny < 6);
+  if(!tttPending) tttPending = { c:c, paths:[], strokes:[], tap:true, w:2, n:0 };
+  if(!tap){
+    tttPending.tap = false; tttPending.w = Math.max(1.4, Math.min(2.4, s.w)); tttPending.n++;
+    tttPending.paths.push(s.pts.map(function(p, k){ return (k ? 'L' : 'M') + ((p.x - c.x) / c.s * 100).toFixed(1) + ' ' + ((p.y - c.y) / c.s * 100).toFixed(1); }).join(''));
+    tttPending.strokes.push(s); s.hold = true;
+    var len = 0; for(var k = 1; k < s.pts.length; k++) len += Math.hypot(s.pts[k].x - s.pts[k-1].x, s.pts[k].y - s.pts[k-1].y);
+    var chord = Math.hypot(s.pts[s.pts.length-1].x - s.pts[0].x, s.pts[s.pts.length-1].y - s.pts[0].y) || 1;
+    tttPending.line = len / chord < 1.35;               // one straight line so far: half an x, wait for the other half
+  }
+  clearTimeout(tttPending.t);
+  var wait = tap && !tttPending.paths.length ? 0 : tttPending.n >= 2 ? 500 : tttPending.line ? 1800 : 800;
+  tttPending.t = setTimeout(tttCommit, wait);
+  if(wait > 500){ var cap = book.querySelector('.ttt-cap'); if(cap) cap.textContent = 'go on…'; }
+  return false;
+}
+function tttCommit(){
+  var pd = tttPending; tttPending = null; if(!pd || TTT.board[pd.c.i] || TTT.over) return;
+  strokes = strokes.filter(function(x){ return pd.strokes.indexOf(x) < 0; });
+  tttPlace(pd.c.i, 'x', pd.tap ? { d:X_PATH } : { d:pd.paths.join(''), w:pd.w });
+  if(!TTT.over){ TTT.turn = 'o'; TTT.cap = 'hmm…'; render(); setTimeout(tttReply, 450); }
+}
+function minimax(b, me){
+  var w = tttWinner(b); if(w) return { score:w.who === 'o' ? 1 : w.who === 'x' ? -1 : 0 };
+  var best = { score:me === 'o' ? -2 : 2, i:-1 };
+  for(var i = 0; i < 9; i++) if(!b[i]){
+    b[i] = me; var r = minimax(b, me === 'o' ? 'x' : 'o'); b[i] = null;
+    if(me === 'o' ? r.score > best.score : r.score < best.score) best = { score:r.score, i:i };
+  }
+  return best;
+}
+function localMove(){
+  var free = TTT.board.map(function(v, i){ return v ? -1 : i; }).filter(function(i){ return i >= 0; });
+  if(Math.random() < .25) return free[Math.floor(Math.random() * free.length)];   // it plays a little loose, on purpose
+  return minimax(TTT.board.slice(), 'o').i;
+}
+var QUIPS = ['bold choice.', 'i see what you did.', 'your move, pencil.', 'not on my page.', 'classic opening.', 'okay, okay.', 'hm. sneaky.'];
+function tttReply(){
+  var rows = [0,3,6].map(function(r){ return TTT.board.slice(r, r + 3).map(function(v){ return v || '.'; }).join(' '); }).join('\n');
+  var prompt = 'We are playing tic-tac-toe in the margin of a notebook. You are O, the visitor is X. Cells are numbered 0-8, left to right, top to bottom. "." is empty.\n' + rows +
+    '\nPick an empty cell. Play well but casually: win if you can, block if you must. Reply with only JSON: {"cell": <number>, "quip": "<4 words or fewer, lowercase, playful>"}';
+  getSampler().then(function(s){
+    if(!s) throw 0;
+    return s.json(prompt, { modelTier:'quick', cache:false });
+  }).then(function(r){
+    var i = r && Number(r.cell);
+    if(!(i >= 0 && i <= 8) || TTT.board[i]) throw 0;
+    return { i:i, quip:String(r.quip || '').toLowerCase().slice(0, 40) };
+  }).catch(function(){
+    return { i:localMove(), quip:QUIPS[Math.floor(Math.random() * QUIPS.length)] };
+  }).then(function(m){
+    if(TTT.over || TTT.board[m.i]) return;
+    sound.signature(.55);
+    TTT.turn = 'x'; TTT.cap = m.quip || 'your move.';
+    tttPlace(m.i, 'o', oPath());
+  });
+}
+function tttReset(){
+  TTT.board = [null,null,null,null,null,null,null,null,null]; TTT.marks = []; TTT.over = null; TTT.line = null; TTT.turn = 'x'; TTT.fresh = -1;
+  TTT.cap = ''; sound.lift(); render();
+}
+book.addEventListener('click', function(e){ if(e.target.closest('.ttt-again')){ e.preventDefault(); tttReset(); } });
+book.addEventListener('keydown', function(e){
+  var c = e.target.closest && e.target.closest('.ttt .cell'); if(!c || (e.key !== 'Enter' && e.key !== ' ')) return;
+  e.preventDefault(); var i = +c.dataset.cell;
+  if(TTT.over || TTT.turn !== 'x' || TTT.board[i]) return;
+  tttPlace(i, 'x', { d:X_PATH }); if(!TTT.over){ TTT.turn = 'o'; TTT.cap = 'hmm…'; render(); setTimeout(tttReply, 450); }
+});
+
+/* ---------- controls ---------- */
+cover.addEventListener('click', function(){ if(eatClick) return; openBook(false); });
+/* the cover lifts a little under your hand, so it reads as something that opens */
+var lifted = 0;
+function liftCover(to){ if(!closed || busy || lifted === to || RM) return; var from = lifted; lifted = to; tween(applyCover, from, to, 320); }
+cover.addEventListener('pointerenter', function(e){ if(e.pointerType === 'mouse') liftCover(.04); });
+cover.addEventListener('pointerleave', function(){ liftCover(0); });
+setTimeout(function(){ if(closed && !busy && !lifted && !RM){ liftCover(.05); setTimeout(function(){ liftCover(0); }, 520); } }, 1600);
+cover.addEventListener('keydown', function(e){ if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); openBook(false); } });
+$('hPrev').addEventListener('click', function(){ step(-1); });
+$('hNext').addEventListener('click', function(){ step(1); });
+tabsEl.addEventListener('click', function(e){
+  var b = e.target.closest('.tab'); if(!b || busy) return;
+  sound.wake(); sound.tab();
+  var k = +b.dataset.k;
+  if(!closed && !backClosed && k === currentChapter()) return;
+  jumpToChapter(k);
+});
+function step(dir){
+  if(letterOpen || letterBusy) return;
+  sound.wake();
+  if(dir > 0){ if(closed) openBook(false); else if(backClosed) flipOver('front'); else if(pos >= lastPos()) closeBack(); else turn(1); }
+  else { if(backClosed) openBack(); else if(closed) flipOver('back'); else if(pos <= 0) closeBook(); else turn(-1); }
+}
+$('bPrev').addEventListener('click', function(){ step(-1); });
+$('bNext').addEventListener('click', function(){ step(1); });
+$('bClose').addEventListener('click', function(){ sound.wake(); closeBook(); });
+var bSound = $('bSound');
+function paintSound(){ bSound.textContent = sound.on ? 'Sound on' : 'Sound off'; bSound.setAttribute('aria-pressed', String(sound.on)); }
+bSound.addEventListener('click', function(){ sound.wake(); sound.toggle(); paintSound(); });
+paintSound();
+var themes = ['auto', 'light', 'dark'], ti = Math.max(0, themes.indexOf(store('nb-theme') || 'auto'));
+function paintTheme(){ var t = themes[ti]; if(t === 'auto') root.removeAttribute('data-theme'); else root.setAttribute('data-theme', t); $('bTheme').textContent = 'Theme: ' + t; paintCursors(); }
+$('bTheme').addEventListener('click', function(){ ti = (ti + 1) % themes.length; store('nb-theme', themes[ti]); paintTheme(); sound.wake(); sound.tab(); });
+paintTheme();
+var tabStyle = store('nb-tabs') === 'red' ? 'red' : 'ink';
+function paintTabs(){ root.setAttribute('data-tabs', tabStyle); $('bTabs').textContent = 'Tabs: ' + tabStyle; }
+$('bTabs').addEventListener('click', function(){ tabStyle = tabStyle === 'ink' ? 'red' : 'ink'; store('nb-tabs', tabStyle); paintTabs(); sound.wake(); sound.tab(); });
+paintTabs();
+var ICON = {
+  moon:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19.6 14.8A8 8 0 0 1 9.3 4.3c-3.4 1.1-5.6 4.4-5.3 8.1.4 4.2 3.9 7.5 8.1 7.6 3.2.1 6.1-1.9 7.5-5.2z"/></svg>',
+  sun:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M12 7.6c2.5-.1 4.5 1.9 4.4 4.5-.1 2.4-2 4.3-4.5 4.3-2.4 0-4.3-2-4.3-4.4 0-2.5 2-4.4 4.4-4.4z"/><path d="M12 2.6v2M12 19.4v2M2.6 12h2M19.4 12h2M5.3 5.4l1.4 1.4M17.3 17.3l1.4 1.4M5.4 18.7l1.4-1.4M17.4 6.6l1.3-1.3"/></svg>',
+  on:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.6h3.3L12 5.4v13.2l-4.7-4.2H4z"/><path d="M15.6 9.2c1.3 1.6 1.3 4 0 5.6M18.3 6.7c2.6 2.9 2.6 7.6 0 10.6"/></svg>',
+  fit:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.2V4.3h4.9M15.1 4.2H20v4.9M20 14.9v4.8h-4.9M8.9 19.8H4v-4.9"/><path d="M9.4 9.5h5.2v5.1H9.4z"/></svg>',
+  off:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.6h3.3L12 5.4v13.2l-4.7-4.2H4z"/><path d="M16 9.6l4.6 4.8M20.6 9.6 16 14.4"/></svg>'
+};
+function isDark(){ var t = root.getAttribute('data-theme'); return t ? t === 'dark' : !!(window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches); }
+function paintToggles(){
+  var d = isDark(), tt = $('tTheme'), ts = $('tSound');
+  tt.innerHTML = d ? ICON.sun : ICON.moon; tt.setAttribute('aria-label', d ? 'Switch to light mode' : 'Switch to dark mode');
+  var tf = $('tFit'); tf.innerHTML = ICON.fit; tf.hidden = Math.abs(zoom - 1) < .005;
+  ts.innerHTML = sound.on ? ICON.on : ICON.off; ts.setAttribute('aria-pressed', String(sound.on)); ts.setAttribute('aria-label', sound.on ? 'Sound on' : 'Sound off');
+}
+$('tTheme').addEventListener('click', function(){
+  var next = isDark() ? 'light' : 'dark'; ti = themes.indexOf(next); store('nb-theme', next); paintTheme(); paintToggles(); sound.wake(); sound.tab();
+});
+$('tFit').addEventListener('click', function(){ sound.wake(); sound.tab(); setZoom(1); });
+$('tSound').addEventListener('click', function(){ sound.wake(); sound.toggle(); paintSound(); paintToggles(); if(sound.on) sound.tab(); });
+if(window.matchMedia) try{ matchMedia('(prefers-color-scheme: dark)').addEventListener('change', paintToggles); }catch(e){}
+paintToggles();
+document.addEventListener('keydown', function(e){
+  if(e.target.closest && e.target.closest('input,textarea')) return;
+  var dir = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0; if(!dir) return;
+  if(e.repeat){ if(!riff) riffle(dir); return; }   // hold an arrow key to riffle
+  step(dir);
+});
+/* zoom: pinch on a trackpad or with two fingers, ctrl/cmd + scroll, or ctrl/cmd + plus, minus and 0 */
+var zraf = 0;
+function setZoom(z){
+  z = Math.max(.6, Math.min(1.6, Math.round(z * 100) / 100));
+  if(z === zoom || busy || letterOpen) return;
+  zoom = z; store('nb-zoom', String(z)); if(typeof paintToggles === 'function') paintToggles();
+  if(!zraf) zraf = requestAnimationFrame(function(){ zraf = 0; layout(); });
+}
+window.addEventListener('wheel', function(e){
+  if(!e.ctrlKey && !e.metaKey) return;
+  e.preventDefault(); setZoom(zoom * Math.exp(-e.deltaY * .01));
+}, { passive:false });
+var gz = 1; // Safari's own pinch events
+document.addEventListener('gesturestart', function(e){ e.preventDefault(); gz = zoom; });
+document.addEventListener('gesturechange', function(e){ e.preventDefault(); setZoom(gz * e.scale); });
+document.addEventListener('keydown', function(e){
+  if(!(e.ctrlKey || e.metaKey)) return;
+  if(e.key === '=' || e.key === '+'){ e.preventDefault(); setZoom(zoom * 1.1); }
+  else if(e.key === '-' || e.key === '_'){ e.preventDefault(); setZoom(zoom / 1.1); }
+  else if(e.key === '0'){ e.preventDefault(); setZoom(1); }
+});
+var touches = {}, pinch = null;
+function tdist(){ var k = Object.keys(touches); if(k.length < 2) return 0; var a = touches[k[0]], b = touches[k[1]]; return Math.hypot(a.x - b.x, a.y - b.y); }
+document.addEventListener('pointerdown', function(e){
+  if(e.pointerType !== 'touch') return;
+  touches[e.pointerId] = { x:e.clientX, y:e.clientY };
+  if(Object.keys(touches).length === 2){
+    // a second finger means zoom, not drawing
+    if(cur){ var s = cur; cur = null; strokes = strokes.filter(function(x){ return x !== s; }); sound.pencil(0); }
+    pinch = { d0:tdist(), z0:zoom };
+  }
+}, true);
+document.addEventListener('pointermove', function(e){
+  if(!touches[e.pointerId]) return;
+  touches[e.pointerId] = { x:e.clientX, y:e.clientY };
+  if(pinch && pinch.d0 > 20) setZoom(pinch.z0 * tdist() / pinch.d0);
+}, true);
+['pointerup', 'pointercancel'].forEach(function(ev){ document.addEventListener(ev, function(e){ delete touches[e.pointerId]; if(Object.keys(touches).length < 2) pinch = null; }, true); });
+var rt; window.addEventListener('resize', function(){ clearTimeout(rt); rt = setTimeout(function(){ if(!busy) layout(); }, 120); });
+layout();
+if(document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ if(!busy) layout(); });
+})();
+</script>
+
+</body>
+</html>
