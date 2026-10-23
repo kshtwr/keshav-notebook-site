@@ -836,10 +836,37 @@ var mode = 'spread', PW = 520, PH = 660, BW = 1040, scale = 1;
 var zoom = Math.max(.6, Math.min(1.6, parseFloat(store('nb-zoom')) || 1));
 var pos = 0, closed = true, busy = false, signed = false, backClosed = false;
 
+/* a page that holds more than fits (mostly on phones) is shrunk just enough to show all of it */
+var FIT = {};
+function fitCSS(f){ return 'right:auto;bottom:auto;box-sizing:border-box;width:' + (PW / f).toFixed(1) + 'px;height:' + (PH / f).toFixed(1) + 'px;transform:scale(' + f.toFixed(4) + ');transform-origin:0 0'; }
+/* how tall the page's content wants to be, bottom padding included (scrollHeight misses content that spills into the padding) */
+function fitNeed(pc){
+  var b = 0;
+  for(var c = pc.firstElementChild; c; c = c.nextElementSibling) if(getComputedStyle(c).position !== 'absolute') b = Math.max(b, c.offsetTop + c.offsetHeight);
+  return b + parseFloat(getComputedStyle(pc).paddingBottom);
+}
+function computeFits(){
+  FIT = {};
+  var probe = document.createElement('div');
+  probe.className = 'book ' + mode; probe.setAttribute('aria-hidden', 'true');
+  probe.style.cssText = 'position:absolute;left:-10000px;top:0;visibility:hidden;width:' + PW + 'px;height:' + PH + 'px';
+  document.body.appendChild(probe);
+  for(var i = 0; i < N; i++){
+    probe.innerHTML = pageHTML(i, mode === 'spread' ? (i % 2 ? 'right' : 'left') : 'single');
+    var pc = probe.querySelector('.pc'), f = 1;
+    for(var k = 0; k < 6; k++){
+      var n = fitNeed(pc); if(n <= pc.clientHeight + 1 || f <= .62) break;
+      f = Math.max(.62, f * pc.clientHeight / n * .995);
+      pc.style.cssText = fitCSS(f);
+    }
+    if(f < 1) FIT[i] = f;
+  }
+  probe.remove();
+}
 function pageHTML(i, side){
   if(i < 0 || i >= N) return '<div class="pg '+side+'"></div>';
   var p = PAGES[i];
-  return '<div class="pg '+side+'"><div class="pc">'+(typeof stickyIds === 'function' ? stickyIds(p.html, i) : p.html).replace('<!--TTT-->', typeof tttHTML === 'function' ? tttHTML() : '')+'</div>'+(typeof pinsHTML === 'function' ? pinsHTML(i) + agPageHTML(i) : '')+(p.num===false?'':'<div class="pfoot">p. '+(i+1)+'</div>')+'</div>';
+  return '<div class="pg '+side+'"><div class="pc"'+(FIT[i] ? ' style="'+fitCSS(FIT[i])+'"' : '')+'>'+(typeof stickyIds === 'function' ? stickyIds(p.html, i) : p.html).replace('<!--TTT-->', typeof tttHTML === 'function' ? tttHTML() : '')+'</div>'+(typeof pinsHTML === 'function' ? pinsHTML(i) + agPageHTML(i) : '')+(p.num===false?'':'<div class="pfoot">p. '+(i+1)+'</div>')+'</div>';
 }
 function lastPos(){ return mode === 'spread' ? Math.ceil(N/2) - 1 : N - 1; }
 function currentChapter(){ var i = mode === 'spread' ? 2*pos + 1 : pos; i = Math.min(i, N-1); return PAGES[i].ch; }
@@ -899,10 +926,13 @@ function updateBar(){
   $('pgnum').textContent = closed ? 'cover' : backClosed ? 'back' : mode === 'spread' ? (2 * pos + 1) + '–' + Math.min(N, 2 * pos + 2) + ' / ' + N : (pos + 1) + ' / ' + N;
 }
 
+var LDIM = '';
+function viewDims(){ return window.innerWidth + 'x' + window.innerHeight + 'x' + document.body.clientWidth; }
 function layout(){
   var vw = window.innerWidth, vh = window.innerHeight;
   var barH = (vw <= 560 ? 82 : vw < 1100 ? 86 : 46) + 28;   // the book keeps the size it had with the old control row
   var availW = document.body.clientWidth, availH = vh - barH - 16;
+  LDIM = viewDims();
   var newMode = availW >= 760 ? 'spread' : 'single';
   if(newMode !== mode){
     if(newMode === 'single') pos = closed ? 0 : Math.min(N-1, Math.max(0, 2*pos + (pos === 0 ? 1 : 0)));
@@ -930,6 +960,7 @@ function layout(){
   $('hint').style.top = (tabsTop + PH + 22) + 'px';
   if(mode === 'spread'){ L.style.left = '0px'; L.style.width = PW + 'px'; R.style.left = PW + 'px'; R.style.width = PW + 'px'; }
   else { L.style.width = '0px'; R.style.left = '0px'; R.style.width = PW + 'px'; }
+  computeFits();
   cover.style.left = (mode === 'spread' ? PW : 0) + 'px'; cover.style.width = PW + 'px';
   cover.style.transformOrigin = 'left center';
   coverB.innerHTML = mode === 'spread' ? pageHTML(0, 'left') : '<div class="pg single"></div>';
@@ -2225,7 +2256,23 @@ document.addEventListener('pointermove', function(e){
   if(pinch && pinch.d0 > 20) setZoom(pinch.z0 * tdist() / pinch.d0);
 }, true);
 ['pointerup', 'pointercancel'].forEach(function(ev){ document.addEventListener(ev, function(e){ delete touches[e.pointerId]; if(Object.keys(touches).length < 2) pinch = null; }, true); });
-var rt; window.addEventListener('resize', function(){ clearTimeout(rt); rt = setTimeout(function(){ if(!busy) layout(); }, 120); });
+/* re-fit whenever the viewport settles on a size the layout wasn't built for (rotating, resizing, or switching devices in DevTools can report a transient size first) */
+var rt;
+function refit(){
+  clearTimeout(rt);
+  rt = setTimeout(function(){
+    if(viewDims() === LDIM) return;
+    if(busy){ refit(); return; }
+    layout();
+    refit();   // check again once, in case the size moved during the layout
+  }, 120);
+}
+window.addEventListener('resize', refit);
+window.addEventListener('orientationchange', refit);
+if(window.visualViewport) window.visualViewport.addEventListener('resize', refit);
+if(window.ResizeObserver) new ResizeObserver(refit).observe(document.documentElement);
+/* some browsers (DevTools' device switcher, iOS address bar changes) settle on the final size without a last resize event, so also check now and then */
+setInterval(function(){ if(!busy && viewDims() !== LDIM) layout(); }, 400);
 layout();
 if(document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ if(!busy) layout(); });
 })();

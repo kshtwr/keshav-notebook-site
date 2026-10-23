@@ -46,6 +46,16 @@ assets/
   (https://www.linkedin.com/post-inspector/). Test other platforms with https://www.opengraph.xyz.
 - To remake the image after the profile page changes, take a new screenshot of the open spread and save it over `og.jpg`.
 
+**If the note still gives offline answers after adding the key**
+1. Environment variables only reach new deployments. Redeploy (push a commit, or Deployments → ⋯ → Redeploy) after adding the key.
+2. Check the variable is named exactly `ANTHROPIC_API_KEY` and is enabled for Production.
+3. Test the function directly (use your address):
+   `curl -s -X POST https://YOUR-SITE.vercel.app/api/ask -H 'content-type: application/json' -d '{"prompt":"say hi"}'`
+   - `{"text":"…"}` means it works.
+   - 503 `not configured`: the key isn't reaching this deployment (steps 1 and 2).
+   - 400 `bad request`: the prompt was too long. The limit is 40,000 characters; the page facts alone are about 14,000.
+   - 502 `upstream`: Anthropic rejected the call. Look in Vercel → Logs for `anthropic error` with the status (401 bad key, 404 wrong model name, 429 rate limit or spend limit).
+
 **Custom domain (optional)**: Project → Settings → Domains → add the domain and set the DNS records Vercel shows.
 
 ## After it's live

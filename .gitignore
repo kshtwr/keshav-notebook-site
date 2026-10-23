@@ -1,0 +1,9 @@
+# secrets: never commit these
+anthropic-api-key.txt
+.env
+.env.*
+
+# local and tooling files
+.vercel
+node_modules
+.DS_Store

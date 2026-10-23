@@ -13,7 +13,7 @@ export default async function handler(req, res) {
   const key = process.env.ANTHROPIC_API_KEY;
   if (!key) return res.status(503).json({ error: 'not configured' });
   const prompt = req.body && req.body.prompt;
-  if (typeof prompt !== 'string' || !prompt || prompt.length > 12000) return res.status(400).json({ error: 'bad request' });
+  if (typeof prompt !== 'string' || !prompt || prompt.length > 40000) return res.status(400).json({ error: 'bad request' });  // the notebook's facts alone run to about 14,000 characters
   try {
     const r = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
@@ -21,9 +21,13 @@ export default async function handler(req, res) {
       body: JSON.stringify({ model: process.env.ANTHROPIC_MODEL || 'claude-haiku-5-5', max_tokens: 160, system: SYSTEM, messages: [{ role: 'user', content: prompt }] })
     });
     const j = await r.json();
-    if (!r.ok) return res.status(502).json({ error: 'upstream' });
+    if (!r.ok) {
+      console.error('anthropic error', r.status, j && j.error && (j.error.type + ': ' + j.error.message));  // shows in Vercel -> Logs; never logs the key
+      return res.status(502).json({ error: 'upstream', status: r.status });
+    }
     res.status(200).json({ text: (j.content || []).map(c => c.text || '').join('').trim() });
   } catch (e) {
+    console.error('ask failed', e && e.message);
     res.status(502).json({ error: 'upstream' });
   }
 }

@@ -1,0 +1,4 @@
+anthropic-api-key.txt
+.env
+.env.*
+.DS_Store
