@@ -37,6 +37,15 @@ assets/
 3. `ANTHROPIC_MODEL` overrides the default model (`claude-haiku-5-5`).
 4. Without a key the note uses its built-in answers and the tic-tac-toe plays on its own.
 
+**Link preview image**
+- `assets/images/og.jpg` (1200×630) is the card LinkedIn, iMessage, Slack and X show when the link is shared.
+  It's a screenshot of the open profile spread.
+- Preview crawlers need full URLs. In the `<head>` of `index.html`, replace `YOUR-SITE.vercel.app` with the final address
+  (three places: `og:url`, `og:image`, `twitter:image`), then redeploy.
+- Platforms cache previews. After changing the image, refresh LinkedIn's copy with the Post Inspector
+  (https://www.linkedin.com/post-inspector/). Test other platforms with https://www.opengraph.xyz.
+- To remake the image after the profile page changes, take a new screenshot of the open spread and save it over `og.jpg`.
+
 **Custom domain (optional)**: Project → Settings → Domains → add the domain and set the DNS records Vercel shows.
 
 ## After it's live
