@@ -20,13 +20,11 @@
 <meta name="theme-color" content="#EEEEEE" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='5' y='3' width='22' height='26' rx='3' fill='%230B0B0B'/%3E%3Crect x='10' y='10' width='12' height='7' rx='1' fill='white'/%3E%3C/svg%3E">
-<!-- Handwriting font: when your Calligraphr font is ready, put keshav-hand.ttf next to this file and uncomment:
-<style>@font-face{font-family:'Keshav Hand';src:url('keshav-hand.ttf') format('truetype');font-display:swap}:root{--hand:'Keshav Hand','Caveat',cursive!important}</style>
--->
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Caveat:wght@500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Patrick+Hand&display=swap">
 <style>
+@font-face{font-family:'Keshav Hand';src:url('KeshavHand.woff') format('woff'),url('KeshavHand.ttf') format('truetype');font-weight:400 700;font-display:swap;size-adjust:132%}
+.hand,.note,.big-hand,.sig,.ag-hint,.ag-ans,.ag-sugg button,.ag-form input,.pocket span,.ttt-cap,.ttt-cap button,.polaroid .cap,.sticky,.pin{-webkit-text-stroke:.022em currentColor}
 /* Layout: one notebook centered on a desk. Desktop shows a two-page spread with index tabs on the right edge; phones show one page with tabs across the top. */
 :root{
   --desk:#EEEEEE; --page:#FFFFFF; --ink:#171717; --muted:#6B6B6B; --faint:#9A9A9A; --line:#E6E6E6;
@@ -39,7 +37,7 @@
   --bar-ink:#171717; --bar-muted:#6B6B6B; --bar-hover:#F2F2F2; --pocket:#F2F2F2;
   --sans:'Geist',ui-sans-serif,system-ui,-apple-system,sans-serif;
   --mono:'Geist Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
-  --hand:'Caveat','Bradley Hand','Segoe Print',cursive;
+  --hand:'Keshav Hand','Patrick Hand','Bradley Hand','Segoe Print','Comic Neue',cursive;
 }
 @media (pointer:coarse){.tg{width:40px;height:40px}}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
@@ -113,7 +111,7 @@ a{color:inherit}
 .cv .label{position:absolute;left:84px;top:220px;width:272px;height:140px;background:var(--label);border-radius:4px;padding:16px 18px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between;color:var(--label-ink)}
 .cv .label small{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;color:#6B6B6B}
 .sigline{height:62px;border-bottom:1px solid #A9A9A9;display:flex;align-items:flex-end;justify-content:center;padding-bottom:4px}
-.sig{font-family:var(--hand);font-weight:600;font-size:44px;line-height:1;color:#171717;clip-path:inset(0 100% 0 0);display:inline-block;padding:0 10px 0 6px}
+.sig{font-family:var(--hand);font-weight:600;font-size:38px;white-space:nowrap;line-height:1;color:#171717;clip-path:inset(0 100% 0 0);display:inline-block;padding:0 10px 0 6px}
 .signed .sig{clip-path:inset(0 0 0 0)}
 .cv .doodle{position:absolute;left:84px;bottom:56px;width:120px;height:120px;display:flex;align-items:center;justify-content:center}
 /* a rubber stamp pressed into the stencil: a little robot waving hi */
@@ -309,6 +307,7 @@ canvas#ink{position:absolute;left:0;top:0;z-index:3;pointer-events:none}
 .ag-hint{font-family:var(--hand);font-size:19px;line-height:1.05;clip-path:inset(0 0 0 0)}
 .ag-mini small,.ag-top small{font-family:var(--mono);font-size:9px;letter-spacing:.12em;opacity:.65}
 .agpage{position:absolute;z-index:3;width:136px;height:116px}
+.single .agpage{transform:scale(.8);transform-origin:0 0}
 .ag-card{position:fixed;left:0;top:0;z-index:26;width:320px;height:380px;background:var(--sticky);color:var(--sticky-ink);
   padding:14px 16px 12px;box-sizing:border-box;display:flex;flex-direction:column;gap:10px;transform-origin:20% 100%;
   box-shadow:0 18px 40px rgba(0,0,0,.22),0 2px 4px rgba(0,0,0,.08);transform:rotate(-1.5deg) scale(1);transition:transform .45s cubic-bezier(.3,.8,.2,1),opacity .3s}
@@ -368,15 +367,19 @@ canvas#ink{position:absolute;left:0;top:0;z-index:3;pointer-events:none}
 .lt-sheet::-webkit-scrollbar{width:5px}.lt-sheet::-webkit-scrollbar-track{background:transparent}.lt-sheet::-webkit-scrollbar-thumb{background:var(--line);border-radius:5px}
 .lt-sheet:hover::-webkit-scrollbar-thumb{background:var(--faint)}
 
-.tttwrap{position:absolute;right:100px;bottom:26px;display:flex;flex-direction:column;align-items:center;gap:2px;opacity:.5;transition:opacity .3s;z-index:1}
+.tttwrap{position:absolute;right:46px;bottom:26px;display:flex;flex-direction:row-reverse;align-items:center;gap:10px;opacity:.5;transition:opacity .3s;z-index:1}
 .tttwrap:hover,.tttwrap:focus-within,.tttwrap.live{opacity:1}
-.single .tttwrap{right:94px;bottom:26px}
+.single .tttwrap{right:26px;bottom:26px}
+/* spread the glance page out on phones, unless the sticky note is sitting on it */
+.single .pg:not(:has(> .agpage)) .pc:has(> .tttwrap){gap:34px}
+.single .pg:not(:has(> .agpage)) .pc > .glance:has(> .mail){margin-top:24px;gap:12px}
+.single .tttwrap{gap:8px}.single .ttt-cap{width:90px}
 .ttt{position:relative;width:96px;height:96px;flex:none;color:var(--pen)}
 .ttt svg.grid,.ttt svg.win{position:absolute;inset:0;overflow:visible;pointer-events:none}
 .ttt .cell{position:absolute;width:33.333%;height:33.333%;cursor:var(--cur-pencil,crosshair);border-radius:4px}
 .ttt .cell:hover{background:color-mix(in srgb,var(--pen) 5%,transparent)}
 .ttt .cell svg{width:100%;height:100%;overflow:visible;display:block}
-.ttt-cap{font-family:var(--hand);font-size:13px;line-height:1.05;color:var(--pen);width:130px;min-height:14px;text-align:center;margin:0}
+.ttt-cap{font-family:var(--hand);font-size:13px;line-height:1.05;color:var(--pen);width:110px;min-height:14px;text-align:left;margin:0}
 .ttt-cap button{font-family:var(--hand);font-size:13px;color:var(--pen);text-decoration:underline;text-underline-offset:3px;min-height:32px}
 @keyframes tdraw{to{stroke-dashoffset:0}}
 .fresh path{stroke-dasharray:100;stroke-dashoffset:100;animation:tdraw .55s ease-out forwards}
@@ -1660,14 +1663,13 @@ function stripHTML(h){ var d = document.createElement('div'); d.innerHTML = h; r
 var FACTS = PAGES.map(function(p, i){ return 'Page ' + i + ': ' + stripHTML(p.html); }).join('\n') +
   '\nAlso: email keshav_tiwari@berkeley.edu, linkedin.com/in/keshavtiwari26, github.com/kshtwr. Based in Berkeley, CA. Open to full-time roles from May 2027.';
 /* where the note is: resting on the desk (stays put while pages turn), or stuck to a page (turns with it) */
-var noteAt = null; try{ noteAt = JSON.parse(store('nb-note3') || 'null'); }catch(e){ noteAt = null; }
-function saveNote(){ store('nb-note3', JSON.stringify(noteAt)); }
+var noteAt = null; try{ noteAt = JSON.parse(store('nb-note6') || 'null'); }catch(e){ noteAt = null; }
+function saveNote(){ store('nb-note6', JSON.stringify(noteAt)); }
 function barTop(){ return $('toggles').getBoundingClientRect().top; }
 function noteDefault(){
-  var r = book.getBoundingClientRect(), w = 136 * scale, h = 116 * scale;
-  if(r.left - w - 22 >= 8) return { where:'desk', x:r.left - w - 22, y:r.bottom - h - 24 };
   if(mode === 'spread') return { where:'page', page:2 * pos + 1, x:46, y:PH - 128 };
-  return { where:'page', page:1, x:22, y:PH - 128 };   // bottom-left of the glance page, beside the tic-tac-toe
+  // phones: a smaller note stuck over the bottom-right of the first page, clear of the page-turn corner
+  return { where:'page', page:0, x:PW - 153, y:PH - 112 };
 }
 function agPage(){ return noteAt && noteAt.where === 'page' ? noteAt.page : (mode === 'spread' ? 2 * pos : pos); }
 function agPageHTML(i){
