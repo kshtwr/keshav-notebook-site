@@ -285,6 +285,20 @@ canvas#ink{position:absolute;left:0;top:0;z-index:3;pointer-events:none}
 .snaps .polaroid .cap{margin:0;padding:4px 0 6px;text-align:center;font-size:17px;line-height:1.1}
 .media.doodle{flex:none;height:96px;min-height:0;margin-top:auto;align-items:center;justify-content:center;color:var(--pen)}
 .media.doodle.sm{height:60px}
+.skt{display:block;flex:none;max-width:100%;background:var(--pen);-webkit-mask:var(--sk) center/contain no-repeat;mask:var(--sk) center/contain no-repeat;opacity:.88}
+.orn{position:absolute;right:16px;transform:rotate(var(--r));pointer-events:none;z-index:0}
+.pg.left .orn:not(.r){right:auto;left:16px}
+/* phones: smaller, tucked into the empty bottom-right corner beside the page-turn fold */
+.single .orn{bottom:26px!important;right:42px;transform:rotate(var(--r)) scale(.8);transform-origin:100% 100%}
+.single .orn.sm{transform:rotate(var(--r)) scale(.6)}
+.orn.placed{right:auto!important;bottom:auto!important;transform:rotate(var(--r))!important;transform-origin:50% 50%!important}
+.single .orn.placed{transform:rotate(var(--r))!important}
+/* ?arrange: drag to move, scroll to resize, shift+scroll to rotate */
+.arranging .orn{pointer-events:auto;cursor:move;outline:1px dashed rgba(220,60,40,.6);outline-offset:4px;z-index:20}
+.arranging .orn:hover{outline-style:solid}
+#arrangeBar{position:fixed;left:50%;top:12px;transform:translateX(-50%);z-index:9999;display:flex;gap:10px;align-items:center;padding:8px 12px;border-radius:10px;background:#1b1b1b;color:#eee;font:12px/1.3 ui-monospace,Menlo,monospace;box-shadow:0 6px 20px rgba(0,0,0,.25)}
+#arrangeBar button{font:inherit;color:#111;background:#f3e27a;border:0;border-radius:6px;padding:5px 9px;cursor:pointer}
+#arrangeBar button.ghost{background:#444;color:#eee}
 .media.doodle svg{height:100%;width:auto;max-width:100%;overflow:visible}
 .bul.sm{font-size:12.5px;gap:4px;color:var(--muted);margin-top:4px}
 .it + .it{margin-top:4px}
@@ -322,7 +336,7 @@ canvas#ink{position:absolute;left:0;top:0;z-index:3;pointer-events:none}
 .ag-top{display:flex;justify-content:space-between;align-items:center}
 .ag-top button{width:30px;height:30px;font-size:18px;line-height:1;border-radius:50%;color:inherit}
 .ag-top button:hover{background:rgba(0,0,0,.06)}
-.ag-ans{font-family:var(--hand);font-size:22px;line-height:1.12;white-space:pre-wrap;flex:1 1 0;min-height:0;overflow:hidden}
+.ag-ans{overflow-wrap:anywhere;font-family:var(--hand);font-size:22px;line-height:1.12;white-space:pre-wrap;flex:1 1 0;min-height:0;overflow:hidden}
 .ag-ans .think{opacity:.55}
 .ag-sugg{display:flex;flex-wrap:wrap;gap:6px}
 .ag-sugg button{font-family:var(--hand);font-size:17px;line-height:1;padding:6px 9px;border:1px dashed currentColor;border-radius:14px;opacity:.8;color:inherit}
@@ -335,7 +349,7 @@ canvas#ink{position:absolute;left:0;top:0;z-index:3;pointer-events:none}
 .ag-foot button{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-decoration:underline;text-underline-offset:3px;color:inherit;min-height:28px}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 /* answers stuck onto a page */
-.pin{position:absolute;z-index:2;cursor:var(--cur-turn,grab);touch-action:none;width:150px;background:var(--sticky);color:var(--sticky-ink);font-family:var(--hand);font-size:17px;line-height:1.1;padding:12px 12px 10px;box-sizing:border-box;box-shadow:0 5px 12px rgba(0,0,0,.14)}
+.pin{overflow-wrap:anywhere;position:absolute;z-index:2;cursor:var(--cur-turn,grab);touch-action:none;width:150px;background:var(--sticky);color:var(--sticky-ink);font-family:var(--hand);font-size:17px;line-height:1.1;padding:12px 12px 10px;box-sizing:border-box;box-shadow:0 5px 12px rgba(0,0,0,.14)}
 .pin::before{content:"";position:absolute;left:46px;top:-8px;width:48px;height:16px;background:var(--tape)}
 .pin .unpin{position:absolute;right:2px;top:2px;width:24px;height:24px;font-family:var(--sans);font-size:14px;opacity:.5;color:inherit}
 .pin .unpin:hover{opacity:1}
@@ -588,6 +602,32 @@ var ME = {
   ]
 };
 function ext(url, label){ return '<a href="' + url + '" target="_blank" rel="noopener">' + label + '</a>'; }
+/* hand-drawn sketches scanned from my notebook (black ink on transparent); drawn in the pen colour via a mask so they follow dark mode */
+var SKETCH = { ear:[387,560], vr:[478,331], car:[554,300], chart:[555,500], people:[549,367], cardboard:[478,399], turntable:[560,477], window:[420,313] };
+var SKETCH_FOR = { starkey:['ear',104,9,96], xr:['vr',70,-8,104], sal:['car',62,-6,98], classifiers:['chart',84,7,100], ux:['people',70,-5,104] };
+/* an ornament tucked against the page's outer edge, slightly turned */
+function orn(name, h, r, b, side){ return '<div class="orn' + (side ? ' ' + side : '') + '" data-orn="' + name + '" style="--r:' + r + 'deg;bottom:' + b + 'px">' + sketch(name, h) + '</div>'; }
+/* hand-placed positions, per layout (spread = laptop pages, single = phone): { name:[x, y, height, rotation] } in page pixels.
+   Open the site with ?arrange to drag sketches around, then copy the layout and paste it here. */
+var ORN_LAYOUT = {
+  spread:{ ear:[328,398,156,7], window:[379,546,72,8], vr:[56,492,105,-8], people:[52,531,99,0], car:[300,532,89,-1], cardboard:[383,559,84,7], chart:[259,476,150,1], turntable:[361,536,73,-6] },
+  single:{}
+};
+try{ var ornSaved = JSON.parse(store('nb-orn') || 'null'); if(ornSaved) ['spread','single'].forEach(function(k){ for(var n in ornSaved[k] || {}) ORN_LAYOUT[k][n] = ornSaved[k][n]; }); }catch(e){}
+/* lift ornaments out of the page's scaled content so they sit on the paper itself, then apply any hand-placed position */
+function ornsOut(html){
+  var out = '';
+  html = html.replace(/<div class="orn[^"]*" data-orn="(\w+)"[^>]*>[\s\S]*?<\/i><\/div>/g, function(m, name){
+    var at = ORN_LAYOUT[mode === 'spread' ? 'spread' : 'single'][name];
+    if(at) m = m.replace(/class="orn/, 'class="orn placed').replace(/style="[^"]*"/, 'style="left:' + at[0] + 'px;top:' + at[1] + 'px;--r:' + at[3] + 'deg;--h:' + at[2] + 'px"');
+    out += m; return '';
+  });
+  return [html, out];
+}
+function sketch(name, h, style){
+  var d = SKETCH[name];
+  return '<i class="skt" aria-hidden="true" style="--sk:url(assets/images/sketches/' + name + '.png);height:var(--h,' + h + 'px);aspect-ratio:' + d[0] + '/' + d[1] + (style ? ';' + style : '') + '"></i>';
+}
 var DOODLES = {
   starkey:'<path d="M70 70c-14-8-20-26-14-42 6-16 24-22 38-16 14 6 18 22 10 34-6 9-14 12-14 24 0 8-6 12-12 10"/><path d="M80 34c6-6 16-2 16 6s-8 10-10 18"/><path d="M122 30c8 6 8 20 0 26M134 22c14 10 14 34 0 44M146 14c20 14 20 48 0 62"/>',
   simular:'<path d="M60 14l0 44 12-10 9 20 8-4-9-20 16-1z"/><path d="M110 20l4 10 10 4-10 4-4 10-4-10-10-4 10-4zM140 52l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/><path d="M84 70c20 14 50 12 74-8" stroke-dasharray="4 5"/>',
@@ -643,6 +683,7 @@ function media(key, kind, cls){
   if(shots) return '<div class="media snaps' + (m.ratio ? ' natural' : '') + c + '">' + shots.map(function(u, i){
     return '<div class="polaroid" style="--r:' + (i % 2 ? '3.5deg' : '-3deg') + (m.w ? ';width:' + m.w[i] : '') + '"><span class="tape"></span><div class="frame"><img alt="' + ((m.caps || [])[i] || m.alt || '') + '" decoding="async" src="' + u + '"' + (m.ratio ? ' style="aspect-ratio:' + m.ratio[i] + '"' : (m.pos || [])[i] ? ' style="object-position:' + m.pos[i] + '"' : '') + '><span class="cap">' + ((m.caps || [])[i] || '') + '</span></div></div>';
   }).join('') + '</div>';
+  if(SKETCH_FOR[key]) return orn.apply(null, SKETCH_FOR[key]);
   return '<div class="media doodle' + c + '" aria-hidden="true"><svg viewBox="0 0 200 90" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">' + (DOODLES[key] || '') + '</svg></div>';
 }
 /* recommendations, keyed by the page they sit on. Paragraphs are separated by a blank line. Empty text shows the doodle instead */
@@ -702,7 +743,7 @@ var PAGES = [
   { id:'work', ch:1, html: cover('02', 'Work', 'Where I’ve worked', 'Agents, interfaces and a lot of applied ML, from a hearing aid company to a car lab.',
     toc('starkey','Starkey','Software Engineer (Wearable AI)')+toc('simular','Simular','Software Engineer (AI Agents) Intern')+toc('fil','Foundation Interface Lab','Software Engineer Research Intern')+
     toc('xr','Extended Reality (XR) Lab','Software Engineer (Generative AI)')+toc('caprae','Caprae Capital','Software Engineer (Data/ML) Intern')+toc('mentor','UCSD Cognitive Science','Programming mentor')+toc('sal','Laboratory for Intelligent and Safe Automobiles','<span style="white-space:nowrap">Machine Learning Researcher</span>')+toc('ux','League of Amazing Programmers','UX researcher')+toc('toolkit','Toolkit','What I build with'),
-    'newest first ↓') },
+    'newest first ↓') + orn('window', 54, 5, 100) },
   { id:'starkey', ch:1, html:
     '<div class="eyebrow"><span>Work · 01</span><span>Sept 2026 – Present</span></div><h2 class="h2">Starkey</h2>'+
     '<p class="lede">Software Engineer (Wearable AI)</p>'+
@@ -764,7 +805,8 @@ var PAGES = [
     '<div class="it"><b>AI</b><span class="m">LLM APIs, agents, RAG, evals, PyTorch, Claude Code, Cursor</span></div>'+
     '<div class="it"><b>Design</b><span class="m">Figma, Framer, Unity, typography, animation</span></div>'+
     '</div>'+
-    '<span class="note" style="margin-top:18px">underlined = daily drivers</span>' },
+    '<span class="note" style="margin-top:18px">underlined = daily drivers</span>'+
+    orn('cardboard', 62, 7, 100, 'r') },
 
   /* ---------- 03 projects ---------- */
   { id:'projects', ch:2, html: cover('03', 'Projects', 'Things I’ve built', 'What each one is, how it works, and where it landed.',
@@ -830,7 +872,8 @@ var PAGES = [
     '<p class="lede">' + (ME.podcast.line || 'I host a podcast. The latest episodes are right here.') + '</p>'+
     '<div class="media" style="flex:none;max-height:none;margin-top:6px"><div class="sketch free" style="--r:.6deg"><div class="vid touch spot" data-src="https://open.spotify.com/embed/show/' + ME.podcast.spotify + '?utm_source=generator"></div>' + ROUGH + '<i class="tp a"></i><i class="tp b"></i></div></div>'+
     '<p class="tiny">Posting across YouTube and Instagram: short videos about the things I build and the ideas I can’t stop thinking about.</p>'+
-    '<div class="links">' + ext('https://open.spotify.com/show/' + ME.podcast.spotify, 'Spotify') + ext(ME.podcast.youtube, 'YouTube') + ext(ME.podcast.instagram, 'Instagram') + '</div>' },
+    '<div class="links">' + ext('https://open.spotify.com/show/' + ME.podcast.spotify, 'Spotify') + ext(ME.podcast.youtube, 'YouTube') + ext(ME.podcast.instagram, 'Instagram') + '</div>'+
+    orn('turntable', 58, -6, 100, 'sm') },
 
   /* ---------- 05 journal ---------- */
   { id:'journal', ch:4, html: cover('05', 'Journal', 'Letters and posts', 'Longer writing, folded up and tucked in.',
@@ -919,8 +962,8 @@ function computeFits(){
 }
 function pageHTML(i, side){
   if(i < 0 || i >= N) return '<div class="pg '+side+'"></div>';
-  var p = PAGES[i];
-  return '<div class="pg '+side+'"><div class="pc"'+(FIT[i] ? ' style="'+fitCSS(FIT[i])+'"' : '')+'>'+(typeof stickyIds === 'function' ? stickyIds(p.html, i) : p.html).replace('<!--TTT-->', typeof tttHTML === 'function' ? tttHTML() : '')+'</div>'+(typeof pinsHTML === 'function' ? pinsHTML(i) + agPageHTML(i) : '')+(p.num===false?'':'<div class="pfoot">p. '+(i+1)+'</div>')+'</div>';
+  var p = PAGES[i], parts = ornsOut((typeof stickyIds === 'function' ? stickyIds(p.html, i) : p.html).replace('<!--TTT-->', typeof tttHTML === 'function' ? tttHTML() : ''));
+  return '<div class="pg '+side+'"><div class="pc"'+(FIT[i] ? ' style="'+fitCSS(FIT[i])+'"' : '')+'>'+parts[0]+'</div>'+parts[1]+(typeof pinsHTML === 'function' ? pinsHTML(i) + agPageHTML(i) : '')+(p.num===false?'':'<div class="pfoot">p. '+(i+1)+'</div>')+'</div>';
 }
 function lastPos(){ return mode === 'spread' ? Math.ceil(N/2) - 1 : N - 1; }
 function currentChapter(){ var i = mode === 'spread' ? 2*pos + 1 : pos; i = Math.min(i, N-1); return PAGES[i].ch; }
@@ -1729,7 +1772,8 @@ var ASKS = {
 function asksFor(i){ return ASKS[(PAGES[i] || PAGES[0]).id] || ASKS.profile; }
 function stripHTML(h){ var d = document.createElement('div'); d.innerHTML = h; return (d.textContent || '').replace(/\s+/g, ' ').trim(); }
 var FACTS = PAGES.map(function(p, i){ return 'Page ' + i + ': ' + stripHTML(p.html); }).join('\n') +
-  '\nAlso: email keshav_tiwari@berkeley.edu, linkedin.com/in/keshavtiwari26, github.com/kshtwr. Based in Berkeley, CA. Open to full-time roles from May 2027.';
+  '\nAlso: email keshav_tiwari@berkeley.edu, linkedin.com/in/keshavtiwari26, github.com/kshtwr. Based in Berkeley, CA. Open to full-time roles from May 2027.' +
+  '\nProudest of: on the side, Nalanda (it began as a 48-hour hackathon idea and he took it all the way to the Chrome Web Store, then added a chat over your highlights); at work, his time at Simular (agents that answer 5x faster, and a client pilot closed in four weeks).';
 /* where the note is: resting on the desk (stays put while pages turn), or stuck to a page (turns with it) */
 var noteAt = null; try{ noteAt = JSON.parse(store('nb-note6') || 'null'); }catch(e){ noteAt = null; }
 function saveNote(){ store('nb-note6', JSON.stringify(noteAt)); }
@@ -1862,7 +1906,8 @@ function offlineAnswer(q){
     [/essay|friction|blank page|dumber|surrender|propose/, 'his essay argues the blank page does real thinking work, so ai tools should add some friction on purpose: let you try first, say when friction is on, and let you dial it up or down.'],
     [/why berkeley|13 year|bay/, 'he wrote a letter to his 13 year old self about it: an meng in eecs at berkeley, the fung fellowship, and finally making it to the bay. it’s in the journal.'],
     [/build with|stack|tools|languages|skills/, 'python, typescript, swift; pytorch and rag for the ai side; react, next.js and supabase for products; figma and framer for design.'],
-    [/proud|read first|start|which project/, 'start with nalanda. it began as a 48-hour hackathon idea and he took it all the way to the chrome web store, then added a chat over your highlights.'],
+    [/read first|start/, 'start with nalanda. it began as a 48-hour hackathon idea and he took it all the way to the chrome web store, then added a chat over your highlights.'],
+    [/proud|which project/, 'on the side, nalanda: a 48-hour hackathon idea he took all the way to the chrome web store. at work, simular, where his agents answered 5x faster and a client pilot closed in four weeks.'],
     [/taught|learn the most|which job/, 'probably simular. working forward-deployed with a real client meant shipping fast: he closed a three-month pilot in four weeks.'],
     [/work on|up to|right now|doing now/, 'right now: hearing aid personalization with starkey for his berkeley capstone, and his meng in eecs. he works on the layer between people and ai agents.'],
     [/screen observer|foundation|to.?do/, 'at foundation interface lab he built a screen observer with gpt-4o and ocr that watches a workflow and writes the to-dos. 91% faster and 84% cheaper after his changes.'],
@@ -1928,7 +1973,10 @@ var pins = {}; try{ pins = JSON.parse(store('nb-pins3') || '{}') || {}; }catch(e
 function savePins(){ store('nb-pins3', JSON.stringify(pins)); }
 function pinsHTML(i){
   return (pins[i] || []).map(function(n, k){
-    var wc = (n.t.match(/\S+/g) || []).length, pw = wc > 45 ? 230 : wc > 25 ? 190 : 150;
+    var words = n.t.match(/\S+/g) || [], wc = words.length, pw = wc > 45 ? 230 : wc > 25 ? 190 : 150;
+    // long unbroken words (emails, links) need a wider note
+    var longest = words.reduce(function(m, w){ return Math.max(m, w.length); }, 0);
+    pw = Math.max(pw, Math.min(260, longest * 8.6 + 26));
     return '<div class="pin" style="width:' + pw + 'px;left:' + Math.min(n.x, PW - pw - 30) + 'px;top:' + Math.max(40, Math.min(n.y, PH - 70 - wc * 5)) + 'px;transform:rotate(' + n.r + 'deg)">' + n.t.replace(/[<>&]/g, function(c){ return {'<':'&lt;','>':'&gt;','&':'&amp;'}[c]; }) +
       '<button class="unpin" data-page="' + i + '" data-k="' + k + '" aria-label="Remove this note">×</button></div>';
   }).join('');
@@ -2402,6 +2450,71 @@ if(startSlug){
     urlReady = true; syncURL();
   });
 } else { urlReady = true; syncURL(); }
+
+/* ---------- arrange mode (?arrange): place the sketch ornaments by hand ---------- */
+if(/[?&]arrange\b/.test(location.search)){
+  document.documentElement.classList.add('arranging');
+  var lk = function(){ return mode === 'spread' ? 'spread' : 'single'; };
+  var bar = document.createElement('div'); bar.id = 'arrangeBar';
+  bar.innerHTML = '<span>arrange: drag to move · scroll to resize · shift+scroll to rotate</span><button type="button" data-a="copy">copy layout</button><button type="button" class="ghost" data-a="reset">reset this layout</button>';
+  document.body.appendChild(bar);
+  var saveOrn = function(){ store('nb-orn', JSON.stringify(ORN_LAYOUT)); };
+  var ornState = function(el){
+    var name = el.getAttribute('data-orn'), at = ORN_LAYOUT[lk()][name];
+    if(at) return at;
+    var sk = el.querySelector('.skt'), f = mode === 'spread' ? 1 : (el.classList.contains('sm') ? .6 : .8);
+    var r = parseFloat(el.style.getPropertyValue('--r')) || 0, h = Math.round(sk.offsetHeight * f);
+    var pr = el.parentNode.getBoundingClientRect(), er = el.getBoundingClientRect(), k = pr.width / el.parentNode.offsetWidth;
+    var w = sk.offsetWidth * f;
+    // centre of the drawn box, back in page pixels, minus half the unscaled size
+    var cx = (er.left + er.width / 2 - pr.left) / k, cy = (er.top + er.height / 2 - pr.top) / k;
+    return [Math.round(cx - w / 2), Math.round(cy - h / 2), h, r];
+  };
+  var paintOrn = function(el, at){
+    el.classList.add('placed');
+    el.style.cssText = 'left:' + at[0] + 'px;top:' + at[1] + 'px;--r:' + at[3] + 'deg;--h:' + at[2] + 'px';
+  };
+  var drag = null;
+  document.addEventListener('pointerdown', function(e){
+    var el = e.target.closest && e.target.closest('.orn'); if(!el) return;
+    e.stopPropagation(); e.preventDefault();
+    var at = ornState(el).slice(), k = el.parentNode.getBoundingClientRect().width / el.parentNode.offsetWidth;
+    paintOrn(el, at);
+    drag = { el:el, at:at, x0:e.clientX, y0:e.clientY, k:k, ax:at[0], ay:at[1] };
+    try{ el.setPointerCapture(e.pointerId); }catch(err){}
+  }, true);
+  document.addEventListener('pointermove', function(e){
+    if(!drag) return; e.stopPropagation();
+    drag.at[0] = Math.round(drag.ax + (e.clientX - drag.x0) / drag.k);
+    drag.at[1] = Math.round(drag.ay + (e.clientY - drag.y0) / drag.k);
+    paintOrn(drag.el, drag.at);
+  }, true);
+  document.addEventListener('pointerup', function(e){
+    if(!drag) return; e.stopPropagation();
+    ORN_LAYOUT[lk()][drag.el.getAttribute('data-orn')] = drag.at; saveOrn(); drag = null;
+  }, true);
+  document.addEventListener('click', function(e){ if(e.target.closest && e.target.closest('.orn')){ e.stopPropagation(); e.preventDefault(); } }, true);
+  document.addEventListener('wheel', function(e){
+    var el = e.target.closest && e.target.closest('.orn'); if(!el) return;
+    e.preventDefault(); e.stopPropagation();
+    var at = ornState(el).slice(), d = (e.deltaY || e.deltaX) > 0 ? -1 : 1;
+    if(e.shiftKey) at[3] = Math.round(at[3] + d);
+    else {
+      var nh = Math.max(24, Math.min(320, at[2] + d * 3)), name = el.getAttribute('data-orn'), ar = SKETCH[name][0] / SKETCH[name][1];
+      // grow around the centre
+      at[0] = Math.round(at[0] - (nh - at[2]) * ar / 2); at[1] = Math.round(at[1] - (nh - at[2]) / 2); at[2] = nh;
+    }
+    paintOrn(el, at); ORN_LAYOUT[lk()][el.getAttribute('data-orn')] = at; saveOrn();
+  }, { capture:true, passive:false });
+  bar.addEventListener('click', function(e){
+    var a = e.target.getAttribute && e.target.getAttribute('data-a'); if(!a) return;
+    if(a === 'copy'){
+      var txt = JSON.stringify(ORN_LAYOUT);
+      (navigator.clipboard ? navigator.clipboard.writeText(txt) : Promise.reject()).then(function(){ e.target.textContent = 'copied ✓'; }, function(){ prompt('Copy this layout:', txt); });
+      setTimeout(function(){ e.target.textContent = 'copy layout'; }, 1600);
+    } else if(a === 'reset'){ ORN_LAYOUT[lk()] = {}; saveOrn(); render(); }
+  });
+}
 })();
 </script>
 
