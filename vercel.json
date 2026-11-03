@@ -1,4 +1,11 @@
 {
+  "trailingSlash": false,
+  "rewrites": [
+    {
+      "source": "/:slug([A-Za-z0-9-]+)",
+      "destination": "/index.html"
+    }
+  ],
   "headers": [
     {
       "source": "/assets/(.*)",

@@ -184,6 +184,8 @@ canvas#ink{position:absolute;left:0;top:0;z-index:3;pointer-events:none}
 .it span.m{color:var(--muted)}
 .yr{font-family:var(--mono);font-size:11px;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
 .note{font-family:var(--hand);font-size:20px;line-height:1.05;color:var(--pen);display:inline-block;transform:rotate(-2deg);transform-origin:left}
+.uline{position:relative;display:inline-block;white-space:nowrap}
+.uline svg{position:absolute;left:-3px;bottom:-5px;width:calc(100% + 6px);height:8px;color:var(--pen);overflow:visible}
 .circle{position:relative;display:inline-block;white-space:nowrap}
 .circle svg{position:absolute;left:-10px;top:-7px;width:calc(100% + 20px);height:calc(100% + 14px);color:var(--pen);overflow:visible}
 .polaroid{float:right;width:150px;margin:0 0 10px 14px;transform:rotate(4deg);display:flex;flex-direction:column;align-items:center}
@@ -197,6 +199,8 @@ canvas#ink{position:absolute;left:0;top:0;z-index:3;pointer-events:none}
 .bul li::marker{color:var(--faint)}
 .links{display:flex;flex-wrap:wrap;row-gap:6px;gap:14px;font-family:var(--mono);font-size:11.5px}
 .links a{text-underline-offset:3px}
+.contact{display:flex;flex-direction:column;gap:7px;margin-top:14px}
+.single .contact{margin-bottom:12px}
 .big-hand{font-family:var(--hand);font-size:40px;line-height:1;color:var(--pen);margin:0}
 .mail{font-family:var(--mono);font-size:12.5px;user-select:text;-webkit-user-select:text}
 .tiny{font-size:12.5px;line-height:1.5;color:var(--muted);margin:0}
@@ -209,7 +213,7 @@ canvas#ink{position:absolute;left:0;top:0;z-index:3;pointer-events:none}
 .glance .go{padding-top:3px;padding-bottom:3px}
 .go .gl{display:block;font-size:12.5px;line-height:1.4;color:var(--muted);margin-top:1px}
 .go.static{cursor:inherit}
-.single .go .gl{display:none}
+.single .go:not(.static) .gl{display:none}
 .go.static:hover{background:none}.go.static:hover b{text-decoration:none}
 .go .arr{opacity:.3}
 .tucked{animation:peek 1.4s ease-in-out .9s 1 both}
@@ -284,6 +288,8 @@ canvas#ink{position:absolute;left:0;top:0;z-index:3;pointer-events:none}
 .media.doodle svg{height:100%;width:auto;max-width:100%;overflow:visible}
 .bul.sm{font-size:12.5px;gap:4px;color:var(--muted);margin-top:4px}
 .it + .it{margin-top:4px}
+.tk{display:flex;flex-direction:column;gap:16px;margin-top:22px}
+.tk .it .m{line-height:1.7}
 
 /* back cover and its stickers */
 .cv.backside .spine{left:auto;right:0;background:linear-gradient(270deg,rgba(255,255,255,.07),rgba(0,0,0,.4) 70%,rgba(255,255,255,.03))}
@@ -367,12 +373,33 @@ canvas#ink{position:absolute;left:0;top:0;z-index:3;pointer-events:none}
 .lt-sheet::-webkit-scrollbar{width:5px}.lt-sheet::-webkit-scrollbar-track{background:transparent}.lt-sheet::-webkit-scrollbar-thumb{background:var(--line);border-radius:5px}
 .lt-sheet:hover::-webkit-scrollbar-thumb{background:var(--faint)}
 
+/* copy-link on page titles: a pencil link icon fades in on hover; click copies the page's address and pencils a check */
+.cplink{position:relative;display:inline-block;width:0;height:1em;padding:0;margin:0;border:0;background:none;color:var(--muted);font:inherit;vertical-align:baseline;cursor:pointer}
+.cplink .cpi{position:absolute;left:.32em;top:50%;transform:translateY(-32%);display:flex;align-items:center;gap:5px;padding:4px;margin:-4px;opacity:0;transition:opacity .25s,color .2s;white-space:nowrap}
+.cplink .cpi::after{content:'copied';font-family:var(--hand);font-size:.68em;font-weight:400;letter-spacing:0;color:var(--pen);-webkit-text-stroke:.022em currentColor;transform:rotate(-4deg);clip-path:inset(0 100% 0 0)}
+.cplink svg{width:.8em;height:.8em;flex:none;overflow:visible}
+.cplink .ok{display:none}
+.mail .cplink{font-size:16px}
+.mail .cplink .cpi{top:calc(50% + 4px)}
+:is(h1,h2):hover>.cplink .cpi,.mail:hover>.cplink .cpi,.cplink:focus-visible .cpi,.cplink.done .cpi{opacity:1}
+.cplink:hover .cpi{color:var(--ink)}
+@media (hover:none){.cplink .cpi{opacity:.45}}
+.cplink.done .lk{display:none}.cplink.done .ok{display:block;color:var(--pen)}
+.cplink.done .ok path{stroke-dasharray:100;stroke-dashoffset:100;animation:cpdraw .42s cubic-bezier(.4,.1,.3,1) forwards}
+.cplink.done .cpi::after{animation:cpwrite .55s steps(9) .28s forwards}
+/* after "copied", everything fades away; the icon stays hidden until the pointer leaves the title */
+.cplink.done.out .cpi{opacity:0;transition:opacity .5s}
+.cplink.rest .cpi{opacity:0!important}
+@keyframes cpdraw{to{stroke-dashoffset:0}}
+@keyframes cpwrite{to{clip-path:inset(0 0 0 0)}}
+@media (prefers-reduced-motion:reduce){.cplink.done .ok path{animation:none;stroke-dashoffset:0}.cplink.done .cpi::after{animation:none;clip-path:none}}
 .tttwrap{position:absolute;right:46px;bottom:26px;display:flex;flex-direction:row-reverse;align-items:center;gap:10px;opacity:.5;transition:opacity .3s;z-index:1}
 .tttwrap:hover,.tttwrap:focus-within,.tttwrap.live{opacity:1}
 .single .tttwrap{right:26px;bottom:26px}
-/* spread the glance page out on phones, unless the sticky note is sitting on it */
-.single .pg:not(:has(> .agpage)) .pc:has(> .tttwrap){gap:34px}
-.single .pg:not(:has(> .agpage)) .pc > .glance:has(> .mail){margin-top:24px;gap:12px}
+/* the glance page keeps its bottom strip clear for the tic-tac-toe (and, on laptops, the sticky note); the page fit shrinks text rather than letting it run under them */
+.pc:has(> .tttwrap){padding-bottom:150px}
+.single .pc:has(> .tttwrap){padding-bottom:128px}
+.single .pc > .glance:has(> .note){margin-top:10px}
 .single .tttwrap{gap:8px}.single .ttt-cap{width:90px}
 .ttt{position:relative;width:96px;height:96px;flex:none;color:var(--pen)}
 .ttt svg.grid,.ttt svg.win{position:absolute;inset:0;overflow:visible;pointer-events:none}
@@ -507,6 +534,7 @@ function $(id){ return document.getElementById(id); }
 function store(k, v){ try{ if(v===undefined) return localStorage.getItem(k); localStorage.setItem(k, v); }catch(e){ return null; } }
 
 /* ---------- content ---------- */
+var ULINE = '<svg viewBox="0 0 100 10" preserveAspectRatio="none" fill="none" aria-hidden="true"><path d="M2 6c18-3 40-4 60-3 14 1 26 2 36 1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg>';
 var CIRCLE = '<svg viewBox="0 0 100 40" preserveAspectRatio="none" fill="none" aria-hidden="true"><path d="M8 22C4 9 40 3 70 5c22 2 30 14 20 24C78 40 30 39 12 30 6 27 6 22 12 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg>';
 function go(page, title, sub, yr){
   return '<li><button class="go" data-go="{{'+page+'}}"><span class="top"><span><b>'+title+'</b> <span class="m">'+sub+'</span></span><span class="yr">'+(yr||'')+'<i class="arr" aria-hidden="true">→</i></span></span></button></li>';
@@ -537,7 +565,7 @@ var ME = {
   linkedin:'https://www.linkedin.com/in/keshavtiwari26/',
   github:'https://github.com/kshtwr',
   x:'https://x.com/ksh_twr',
-  resume:'https://framerusercontent.com/assets/VdYbtiDjMFw0aQHPB4xnbf8rvc.pdf',
+  resume:'https://drive.google.com/file/d/1OLVoIX7NBdqox8odub3WugR8wza62AAh/view?usp=sharing',
   youtube:'https://www.youtube.com/@keshavtiwari262',
   photo:'assets/images/me.jpg',               // Empty hides the polaroid
   podcast:{ youtube:'https://www.youtube.com/@TheAbsurdWindow/', instagram:'https://www.instagram.com/theabsurdwindow/', name:'The Absurd Window', line:'Conversations about the dreams, passions and loves that keep us up in the middle of the night, as our window’s lonesome shine lights up the skyline.', spotify:'5ix4F4VM5MZj4kTPSSEjyV' },
@@ -643,48 +671,49 @@ var PAGES = [
     '<div class="eyebrow"><span>01 · Profile</span><span class="hand" style="font-size:21px">berkeley, ca</span></div>'+
     '<div>'+(ME.photo ? '<div class="polaroid" data-photo><span class="tape"></span><div class="frame"><div class="ph" style="background:url(' + ME.photo + ') center/cover"></div></div><span class="cap">hi, i’m keshav</span></div>' : '')+
     '<h1 class="h1" style="margin-top:4px">Keshav Tiwari</h1>'+
-    '<p class="lede" style="margin-top:8px">I’m a designer-engineer working on the <em>interface layer between people and AI agents</em>. Currently pursuing MEng EECS (Visual Computing) at Berkeley!</p></div>'+
+    '<p class="lede" style="margin-top:8px">I’m a designer-engineer working on the <em>interface layer between people and AI agents</em>. Currently pursuing MEng EECS (Visual Computing) at Berkeley!</p>'+
+    '<div class="contact">' + linksRow() + mailHTML() + '</div></div>'+
     '<div class="glance" style="clear:both;margin-top:-12px"><div class="eyebrow">Work</div><ul class="list golist">'+
-    gl('starkey','Starkey','Software engineer, wearable AI','2026–','AI personalization for next-gen hearing aids, with Starkey’s CTO.')+
-    gl('simular','Simular','AI engineer and FDE','2025–26','Streaming that made agents answer 5x faster; a pilot closed in 4 weeks.')+
-    gl('fil','Foundation Interface Lab','AI engineer','2025','A screen observer that turns live workflows into to-dos.')+
-    gl('xr','XR Lab','Generative AI researcher','2025','A multimodal agent that structured 1,000+ research PDFs.')+
-    gl('caprae','Caprae Capital','ML engineer','2025','AI lead validation, 25% more accurate.')+
-    gl('sal','Safe Automobiles Lab','ML researcher','2023–25','Reading car-light intent with active learning.')+
+    gl('starkey','Starkey','Software Engineer (Wearable AI)','2026–','AI personalization for next-gen hearing aids, with Starkey’s CTO.')+
+    gl('simular','Simular','Software Engineer (AI Agents) Intern','2025–26','Streaming that made agents answer 5x faster; a pilot closed in 4 weeks.')+
+    gl('fil','Foundation Interface Lab','Software Engineer Research Intern','2025','A screen observer that turns live workflows into to-dos.')+
+    gl('xr','Extended Reality (XR) Lab','Software Engineer (Generative AI)','2025','A multimodal agent that structured 1,000+ research PDFs.')+
+    gl('caprae','Caprae Capital','Software Engineer (Data/ML) Intern','2025','AI lead validation, 25% more accurate.')+
+    gl('sal','Laboratory for Intelligent and Safe Automobiles','<span style="white-space:nowrap">Machine Learning Researcher</span>','2023–25','Reading car-light intent with active learning.')+
     gl('ux','League of Amazing Programmers','UX researcher','2024','A non-profit site redesign that lifted usability feedback 41%.')+
     '</ul></div>' },
   { id:'glance', ch:0, html:
     '<div class="glance"><div class="eyebrow">Projects</div><ul class="list golist">'+
     gl('nalanda','Nalanda','Web highlighter','2025–26','Highlight anything on the web, then ask questions of what you kept.')+
-    gl('liam','Liam','AI-native email','2026','Winner, IxDF SF Hackathon. Sorts mail by importance and urgency.')+
+    gl('liam','Liam','AI-native email','2026','Winner, IxDF SF Hackathon. Ranks threads by sender and urgency.')+
     gl('jose','José','Football predictor and chatbot','2024','A random forest on 1,140 matches, with a Streamlit chatbot on top.')+
     gl('tinkercv','TinkerCV','Gesture-based image tool','2024','Pinch to zoom, drag to move, built on OpenCV.')+
     gl('classifiers','Classifier benchmarking','Research on test size','2024','5 classifiers, 4 datasets, 180 cross-validated trials.')+
     gl('pgui','Perceptive generative UI','Ambient display','2026','A home display that adapts to who is in the room.')+
     '</ul></div>'+
     '<div class="glance"><div class="eyebrow">Education</div><ul class="list golist">'+
-    gl(null,'UC Berkeley','MEng EECS','2026–27','Visual Computing and Graphics. Fung Excellence Scholar.')+
-    gl(null,'UC San Diego','B.S. Cog Sci + Business Econ','2022–26','Minor in CS. GPA 3.95, eight Provost Honors.')+
+    gl(null,'UC Berkeley','MEng EECS','2026–27','Master of Engineering, Electrical Engineering and Computer Science (Visual Computing and Computer Graphics). Fung Excellence Scholar.')+
+    gl(null,'UC San Diego','Cum Laude','2022–26','Bachelor of Science, Cognitive Science (Machine Learning &amp; Neural Computation) <br>Bachelor of Science, Business Economics <br>GPA: 3.95. Minor in CS, eight Provost Honors.')+
     '</ul></div>'+
-    '<div class="glance">' + linksRow() + '<span class="mail">' + ME.email + '</span>'+
+    '<div class="glance">'+
     '<span class="note" style="margin-top:4px">open to full-time roles from may 2027</span></div><!--TTT-->' },
 
   /* ---------- 02 work: one page per role ---------- */
   { id:'work', ch:1, html: cover('02', 'Work', 'Where I’ve worked', 'Agents, interfaces and a lot of applied ML, from a hearing aid company to a car lab.',
-    toc('starkey','Starkey','Software engineer, wearable AI')+toc('simular','Simular','AI engineer and FDE')+toc('fil','Foundation Interface Lab','AI engineer')+
-    toc('xr','XR Lab','Generative AI researcher')+toc('caprae','Caprae Capital Partners','ML engineer')+toc('mentor','UCSD Cognitive Science','Programming mentor')+toc('sal','Safe Automobiles Lab','ML researcher')+toc('ux','League of Amazing Programmers','UX researcher')+toc('toolkit','Toolkit','What I build with'),
+    toc('starkey','Starkey','Software Engineer (Wearable AI)')+toc('simular','Simular','Software Engineer (AI Agents) Intern')+toc('fil','Foundation Interface Lab','Software Engineer Research Intern')+
+    toc('xr','Extended Reality (XR) Lab','Software Engineer (Generative AI)')+toc('caprae','Caprae Capital','Software Engineer (Data/ML) Intern')+toc('mentor','UCSD Cognitive Science','Programming mentor')+toc('sal','Laboratory for Intelligent and Safe Automobiles','<span style="white-space:nowrap">Machine Learning Researcher</span>')+toc('ux','League of Amazing Programmers','UX researcher')+toc('toolkit','Toolkit','What I build with'),
     'newest first ↓') },
   { id:'starkey', ch:1, html:
     '<div class="eyebrow"><span>Work · 01</span><span>Sept 2026 – Present</span></div><h2 class="h2">Starkey</h2>'+
     '<p class="lede">Software Engineer (Wearable AI)</p>'+
-    '<ul class="bul"><li>Working on AI-driven personalization for next-generation <strong>hearing aids</strong> with Starkey’s Chief Technology Officer.</li><li>Leading the <strong>AI and human-computer interaction</strong> workstream, collaborating across teams to shape <strong>UX</strong> for <strong>AR</strong> and <strong>voice agents</strong>.</li></ul>'+
+    '<ul class="bul"><li>Working on AI-driven personalization for next-generation <strong>hearing aids</strong> with Starkey’s Chief Technology Officer.</li><li>Leading the <strong>AI and human-computer interaction</strong> workstream of the project, exploring <strong>AR</strong> and <strong>voice agents</strong> as technical solutions.</li></ul>'+
     skills('AI personalization, human-computer interaction, UX design, AR, voice agents')+
     media('starkey','img') },
   { id:'simular', ch:1, html:
     '<div class="eyebrow"><span>Work · 02</span><span>Oct 2025 – Mar 2026</span></div><h2 class="h2">Simular</h2>'+
-    '<div class="it"><div class="top"><b>Software Engineer (AI Agents) Intern</b><span class="yr">Jan – Mar 2026</span></div><ul class="bul sm"><li>Contributed to <strong>macOS</strong> AI agent platform with <strong>Swift</strong> front-end, <strong>Python (FastAPI)</strong> back-end on <strong>GCP (Firestore)</strong> data storage.</li><li>Boosted agent reliability and task success by <strong>22%</strong> with error classification &amp; <strong>RAG-based</strong> replanning for failure recovery.</li><li>Cut latency by <strong>5x (TTFT)</strong> by implementing streaming architecture &amp; token optimization, keeping the Swift UI responsive at scale.</li><li>Designed and shipped the front end of the company’s marketing site, from visual direction to production code.</li></ul>'+
+    '<div class="it"><div class="top"><b>Software Engineer (AI Agents) Intern</b><span class="yr">Jan – Mar 2026</span></div><ul class="bul sm"><li>Contributed to <strong>macOS</strong> AI agent platform with <strong>Swift</strong> front-end, <strong>Python (FastAPI)</strong> back-end on <strong>GCP (Firestore)</strong> data storage.</li><li>Boosted agentic task success by <strong>22%</strong> by building error classification system &amp; <strong>RAG-based</strong> replanning for failure recovery.</li><li>Cut latency by <strong>5x (TTFT)</strong> by implementing streaming architecture &amp; token optimization, balancing speed-accuracy for scalability.</li><li>Designed and shipped the front end of the company’s marketing site, from visual direction to production code.</li></ul>'+
     '<p class="skills" style="margin-top:6px"><b>Skills:</b> Swift, Python, FastAPI, GCP, RAG, streaming, token optimization</p></div>'+
-    '<div class="it" style="margin-top:-2px"><div class="top"><b>Forward Deployed Engineer Intern</b><span class="yr">Oct – Dec 2025</span></div><ul class="bul sm"><li>Improved reliability by cutting behavioral drift <strong>30%</strong> with alignment checks in <strong>CI/CD</strong>, shrinking releases from weeks to days.</li><li>Secured <strong>3-month pilot deal</strong> in <strong>4 weeks</strong> by building custom AI agents and demonstrating <strong>50% efficiency gains</strong> for stakeholders.</li></ul>'+
+    '<div class="it" style="margin-top:-2px"><div class="top"><b>Forward Deployed Engineer Intern</b><span class="yr">Oct – Dec 2025</span></div><ul class="bul sm"><li>Reduced behavioral drift by <strong>30%</strong> by embedding alignment checks in <strong>CI/CD</strong> pipelines, cutting release cycles from weeks to days.</li><li>Secured <strong>3-month pilot deal</strong> in <strong>4 weeks</strong> by building custom AI agents and demonstrating <strong>50% efficiency gains</strong> for stakeholders.</li></ul>'+
     '<p class="skills" style="margin-top:6px"><b>Skills:</b> custom AI agents, CI/CD, customer discovery, stakeholder demos</p></div>'+
     recOr('simular', 'fde', true) },
   { id:'fde', ch:1, html:
@@ -693,17 +722,17 @@ var PAGES = [
   { id:'fil', ch:1, html:
     '<div class="eyebrow"><span>Work · 03</span><span>Jul 2025 – Sept 2025</span></div><h2 class="h2">Foundation Interface Lab</h2>'+
     '<p class="lede">Software Engineer Research Intern</p>'+
-    '<ul class="bul"><li>Implemented an AI-enabled screen observer which converts real-time user workflows into structured TODOs via <strong>GPT-4o</strong> &amp; <strong>OCR</strong>.</li><li>Improved speed <strong>91%</strong>, token usage <strong>82%</strong>, and costs <strong>84%</strong> via frame caching, sampling &amp; batching, with per-stage instrumentation.</li><li>Refined a multi-modal prompting pipeline by evaluating user footage &amp; <strong>7 data flows</strong>, improving usability &amp; response quality.</li></ul>'+
+    '<ul class="bul"><li>Implemented an AI-enabled screen observer which converts real-time user workflows into structured TODOs via <strong>GPT-4o</strong> &amp; <strong>OCR</strong>.</li><li>Improved speed by <strong>91%</strong>, token usage by <strong>82%</strong>, and costs by <strong>84%</strong> via frame caching, sampling, and batching, tracked per-stage.</li><li>Refined a multi-modal prompting pipeline by evaluating user footage &amp; <strong>7 data flows</strong>, improving usability &amp; response quality.</li></ul>'+
     skills('GPT-4o, OCR, multi-modal prompting, data pipelines, instrumentation')+
     media('fil','img') },
   { id:'xr', ch:1, html:
     '<div class="eyebrow"><span>Work · 04</span><span>Apr 2025 – Sept 2025</span></div><h2 class="h2">Extended Reality (XR) Lab</h2>'+
     '<p class="lede">Software Engineer (Generative AI)</p>'+
-    '<ul class="bul"><li>Built a multi-modal AI agent to reduce research review time by <strong>50%</strong> by structuring <strong>1,000+ PDFs</strong> into metadata tables.</li><li>Engineered a visual classifier system to enhance feature extraction accuracy by tagging <strong>26,000+ images</strong>, for <strong>120+ attributes</strong>.</li><li>Led development of a <strong>React web application</strong> with lab researchers for accessible, structured dataset exploration.</li></ul>'+
+    '<ul class="bul"><li>Built a multi-modal AI agent to reduce research review time by <strong>50%</strong> by structuring <strong>1,000+ PDFs</strong> into metadata tables.</li><li>Engineered a visual classifier system to enhance feature extraction accuracy by tagging <strong>26,000+ images</strong>, for <strong>120+ attributes</strong>.</li><li>Led software development for a <strong>React web application</strong> to enable accessible and structured dataset exploration for lab members.</li></ul>'+
     skills('multi-modal AI agents, visual classification, React, data structuring')+
     media('xr','img') },
   { id:'caprae', ch:1, html:
-    '<div class="eyebrow"><span>Work · 05</span><span>Apr 2025 – Jun 2025</span></div><h2 class="h2">Caprae Capitals</h2>'+
+    '<div class="eyebrow"><span>Work · 05</span><span>Apr 2025 – Jun 2025</span></div><h2 class="h2">Caprae Capital</h2>'+
     '<p class="lede">Software Engineer (Data/ML) Intern</p>'+
     '<ul class="bul"><li>Launched an AI lead validation system with a <strong>React</strong> UI, improving accuracy by <strong>25%</strong> through automated LinkedIn extraction.</li><li>Formulated a lead scoring algorithm that increased outreach speed by <strong>2x</strong>, with regex parsing and <strong>GPT</strong> cross-validation.</li><li>Developed Natural Language Processing (NLP) web scrapers in <strong>Python</strong> that automated <strong>90%</strong> of lead collection with <strong>Pandas</strong>.</li></ul>'+
     skills('React, Python, NLP, GPT, Pandas, regex, web scraping')+
@@ -727,13 +756,15 @@ var PAGES = [
     skills('prototyping, A/B testing, usability testing, data visualization, case studies')+
     media('ux','img') },
   { id:'toolkit', ch:1, html:
-    '<div class="eyebrow">Toolkit</div><h2 class="h2">What I build with</h2>'+
-    '<div class="it"><b>Languages</b><span class="m">TypeScript, JavaScript, Python, Swift and SwiftUI, Java, R, SQL, HTML5 and CSS</span></div>'+
-    '<div class="it"><b>Frameworks and tools</b><span class="m">React, Next.js, Node.js, GCP, FastAPI, PyTorch, TensorFlow, scikit-learn, Pandas, NumPy, OpenCV</span></div>'+
-    '<div class="it"><b>Techniques</b><span class="m">UI/UX design, design engineering, typography, animation design, AI agents, RAG, ML model training</span></div>'+
-    '<div class="it"><b>Also</b><span class="m">Figma, Framer, Git, Claude Code and Cursor, Streamlit, Docker, Matplotlib, BeautifulSoup, REST APIs, Unity</span></div>'+
-    '<div class="it"><b>Courses</b><span class="m">Supervised Machine Learning Algorithms, Data Structures and Algorithms, CS 260A UI Design, CS 260B HCI Research</span></div>'+
-    '<div class="it" style="margin-top:6px"><b>Beyond code</b><span class="m">Media chair of the Cognitive Science Student Association. Co-lead of the AI affinity group at UC Berkeley.</span></div>' },
+    '<div class="eyebrow"><span>Toolkit</span><span class="hand" style="font-size:21px">what&rsquo;s on my desk</span></div><h2 class="h2">What I build with</h2>'+
+    '<p class="lede">Mostly TypeScript and Python, with a lot of design in the loop.</p>'+
+    '<div class="tk">'+
+    '<div class="it"><b>Languages</b><span class="m"><span class="uline">TypeScript'+ULINE+'</span>, <span class="uline">Python'+ULINE+'</span>, Swift, SQL, Java</span></div>'+
+    '<div class="it"><b>Web &amp; data</b><span class="m">React, Next.js, Node, FastAPI, Postgres, Supabase</span></div>'+
+    '<div class="it"><b>AI</b><span class="m">LLM APIs, agents, RAG, evals, PyTorch, Claude Code, Cursor</span></div>'+
+    '<div class="it"><b>Design</b><span class="m">Figma, Framer, Unity, typography, animation</span></div>'+
+    '</div>'+
+    '<span class="note" style="margin-top:18px">underlined = daily drivers</span>' },
 
   /* ---------- 03 projects ---------- */
   { id:'projects', ch:2, html: cover('03', 'Projects', 'Things I’ve built', 'What each one is, how it works, and where it landed.',
@@ -742,14 +773,14 @@ var PAGES = [
   { id:'nalanda', ch:2, html:
     '<div class="eyebrow"><span>Project · 01</span><span>2025–26</span></div><h2 class="h2">Nalanda</h2>'+
     '<p class="lede">Web Highlighter &amp; Knowledge Dashboard</p>'+
-    '<ul class="bul"><li>Shipped a <strong>Chrome extension</strong> (<strong>React &amp; TypeScript</strong>) that lets users highlight and persistently save text anywhere on the web.</li><li>Engineered a <strong>full-stack</strong> dashboard in <strong>Next.js</strong> with <strong>Supabase</strong> &amp; <strong>Google OAuth</strong> for a clear UX to organize saved highlights.</li><li>Built a <strong>RAG-based</strong> chatbot enabling information retrieval and natural-language querying over saved highlights via <strong>pgvector</strong>.</li></ul>'+
+    '<ul class="bul"><li>Shipped a <strong>Chrome extension</strong> (<strong>React &amp; TypeScript</strong>) that lets users highlight and persistently save text anywhere on the web.</li><li>Engineered a <strong>full-stack</strong> dashboard in <strong>Next.js</strong> with <strong>Supabase</strong> &amp; <strong>Google OAuth</strong>, letting users manage their saved highlights.</li><li>Built a <strong>RAG-based</strong> chatbot enabling information retrieval and natural-language querying over saved highlights via <strong>pgvector</strong>.</li></ul>'+
     skills('React, TypeScript, Chrome extensions, Next.js, Supabase, Google OAuth, RAG, pgvector')+
     media('nalanda','video')+
     '<div class="links" style="margin-top:10px">' + (ME.nalanda.store ? ext(ME.nalanda.store, 'Chrome Web Store') : '') + ext(ME.nalanda.repo, 'GitHub') + '</div>' },
   { id:'liam', ch:2, html:
     '<div class="eyebrow"><span>Project · 02</span><span>Hackathon</span></div><h2 class="h2">Liam</h2>'+
     '<p class="lede">An AI-native Email App.<br><span class="circle" style="margin:0 12px 0 10px">Winner'+CIRCLE+'</span>Interaction Design Foundation (IxDF) SF Hackathon</p>'+
-    '<ul class="bul"><li>Delivered a <strong>full-stack</strong> email client (<strong>Next.js, TypeScript</strong>) that ranks threads by sender and urgency, so priority is clear at a glance.</li><li>Built a <strong>propagation system</strong> where one score update instantly re-sorts related threads, keeping users oriented.</li><li>Personalized replies via <strong>Anthropic API</strong>, auto-generating tone-matched drafts linked to source messages for user edits.</li></ul>'+
+    '<ul class="bul"><li>Delivered a <strong>full-stack</strong> email client (<strong>Next.js</strong>, <strong>TypeScript</strong>) by designing a scoring algorithm that ranks threads by sender and urgency.</li><li>Automated priority re-ranking by building a <strong>propagation system</strong> where one score update re-sorts every related thread.</li><li>Personalized reply drafting via <strong>Anthropic API</strong> integration, auto-generating tone-matched responses linked to source messages.</li></ul>'+
     skills('Next.js, TypeScript, Anthropic API, full-stack, UX design')+
     media('liam','video')+
     '<div class="links" style="margin-top:10px">' + ext(ME.liam.demo, 'Live Demo') + ext(ME.liam.repo, 'GitHub') + '</div>' },
@@ -820,12 +851,28 @@ var PAGES = [
     '<div class="eyebrow">Inside back cover</div>'+
     '<p class="big-hand" style="font-size:34px;margin-top:30px">thanks for reading.</p>'+
     '<p class="lede">If something here made you want to talk, write to me. I read everything.</p>'+
-    '<span class="mail">' + ME.email + '</span>' + linksRow() }
+    mailHTML() + linksRow() }
 ];
 var CHAPTERS = [ {name:'Profile', label:'PROFILE', first:'profile'}, {name:'Work', label:'WORK', first:'work'}, {name:'Projects', label:'PROJECTS', first:'projects'}, {name:'Side quests', label:'SIDE QUESTS', short:'QUESTS', first:'quests'}, {name:'Journal', label:'JOURNAL', first:'journal'} ];
 var IDX = {}; PAGES.forEach(function(p, i){ IDX[p.id] = i; });
 PAGES.forEach(function(p){ p.html = p.html.replace(/\{\{(#?)(\w+)\}\}/g, function(m, n, id){ return n ? IDX[id] + 1 : IDX[id]; }); });
 CHAPTERS.forEach(function(c){ c.page = IDX[c.first]; });
+/* a copy-link button tucked into each page's title (see the .cplink styles and the click handler near the end) */
+function mailHTML(){ return '<span class="mail">' + ME.email + copyBtn('', ME.email) + '</span>'; }
+function copyBtn(id, text){
+  var what = text ? 'Copy email address' : 'Copy link to this page';
+  return '<button type="button" class="cplink"' + (text ? ' data-text="' + text + '"' : ' data-copy="' + id + '"') + ' aria-label="' + what + '" title="' + what + '"><span class="cpi">' +
+    (text ? '<svg class="lk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.6 8.4c3.4-.2 7.4-.1 10.9.1.4 3.6.4 7.6.1 11.2-3.6.2-7.4.3-10.9.1-.3-3.8-.3-7.6-.1-11.4z"/><path d="M15.4 5.6c-.1-.6-.2-1.1-.3-1.6-3.4-.2-6.9-.2-10.6 0-.2 3.6-.2 7.1 0 10.6l1.7.1"/></svg>' : '<svg class="lk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.2 13.9c1.3 1.5 3.4 1.6 4.9.3l3.1-2.9c1.5-1.4 1.6-3.7.2-5.1-1.4-1.5-3.6-1.5-5.1-.2l-1.6 1.4"/><path d="M13.9 10.3c-1.2-1.6-3.5-1.8-5-.4l-3.2 2.8c-1.5 1.4-1.7 3.6-.3 5.2 1.4 1.5 3.6 1.6 5.1.3l1.7-1.5"/></svg>') +
+    '<svg class="ok" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path pathLength="100" d="M4.5 12.8c1.4 1.1 2.7 2.5 3.9 4.3.2.3.6.3.8 0 2.6-4.6 5.9-8.3 10.3-11.4"/></svg>' +
+    '</span></button>';
+}
+PAGES.forEach(function(p){
+  p.html = p.html.replace(/(<(h1|h2)\b[^>]*>)([\s\S]*?)(<\/\2>)/, function(m, open, tag, inner, close){ return open + inner + copyBtn(p.id) + close; });
+});
+/* shareable links: every page id is also an address, e.g. keshavtiwari.com/essay (see linkTo / syncURL) */
+var ALIAS = { about:'profile', essays:'essay', 'side-quests':'quests', sidequests:'quests' };
+function slugToPage(path){ var s = decodeURIComponent(path || '').toLowerCase().replace(/^\/+|\/+$/g, ''); s = ALIAS[s] || s; return IDX.hasOwnProperty(s) ? s : null; }
+var startSlug = slugToPage(location.pathname), linkSlug = '', urlReady = false;
 var N = PAGES.length;
 
 /* ---------- layout ---------- */
@@ -855,13 +902,18 @@ function computeFits(){
   document.body.appendChild(probe);
   for(var i = 0; i < N; i++){
     probe.innerHTML = pageHTML(i, mode === 'spread' ? (i % 2 ? 'right' : 'left') : 'single');
-    var pc = probe.querySelector('.pc'), f = 1;
-    for(var k = 0; k < 6; k++){
-      var n = fitNeed(pc); if(n <= pc.clientHeight + 1 || f <= .62) break;
-      f = Math.max(.62, f * pc.clientHeight / n * .995);
-      pc.style.cssText = fitCSS(f);
+    var pc = probe.querySelector('.pc');
+    if(fitNeed(pc) <= pc.clientHeight + 1) continue;
+    // shrinking widens the lines, so text re-wraps shorter: search for the largest scale that still fits instead of guessing once
+    var lo = .62, hi = 1;
+    pc.style.cssText = fitCSS(lo);
+    if(fitNeed(pc) <= pc.clientHeight + 1){
+      for(var k = 0; k < 8; k++){
+        var mid = (lo + hi) / 2; pc.style.cssText = fitCSS(mid);
+        if(fitNeed(pc) <= pc.clientHeight + 1) lo = mid; else hi = mid;
+      }
     }
-    if(f < 1) FIT[i] = f;
+    FIT[i] = lo;
   }
   probe.remove();
 }
@@ -885,6 +937,22 @@ function render(){
   if(mode === 'spread'){ warmPage(2 * pos + 2); warmPage(2 * pos + 3); }
   else warmPage(pos + 1);
   if(typeof paintAgent === 'function' && agent) paintAgent();
+  syncURL();
+}
+/* keep the address bar on the page being read, so copying it shares that page (the first spread stays plain "/") */
+function syncURL(){
+  if(!urlReady || !window.history || !history.replaceState || !/^https?:/.test(location.protocol)) return;
+  var s = '';
+  if(backClosed) s = linkSlug;
+  else if(!closed){
+    var ids = (mode === 'spread' ? [2 * pos, 2 * pos + 1] : [pos]).filter(function(i){ return i >= 0 && i < N; }).map(function(i){ return PAGES[i].id; });
+    // the linked page if it's still open, else a section's first page if one is showing, else the left page
+    var starts = ids.filter(function(id){ return CHAPTERS.some(function(c){ return c.first === id; }); });
+    s = ids.indexOf(linkSlug) >= 0 ? linkSlug : starts.length ? starts[0] : ids[0];
+  }
+  if(s === 'profile') s = '';
+  linkSlug = s;
+  if(location.pathname !== '/' + s) history.replaceState(null, '', '/' + s + location.search + location.hash);
 }
 function warmPage(i){
   if(i < 0 || i >= N) return;
@@ -1675,7 +1743,9 @@ function agPage(){ return noteAt && noteAt.where === 'page' ? noteAt.page : (mod
 function agPageHTML(i){
   if(!noteAt || noteAt.where !== 'page' || noteAt.page !== i) return '';
   var hint = asksFor(i)[0];
-  return '<div class="agpage" style="left:' + noteAt.x + 'px;top:' + noteAt.y + 'px"><div class="ag-mini" role="button" tabindex="0" data-note="1" aria-label="Ask the sticky note"><span class="ag-hint">' + hint + '</span></div></div>';
+  // keep it on the page even if the page height changed since the spot was saved (phones settle their size late)
+  var nx = Math.max(10, Math.min(noteAt.x, PW - (mode === 'single' ? 153 : 146))), ny = Math.max(10, Math.min(noteAt.y, PH - (mode === 'single' ? 112 : 126)));
+  return '<div class="agpage" style="left:' + nx + 'px;top:' + ny + 'px"><div class="ag-mini" role="button" tabindex="0" data-note="1" aria-label="Ask the sticky note"><span class="ag-hint">' + hint + '</span></div></div>';
 }
 function placeDeskNote(){
   var w = 136 * scale, h = 116 * scale;
@@ -1783,7 +1853,7 @@ function offlineAnswer(q){
     [/starkey|hearing|capstone/, 'at starkey he works on ai-driven personalization for next-gen hearing aids with their cto, leading the ai and hci work. ar and voice agents are on the table.'],
     [/simular|forward|agent platform/, 'at simular he worked forward-deployed on a macos agent platform. he added the streaming that cut time to first token 5x, and closed a client pilot in four weeks.'],
     [/nalanda|highlight/, 'nalanda is a chrome extension for keeping highlights from anywhere on the web, with a dashboard and a chat that answers from your highlights. it’s on the chrome web store.'],
-    [/liam|email app|rank|hackathon|win/, 'liam sorts your mail on an eisenhower matrix (importance vs urgency) and handles each corner differently. it won the ixdf sf hackathon. the prototype is linked on its page.'],
+    [/liam|email app|rank|hackathon|win/, 'liam ranks your threads by sender and urgency, and one score update re-sorts every related thread. it won the ixdf sf hackathon. the prototype is linked on its page.'],
     [/berkeley|meng|fung|study|studying/, 'he’s doing an meng in eecs at berkeley, in visual computing and computer graphics, as a fung excellence scholar.'],
     [/ucsd|san diego|cog|econ|undergrad/, 'he studied cognitive science (ml & neural computation) and business economics at uc san diego, graduating cum laude.'],
     [/theremin|arduino|electronic/, 'an arduino uno, an ultrasonic sensor and a buzzer. the pitch follows your hand. it was his first electronics project.'],
@@ -1797,12 +1867,12 @@ function offlineAnswer(q){
     [/work on|up to|right now|doing now/, 'right now: hearing aid personalization with starkey for his berkeley capstone, and his meng in eecs. he works on the layer between people and ai agents.'],
     [/screen observer|foundation|to.?do/, 'at foundation interface lab he built a screen observer with gpt-4o and ocr that watches a workflow and writes the to-dos. 91% faster and 84% cheaper after his changes.'],
     [/pdf|xr lab|26,?000|image/, 'at the xr lab he built a multimodal agent that structured 1,000+ research pdfs, and a classifier that tagged 26,000+ images.'],
-    [/car|light|active learning|automobile/, 'at the safe automobiles lab he annotated 2,000+ car-light images and trained an active-learning model that reads what a car’s lights signal, at 85% accuracy.'],
+    [/car|light|active learning|automobile/, 'at the laboratory for intelligent and safe automobiles he annotated 2,000+ car-light images and trained an active-learning model that reads what a car’s lights signal, at 85% accuracy.'],
     [/mentor|teach|python|students|cogs|curriculum/, 'as a programming mentor at ucsd cognitive science he wrote coding problems for 600+ students, gave one-on-one feedback on 50+ python projects, and reviewed 150+ student journals.'],
     [/ux|usability|league of amazing|redesign/, 'at the league of amazing programmers he redesigned a non-profit’s website and lifted usability feedback 41%, backed by a/b and baseline tests.'],
     [/semivalley|semi valley|dtil|deep.?tech|customer discovery/, 'he’s doing customer discovery and deep-tech commercialization with semivalley, a berkeley startup cooling the next generation of ai chips, through dtil (eng 273 / mba 290).'],
     [/youtube|instagram|content|absurd window|podcast/, 'he runs the absurd window: a podcast on spotify, plus youtube (@TheAbsurdWindow) and instagram (@theabsurdwindow).'],
-    [/caprae|lead/, 'at caprae capitals he built ai lead validation that was 25% more accurate, plus scoring and scrapers that made outreach 2x faster.'],
+    [/caprae|lead/, 'at caprae capital he built ai lead validation that was 25% more accurate, plus scoring and scrapers that made outreach 2x faster.'],
     [/pilot|task success|drift/, 'at simular: task success up 22%, behavioral drift down 30%, and a three-month client pilot closed in four weeks.'],
     [/perceptive|ambient|display|room/, 'it’s a home display that works out who is in the room (bluetooth, then infrared, then voice) and composes the screen for them. a class project, prototyped in figma.'],
     [/tinker|football|covid|classifier|before agents|earlier/, 'before agents: jose, a football match predictor with a chatbot; tinkercv, gesture-based image editing with opencv; a classifier benchmark; and a covid data study. all on his github.'],
@@ -2165,6 +2235,32 @@ function tttReset(){
   TTT.cap = ''; sound.lift(); render();
 }
 book.addEventListener('click', function(e){ if(e.target.closest('.ttt-again')){ e.preventDefault(); tttReset(); } });
+/* copy a page's link from the pencil icon beside its title */
+function copyText(t){
+  function legacy(){ var a = document.createElement('textarea'); a.value = t; a.setAttribute('readonly', ''); a.style.cssText = 'position:fixed;opacity:0;left:-9999px'; document.body.appendChild(a); a.select(); var ok = false; try{ ok = document.execCommand('copy'); }catch(e){} a.remove(); return ok ? Promise.resolve() : Promise.reject(); }
+  return navigator.clipboard && navigator.clipboard.writeText ? navigator.clipboard.writeText(t).catch(legacy) : legacy();
+}
+book.addEventListener('click', function(e){
+  var b = e.target.closest('.cplink'); if(!b) return;
+  e.preventDefault(); e.stopPropagation();
+  var id = b.dataset.copy, text = b.dataset.text;
+  copyText(text || location.origin + '/' + (id === 'profile' ? '' : id)).then(function(){
+    clearTimeout(b._t); clearTimeout(b._t2);
+    b.classList.remove('done', 'out', 'rest'); void b.offsetWidth; b.classList.add('done');
+    b.setAttribute('aria-label', text ? 'Email copied' : 'Link copied');
+    sound.wake(); var k = 0, scratch = setInterval(function(){ sound.pencil(.5 + Math.random() * .3); if(++k > 5) clearInterval(scratch); }, 65);
+    b._t = setTimeout(function(){
+      b.classList.add('out');
+      b._t2 = setTimeout(function(){
+        b.classList.add('rest'); b.classList.remove('done', 'out'); b.setAttribute('aria-label', text ? 'Copy email address' : 'Copy link to this page');
+        var h = b.parentElement, wake = function(){ b.classList.remove('rest'); };
+        if(matchMedia('(hover:none)').matches) setTimeout(wake, 1500);   // touch: ease back to the faint icon
+        else if(h && h.matches(':hover')) h.addEventListener('mouseleave', wake, { once:true }); else wake();
+      }, 520);
+    }, 1700);
+  }, function(){});
+  if(id){ linkSlug = id === 'profile' ? '' : id; syncURL(); }
+}, true);
 book.addEventListener('keydown', function(e){
   var c = e.target.closest && e.target.closest('.ttt .cell'); if(!c || (e.key !== 'Enter' && e.key !== ' ')) return;
   e.preventDefault(); var i = +c.dataset.cell;
@@ -2295,6 +2391,17 @@ if(window.ResizeObserver) new ResizeObserver(refit).observe(document.documentEle
 setInterval(function(){ if(!busy && viewDims() !== LDIM) layout(); }, 400);
 layout();
 if(document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ if(!busy) layout(); });
+/* arrived on a page link (e.g. /essay): swing the cover open straight onto that page */
+if(startSlug){
+  var si = IDX[startSlug];
+  pos = mode === 'spread' ? Math.floor(si / 2) : si; linkSlug = startSlug; render();
+  // the inside of the cover normally shows page 1; show the linked spread's left page instead, so the cover opens straight onto it
+  if(mode === 'spread') coverB.innerHTML = pageHTML(2 * pos, 'left');
+  openBook(true).then(function(){
+    coverB.innerHTML = mode === 'spread' ? pageHTML(0, 'left') : '<div class="pg single"></div>';   // back to page 1 for when the book is closed again
+    urlReady = true; syncURL();
+  });
+} else { urlReady = true; syncURL(); }
 })();
 </script>
 
