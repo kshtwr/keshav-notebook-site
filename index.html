@@ -152,6 +152,8 @@ a{color:inherit}
 .book.turning .corner::before{opacity:0;transition:none}
 
 .strip{position:absolute;top:0;height:100%;transform-style:preserve-3d}
+/* the curling page is built from ~24 copies of each side; animating inside every copy (the envelope's peek) swamps the GPU and Chrome stops painting the book */
+.leaf *{animation:none!important;transition:none!important}
 .sface{position:absolute;inset:0;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden}
 .sface.back{transform:rotateY(180deg)}
 .sface>.inner{position:absolute;top:0;height:100%}
