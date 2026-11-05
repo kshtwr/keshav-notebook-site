@@ -156,9 +156,9 @@ a{color:inherit}
 .leaf *{animation:none!important;transition:none!important}
 .sface{position:absolute;inset:0;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden}
 .sface.back{transform:rotateY(180deg)}
-.sface>.inner{position:absolute;top:0;height:100%}
-.sshade{position:absolute;inset:0;pointer-events:none;background:#000;opacity:0}
-.cast{position:absolute;top:0;bottom:0;z-index:2;pointer-events:none;opacity:0}
+.sface>.inner{position:absolute;top:0;height:100%;contain:layout paint}
+.sshade{position:absolute;inset:0;pointer-events:none;background:#000;opacity:0;will-change:opacity}
+.cast{position:absolute;top:0;bottom:0;z-index:2;pointer-events:none;opacity:0;will-change:transform,opacity}
 body{cursor:var(--cur-arrow,auto)}
 .book .slot,.book canvas{cursor:var(--cur-pencil,crosshair)}
 .cover,.tab,a,button,#bar button{cursor:var(--cur-point,pointer)}
@@ -1214,7 +1214,7 @@ function closeBook(){
 /* ---------- page turns ---------- */
 /* A page is cut into vertical strips that each rotate a little more than the last,
    so the sheet bends as it turns. The cover is board, so it stays stiff. */
-var CURL = { strips: 24, bend: 62, lift: 0.6 };
+var CURL = { strips: 16, bend: 62, lift: 0.6 };
 function buildCurl(frontHTML, backHTML, side, n){
   var sw = PW / n, strips = [], fronts = [], backs = [], fsh = [], bsh = [];
   var parent = leaf;
@@ -1235,6 +1235,7 @@ function buildCurl(frontHTML, backHTML, side, n){
   // weights grow toward the free edge, so the corner leads and the spine follows
   var w = [], tot = 0; for(var k = 1; k < n; k++){ var v = Math.pow(k / n, 1.6); w.push(v); tot += v; }
   w = w.map(function(v){ return v / tot; });
+  var up = [], sh = [];
   return function(p){
     var sgn = side === 'r' ? -1 : 1;
     var base = 180 * p * sgn;
@@ -1250,11 +1251,14 @@ function buildCurl(frontHTML, backHTML, side, n){
       }
       var a = Math.abs(cum) * Math.PI / 180;
       var frontUp = Math.abs(cum) < 90;
-      fronts[i].style.visibility = frontUp ? 'visible' : 'hidden';
-      backs[i].style.visibility = frontUp ? 'hidden' : 'visible';
-      var shade = Math.sin(a);
-      fsh[i].style.opacity = String(shade * .28);
-      bsh[i].style.opacity = String(shade * .22);
+      // only touch a face when it actually flips: a visibility change restyles the whole copied page inside it
+      if(up[i] !== frontUp){
+        up[i] = frontUp;
+        fronts[i].style.visibility = frontUp ? 'visible' : 'hidden';
+        backs[i].style.visibility = frontUp ? 'hidden' : 'visible';
+      }
+      var shade = Math.round(Math.sin(a) * 100) / 100;
+      if(sh[i] !== shade){ sh[i] = shade; fsh[i].style.opacity = String(shade * .28); bsh[i].style.opacity = String(shade * .22); }
     }
   };
 }
@@ -1299,12 +1303,17 @@ function setupTurn(dir, target){
     cancel: function(){ cast.style.opacity = 0; render(); }
   };
 }
+/* the shadow the turning page throws: one fixed gradient, stretched from the spine with a transform,
+   so the GPU only rescales it each frame instead of repainting a full page of pixels */
 function castShadow(side, p){
-  cast.style.width = PW + 'px';
-  cast.style.left = (side === 'r' && mode === 'spread' ? PW : 0) + 'px';
-  cast.style.background = side === 'r'
-    ? 'linear-gradient(90deg, rgba(0,0,0,.22), rgba(0,0,0,0) ' + (20 + 70 * (1 - p)) + '%)'
-    : 'linear-gradient(270deg, rgba(0,0,0,.22), rgba(0,0,0,0) ' + (20 + 70 * (1 - p)) + '%)';
+  if(cast.dataset.side !== side + mode){
+    cast.dataset.side = side + mode;
+    cast.style.width = PW + 'px';
+    cast.style.left = (side === 'r' && mode === 'spread' ? PW : 0) + 'px';
+    cast.style.transformOrigin = side === 'r' ? 'left center' : 'right center';
+    cast.style.background = 'linear-gradient(' + (side === 'r' ? 90 : 270) + 'deg, rgba(0,0,0,.22), rgba(0,0,0,0))';
+  }
+  cast.style.transform = 'scaleX(' + ((20 + 70 * (1 - p)) / 100) + ')';
   cast.style.opacity = String(Math.sin(Math.PI * p));
 }
 function turn(dir, dur, soft, target){
