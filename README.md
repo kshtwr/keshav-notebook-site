@@ -17,3 +17,6 @@ The whole site is `index.html`. `api/ask.js` is optional and lets the sticky not
 - Your photo: put `me.jpg` next to `index.html` and set `photo:'me.jpg'`. The polaroid appears.
 - When the essay is in your own words: set `ESSAY_IS_DRAFT = false` and edit the `LETTERS` text.
 - Handwriting font: put `keshav-hand.ttf` next to `index.html` and uncomment the font block in `<head>`.
+- After changing any text on the site, run `node scripts/build-facts.mjs` before deploying. It copies the site's
+  text into `api/_facts.js`, which is what the sticky note answers from. (It uses your installed Chrome; no npm
+  packages.) If you forget, the note answers from the old text and Vercel's logs say the facts are out of date.

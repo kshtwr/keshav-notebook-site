@@ -179,7 +179,7 @@ a{color:inherit}
 .cv .route circle,.cv .route path:not(.trail){fill:currentColor}
 .cv .route text{fill:currentColor;font:600 15px var(--hand)}
 .cv .iffound{position:absolute;right:58px;bottom:34px;margin:0;width:250px;text-align:right;transform:rotate(-3deg);font:600 13px/1.2 var(--hand)}
-.single .single .cv .route{right:40px;bottom:112px;transform:scale(.72);transform-origin:100% 100%}
+.single .cv .route{right:40px;bottom:112px;transform:scale(.72);transform-origin:100% 100%}
 /* closed, the pages underneath take the cover's rounded corners so none of their white shows past it */
 .book.shut .slot{clip-path:inset(0 round 6px 14px 14px 6px);opacity:0}
 #bookbg.shut.back{border-radius:14px 6px 6px 14px}.book.shut.back .slot{clip-path:inset(0 round 14px 6px 6px 14px)}
@@ -2097,6 +2097,15 @@ function stripHTML(h){ var d = document.createElement('div'); d.innerHTML = h; r
 var FACTS = PAGES.map(function(p, i){ return 'Page ' + i + ': ' + stripHTML(p.html); }).join('\n') +
   '\nAlso: email keshav_tiwari@berkeley.edu, linkedin.com/in/keshavtiwari26, github.com/kshtwr. Based in Berkeley, CA. Open to full-time roles from May 2027.' +
   '\nProudest of: on the side, Nalanda (it began as a 48-hour hackathon idea and he took it all the way to the Chrome Web Store, then added a chat over your highlights); at work, his time at Simular (agents that answer 5x faster, and a client pilot closed in four weeks).';
+/* a short fingerprint of FACTS: the server compares it with its own copy (api/_facts.js) and logs when that copy is stale */
+function factsHash(t){ var h = 0x811c9dc5; for(var i = 0; i < t.length; i++){ h ^= t.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; } return h.toString(36); }
+var FACTS_V = factsHash(FACTS);
+/* scripts/build-facts.mjs opens the page with ?facts and reads this back out to write api/_facts.js */
+if(/[?&]facts\b/.test(location.search)){
+  var fo = document.createElement('script'); fo.type = 'application/json'; fo.id = 'factsOut';
+  fo.textContent = JSON.stringify({ v:FACTS_V, facts:FACTS, pages:PAGES.map(function(p){ return p.id; }) }).replace(/</g, '\\u003c');
+  document.body.appendChild(fo);
+}
 /* where the note is: resting on the desk (stays put while pages turn), or stuck to a page (turns with it) */
 var noteAt = null; try{ noteAt = JSON.parse(store('nb-note6') || 'null'); }catch(e){ noteAt = null; }
 function saveNote(){ store('nb-note6', JSON.stringify(noteAt)); }
@@ -2232,7 +2241,7 @@ function offlineAnswer(q){
     [/read first|start/, 'start with nalanda. it began as a 48-hour hackathon idea and he took it all the way to the chrome web store, then added a chat over your highlights.'],
     [/proud|which project/, 'on the side, nalanda: a 48-hour hackathon idea he took all the way to the chrome web store. at work, simular, where his agents answered 5x faster and a client pilot closed in four weeks.'],
     [/taught|learn the most|which job/, 'probably simular. working forward-deployed with a real client meant shipping fast: he closed a three-month pilot in four weeks.'],
-    [/work on|up to|right now|doing now/, 'right now: hearing aid personalization with starkey, and his meng in eecs at berkeley. he works on the layer between people and ai agents.'],
+    [/work on|up ?to|right now|doing now/, 'right now: hearing aid personalization with starkey, and his meng in eecs at berkeley. he works on the layer between people and ai agents.'],
     [/screen observer|foundation|to.?do/, 'at foundation interface lab he built a screen observer with gpt-4o and ocr that watches a workflow and writes the to-dos. 91% faster and 84% cheaper after his changes.'],
     [/pdf|xr lab|26,?000|image/, 'at the xr lab he built a multimodal agent that structured 1,000+ research pdfs, and a classifier that tagged 26,000+ images.'],
     [/car|light|active learning|automobile/, 'at the laboratory for intelligent and safe automobiles he annotated 2,000+ car-light images and trained an active-learning model that reads what a car’s lights signal, at 85% accuracy.'],
@@ -2250,19 +2259,21 @@ function offlineAnswer(q){
     [/affinity|ai group|co-?lead/, 'he co-leads the ai affinity group at uc berkeley.']
   ];
   for(var i = 0; i < rules.length; i++) if(rules[i][0].test(q)) return rules[i][1];
-  return 'i only know the basics offline: he builds interfaces between people and ai agents. try the overview, or email keshav_tiwari@berkeley.edu.';
+  return 'i’m not sure about that one. he builds interfaces between people and ai agents; for anything else, email keshav_tiwari@berkeley.edu.';
 }
 function getSampler(){
   if(samplerTried) return Promise.resolve(sampler);
   samplerTried = true;
   if(!window.claude || !window.claude.use){
-    // on the deployed site the note asks /api/ask (a tiny serverless function); without it, the offline note answers
+    // on the deployed site the note asks /api/ask (a tiny serverless function); without it, the offline note answers.
+    // Only the question (or the board) is sent: the function writes the prompt itself, from its own copy of the facts
     if(!/^https?:/.test(location.protocol)) return Promise.resolve(null);
     var call = function(prompt, opts){
       opts = opts || {};
-      return fetch('/api/ask', { method:'POST', headers:{ 'content-type':'application/json' }, body:JSON.stringify({ prompt:prompt }), signal:opts.signal })
+      if(!opts.payload) return Promise.reject({ code:'offline' });
+      return fetch('/api/ask', { method:'POST', headers:{ 'content-type':'application/json' }, body:JSON.stringify(opts.payload), signal:opts.signal })
         .then(function(r){ if(!r.ok) throw { code:r.status === 429 ? 'rate_limited' : 'offline' }; return r.json(); })
-        .then(function(j){ var text = String(j.text || ''); if(opts.onText) opts.onText({ text:text }); return { text:text }; },
+        .then(function(j){ var text = String(j.text || '').trim(); if(!text) throw { code:'offline' }; if(opts.onText) opts.onText({ text:text }); return { text:text }; },
               function(e){ if(e && e.name === 'AbortError') throw { code:'cancelled' }; throw (e && e.code) ? e : { code:'offline' }; });
     };
     call.json = function(prompt, opts){ return call(prompt + '\nReply with only the JSON.', opts).then(function(r){ var m = r.text.match(/\{[\s\S]*\}/); return JSON.parse(m ? m[0] : r.text); }); };
@@ -2283,12 +2294,12 @@ function ask(q){
   getSampler().then(function(s){
     if(!s) throw { code:'offline' };
     agCtl = new AbortController(); var first = true;
-    return s(prompt, { modelTier:'quick', signal:agCtl.signal, onText:function(u){ if(first){ first = false; agAns.textContent = ''; } writeTo(u.text); } })
-      .then(function(r){ writeTo(r.text); agLastA = r.text; agNote.textContent = 'written by claude'; });
+    var open = closed || backClosed ? [] : (mode === 'spread' ? [2 * pos, 2 * pos + 1] : [pos]).filter(function(i){ return i >= 0 && i < N; }).map(function(i){ return PAGES[i].id; });
+    return s(prompt, { modelTier:'quick', signal:agCtl.signal, payload:{ kind:'note', q:q, pages:open, v:FACTS_V }, onText:function(u){ if(first){ first = false; agAns.textContent = ''; } writeTo(u.text); } })
+      .then(function(r){ writeTo(r.text); agLastA = r.text; });
   }).catch(function(e){
     if(e && e.code === 'cancelled') return;
     var a = offlineAnswer(q); agAns.textContent = ''; writeTo(a); agLastA = a;
-    agNote.textContent = e && e.code === 'rate_limited' ? 'busy, so: the offline note' : 'the offline note';
   }).then(function(){ agBusy = false; agPin.hidden = !agLastA; });
 }
 /* pinned answers live on the page they were stuck to, for this visitor */
@@ -2587,7 +2598,7 @@ function tttReply(){
     '\nPick an empty cell. Play well but casually: win if you can, block if you must. Reply with only JSON: {"cell": <number>, "quip": "<4 words or fewer, lowercase, playful>"}';
   getSampler().then(function(s){
     if(!s) throw 0;
-    return s.json(prompt, { modelTier:'quick', cache:false });
+    return s.json(prompt, { modelTier:'quick', cache:false, payload:{ kind:'ttt', board:TTT.board } });
   }).then(function(r){
     var i = r && Number(r.cell);
     if(!(i >= 0 && i <= 8) || TTT.board[i]) throw 0;
